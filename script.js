@@ -46,11 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
             let firstLine = chapter.split('\n')[0].trim();
             let option = document.createElement('option');
             option.value = index;
-            option.textContent = `Chapter ${index + 1}: ${firstLine}`;
+            option.textContent = firstLine; // Remove the "Chapter ${index + 1}:"
             select.appendChild(option);
         });
 
-        select.addEventListener('change', function() {
+        select.addEventListener('change', function () {
             currentChapterIndex = parseInt(this.value);
             displayChapter(currentChapterIndex);
         });
