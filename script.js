@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let chapters = [];
     let currentChapterIndex = 0;
-    const totalChapters = 10; // Adjust this number as needed
+    const totalChapters = 12; // Adjust this number as needed
 
     // Function to load all chapters
     function loadChapters() {
