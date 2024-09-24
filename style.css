@@ -12,33 +12,33 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark mode styling */
-body.dark-mode {
-    background-color: #1e1e1e;
-    color: #ddd;
-}
+    /* Dark mode styling */
+    body.dark-mode {
+        background-color: #1e1e1e;
+        color: #ddd;
+    }
 
-#chapter-nav {
+#chapter-nav, #chapter-nav-bottom {
     margin-bottom: 20px;
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-#chapter-nav button, #toggle-theme-btn {
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #008cba;
-    color: #fff;
-    transition: background-color 0.3s;
-}
+    #chapter-nav button, #chapter-nav-bottom button, #toggle-theme-btn {
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #008cba;
+        color: #fff;
+        transition: background-color 0.3s;
+    }
 
-#chapter-nav button:hover, #toggle-theme-btn:hover {
-    background-color: #005f7f;
-}
+        #chapter-nav button:hover, #chapter-nav-bottom button:hover, #toggle-theme-btn:hover {
+            background-color: #005f7f;
+        }
 
 #chapter-select {
     padding: 10px;
@@ -47,6 +47,9 @@ body.dark-mode {
     border-radius: 5px;
     outline: none;
     cursor: pointer;
+    max-width: 300px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Chapter content styling */
@@ -57,22 +60,22 @@ body.dark-mode {
     text-align: left;
 }
 
-#chapter-content h1 {
-    font-family: 'Merriweather', serif;
-    font-size: 32px;
-    font-weight: 300;
-    margin-bottom: 20px;
-    text-align: center;
-}
+    #chapter-content h1 {
+        font-family: 'Merriweather', serif;
+        font-size: 32px;
+        font-weight: 300;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
-#chapter-content p {
-    line-height: 1.6;
-    font-size: 18px;
-    max-width: 600px;
-    margin: 0 auto;
-    white-space: pre-wrap;
-    text-align: justify;
-}
+    #chapter-content p {
+        line-height: 1.6;
+        font-size: 18px;
+        max-width: 600px;
+        margin: 0 auto;
+        white-space: pre-wrap;
+        text-align: justify;
+    }
 
 /* Dark mode switch button */
 #theme-toggle {
@@ -86,11 +89,33 @@ body.dark-mode #toggle-theme-btn {
     color: #fff;
 }
 
-body.dark-mode #chapter-nav button, body.dark-mode #chapter-select {
+body.dark-mode #chapter-nav button, body.dark-mode #chapter-nav-bottom button, body.dark-mode #chapter-select {
     background-color: #444;
     color: #fff;
 }
 
-body.dark-mode #chapter-nav button:hover, body.dark-mode #toggle-theme-btn:hover {
-    background-color: #666;
+    body.dark-mode #chapter-nav button:hover, body.dark-mode #chapter-nav-bottom button:hover, body.dark-mode #toggle-theme-btn:hover {
+        background-color: #666;
+    }
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    #chapter-nav, #chapter-nav-bottom {
+        flex-direction: column;
+        align-items: center;
+    }
+
+        #chapter-nav button, #chapter-nav-bottom button, #chapter-select {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 10px;
+        }
+
+    #chapter-select {
+        margin-bottom: 10px;
+    }
+
+    #chapter-content p {
+        font-size: 16px;
+    }
 }

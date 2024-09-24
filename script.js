@@ -1,6 +1,4 @@
-/* script.js */
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     let chapters = [];
     let currentChapterIndex = 0;
@@ -9,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to load all chapters
     function loadChapters() {
         let chapterPromises = [];
-        for(let i = 1; i <= totalChapters; i++) {
+        for (let i = 1; i <= totalChapters; i++) {
             let chapterFile = `chapters/chapter${i}.txt`;
             chapterPromises.push(fetch(chapterFile)
                 .then(response => {
@@ -27,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         Promise.all(chapterPromises).then(chapterTexts => {
             chapters = chapterTexts.filter(text => text !== null);
-            if(chapters.length > 0) {
+            if (chapters.length > 0) {
                 populateChapterSelect();
                 displayChapter(currentChapterIndex);
             } else {
@@ -44,9 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
         select.innerHTML = ''; // Clear existing options
         chapters.forEach((chapter, index) => {
             let firstLine = chapter.split('\n')[0].trim();
+            // Truncate if too long
+            if (firstLine.length > 30) {
+                firstLine = firstLine.substring(0, 27) + '...';
+            }
             let option = document.createElement('option');
             option.value = index;
-            option.textContent = firstLine; // Remove the "Chapter ${index + 1}:"
+            option.textContent = firstLine;
             select.appendChild(option);
         });
 
@@ -78,23 +80,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listeners for next and previous buttons
-    document.getElementById('next-btn').addEventListener('click', function() {
-        if(currentChapterIndex < chapters.length - 1) {
-            currentChapterIndex++;
-            displayChapter(currentChapterIndex);
-        }
+    const nextButtons = document.querySelectorAll('.next-btn');
+    const prevButtons = document.querySelectorAll('.prev-btn');
+
+    nextButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            if (currentChapterIndex < chapters.length - 1) {
+                currentChapterIndex++;
+                displayChapter(currentChapterIndex);
+            }
+        });
     });
 
-    document.getElementById('prev-btn').addEventListener('click', function() {
-        if(currentChapterIndex > 0) {
-            currentChapterIndex--;
-            displayChapter(currentChapterIndex);
-        }
+    prevButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            if (currentChapterIndex > 0) {
+                currentChapterIndex--;
+                displayChapter(currentChapterIndex);
+            }
+        });
     });
 
     // Dark mode toggle
     const toggleThemeBtn = document.getElementById('toggle-theme-btn');
-    toggleThemeBtn.addEventListener('click', function() {
+    toggleThemeBtn.addEventListener('click', function () {
         document.body.classList.toggle('dark-mode');
         toggleThemeBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
     });
