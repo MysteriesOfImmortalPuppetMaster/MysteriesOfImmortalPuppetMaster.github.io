@@ -1,7 +1,4 @@
-**welcome to my epic website**
+**M.O.T.I.P.M. Translation**
 
-this exists to read the community ( sometimes ) mostly chatGPT translation of the book
-MysteriesOfImmortalPuppetMaster
-
-:)
-
+This site exists to read the community translation of Puppet Insanity.
+feel free to contribute.
