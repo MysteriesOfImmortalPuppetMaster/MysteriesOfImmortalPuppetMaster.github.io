@@ -1,39 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    let chapters = [];
+    let chapters = []; // Array to hold chapter data from chapters.json
     let currentChapterIndex = 0;
-    const totalChapters = 31; // Adjust this number as needed
 
-    // Function to load all chapters
-    function loadChapters() {
-        let chapterPromises = [];
-        for (let i = 1; i <= totalChapters; i++) {
-            let chapterFile = `chapters/chapter${i}.txt`;
-            chapterPromises.push(fetch(chapterFile)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`File not found: ${chapterFile}`);
-                    }
-                    return response.text();
-                })
-                .catch(error => {
-                    console.error(error);
-                    return null;
-                })
-            );
-        }
-
-        Promise.all(chapterPromises).then(chapterTexts => {
-            chapters = chapterTexts.filter(text => text !== null);
-            if (chapters.length > 0) {
-                populateChapterSelect();
-                displayChapter(currentChapterIndex);
-            } else {
-                document.getElementById('chapter-content').textContent = 'No chapters found.';
-            }
-        }).catch(error => {
-            console.error('Error loading chapters:', error);
-        });
+    // Function to load chapters.json and initialize the app
+    function loadChapterList() {
+        fetch('chapters.json')
+            .then(response => response.json())
+            .then(data => {
+                chapters = data;
+                if (chapters.length > 0) {
+                    populateChapterSelect();
+                    displayChapter(currentChapterIndex);
+                } else {
+                    document.getElementById('chapter-content').textContent = 'No chapters found.';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading chapters.json:', error);
+            });
     }
 
     // Function to populate the chapter select dropdown
@@ -41,14 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
         let select = document.getElementById('chapter-select');
         select.innerHTML = ''; // Clear existing options
         chapters.forEach((chapter, index) => {
-            let firstLine = chapter.split('\n')[0].trim();
+            let title = chapter.title;
             // Truncate if too long
-            if (firstLine.length > 30) {
-                firstLine = firstLine.substring(0, 27) + '...';
+            if (title.length > 50) {
+                title = title.substring(0, 47) + '...';
             }
             let option = document.createElement('option');
             option.value = index;
-            option.textContent = firstLine;
+            option.textContent = title;
             select.appendChild(option);
         });
 
@@ -60,23 +45,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to display the chapter content
     function displayChapter(index) {
-        let chapterText = chapters[index];
-        let lines = chapterText.split('\n');
-        let headline = lines.shift().trim();
-        let content = lines.join('\n');
+        let chapter = chapters[index];
+        let chapterFile = 'chapters/' + chapter.filename;
 
-        let chapterContentDiv = document.getElementById('chapter-content');
-        chapterContentDiv.innerHTML = '';
+        fetch(chapterFile)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`File not found: ${chapterFile}`);
+                }
+                return response.text();
+            })
+            .then(chapterText => {
+                let lines = chapterText.split('\n');
+                let headline = lines.shift().trim();
+                let content = lines.join('\n');
 
-        let h1 = document.createElement('h1');
-        h1.textContent = headline;
-        chapterContentDiv.appendChild(h1);
+                let chapterContentDiv = document.getElementById('chapter-content');
+                chapterContentDiv.innerHTML = '';
 
-        let p = document.createElement('p');
-        p.textContent = content;
-        chapterContentDiv.appendChild(p);
+                let h1 = document.createElement('h1');
+                h1.textContent = headline;
+                chapterContentDiv.appendChild(h1);
 
-        document.getElementById('chapter-select').value = index;
+                let p = document.createElement('p');
+                p.textContent = content;
+                chapterContentDiv.appendChild(p);
+
+                document.getElementById('chapter-select').value = index;
+            })
+            .catch(error => {
+                console.error('Error loading chapter:', error);
+                document.getElementById('chapter-content').textContent = 'Error loading chapter.';
+            });
     }
 
     // Event listeners for next and previous buttons
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleThemeBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
     });
 
-    // Start loading chapters
-    loadChapters();
+    // Initialize the app by loading the chapter list
+    loadChapterList();
 
 });
