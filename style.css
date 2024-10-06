@@ -119,3 +119,78 @@ body.dark-mode #chapter-nav button, body.dark-mode #chapter-nav-bottom button, b
         font-size: 16px;
     }
 }
+
+#content-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.chapter-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.chapter-list li {
+    margin-bottom: 10px;
+}
+
+.chapter-list a {
+    text-decoration: none;
+    color: #007bff;
+    display: block;
+    padding: 5px 0;
+    transition: background-color 0.3s;
+}
+
+.chapter-list a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+    background-color: #e0e0e0;
+}
+
+.pagination button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Dark mode styles */
+body.dark-mode .chapter-list a {
+    color: #4da6ff;
+}
+
+body.dark-mode .chapter-list a:hover {
+    background-color: #2a2a2a;
+}
+
+body.dark-mode .pagination button {
+    background-color: #2a2a2a;
+    border-color: #444;
+    color: #ddd;
+}
+
+body.dark-mode .pagination button:hover {
+    background-color: #3a3a3a;
+}
+
+body.dark-mode .pagination button.active {
+    background-color: #4da6ff;
+    color: #1a1a1a;
+}
