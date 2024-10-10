@@ -65,6 +65,21 @@ body {
 
 .synopsis-section.collapsed p.full-synopsis {
     display: none;
+
+}
+/*synopsis text squish. only applies to large screen widths*/
+.preview-synopsis, .full-synopsis {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+@media (min-width: 601px) {
+    /* Apply the 80% width rule only when the screen width is greater than 600px */
+    .preview-synopsis, .full-synopsis {
+        width: 99%;
+        margin-left: 0; /* Keep left side tight */
+        margin-right: auto; /* Align the right side with 80% of the width */
+    }
 }
 
 button.view-synopsis {

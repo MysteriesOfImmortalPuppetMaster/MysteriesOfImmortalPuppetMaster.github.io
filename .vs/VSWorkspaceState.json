@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.backup",
+    "\\HomepageTEST"
   ],
-  "SelectedNode": "\\chapters.json",
+  "SelectedNode": "\\HomepageTEST\\chapters.json",
   "PreviewInSolutionExplorer": false
 }
