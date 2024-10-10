@@ -1,98 +1,108 @@
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #2d2d2d; /* from file */
-    color: #fff;
-    padding: 20px;
+    background-color: #2d2d2d; /* Background color */
+    color: #fff; /* Text color */
+    padding: 20px; /* Padding for the body */
 }
 
+/* Container for all content */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 800px; /* from provided text */
-    margin: auto; /* from provided text */
-    background-color: #333; /* from file */
+    max-width: 800px;
+    margin: auto;
+    background-color: #333;
     padding: 20px;
-    border-radius: 4px; /* from file */
+    border-radius: 4px;
 }
 
+/* Book Information Styles */
 .book-info-container {
-    position: relative; /* Required to position the background behind the content */
+    position: relative; /* For background positioning */
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
     padding: 20px;
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.5); /* Black background with 50% opacity to dim the banner image */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
 }
 
-.book-info-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('banner50percent.webp'); /* Replace with the path to your banner */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.5; /* Set the banner's opacity to 50% */
-    z-index: 0; /* Ensure the banner stays behind the content */
-    border-radius: 8px; /* Match the container's border-radius */
-}
+    /* Background banner behind the book info */
+    .book-info-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('banner50percent.webp'); /* Background image */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.5; /* 50% opacity */
+        z-index: 0;
+        border-radius: 8px;
+    }
 
 .book-cover, .book-info {
     position: relative;
-    z-index: 1; /* Ensures that the content stays above the background image */
+    z-index: 1; /* Ensures content stays above background */
 }
 
+/* Book cover image */
 .book-cover {
-    flex: 0 0 auto; /* from provided text */
-    margin-right: 20px; /* from provided text */
-    text-align: center; /* from file */
+    flex: 0 0 auto;
+    margin-right: 20px;
+    text-align: center;
 }
 
-.book-cover img {
-    width: 150px; /* from provided text */
-    height: auto;
-    border-radius: 8px; /* from file */
-}
+    .book-cover img {
+        width: 150px;
+        height: auto;
+        border-radius: 8px;
+    }
 
+/* Book title and author info */
 .book-info {
-    flex: 1 1 auto; /* from provided text */
-    max-width: calc(100% - 170px); /* from provided text */
-    margin-top: 20px; /* from file */
+    flex: 1 1 auto;
+    max-width: calc(100% - 170px);
+    margin-top: 20px;
 }
 
-.book-info h1 {
-    font-size: 2em; /* from file */
-}
+    .book-info h1 {
+        font-size: 2em;
+    }
 
-.book-info p {
-    line-height: 1.6; /* from file */
-}
+    .book-info p {
+        line-height: 1.6;
+    }
 
+/* Responsive design for smaller screens */
 @media (max-width: 600px) {
     .book-info-container {
         flex-direction: column;
         align-items: center;
     }
+
     .book-cover {
         margin-right: 0;
         margin-bottom: 15px;
     }
+
     .book-info {
         max-width: 100%;
         text-align: center;
     }
 }
 
+/* Synopsis Section */
 .synopsis-section.collapsed p.full-synopsis {
     display: none;
 }
 
-/*synopsis text squish. only applies to large screen widths*/
+/* Synopsis text adjustments for larger screens */
 .preview-synopsis, .full-synopsis {
     width: 100%;
     margin-left: 0;
@@ -100,106 +110,174 @@ body {
 }
 
 @media (min-width: 601px) {
-    /* Apply the 80% width rule only when the screen width is greater than 600px */
     .preview-synopsis, .full-synopsis {
-        width: 99%;
-        margin-left: 0; /* Keep left side tight */
-        margin-right: auto; /* Align the right side with 80% of the width */
+        width: 99%; /* For larger screens */
+        margin-left: 0;
+        margin-right: auto;
     }
 }
 
+/* Synopsis View/Hide Button */
 button.view-synopsis {
     width: 90%;
     padding: 1.67px;
-    background-color: #A9B0B8; /* from provided text */
+    background-color: #A9B0B8;
     border: none;
     color: white;
-    font-size: 20px; /* from provided text */
+    font-size: 20px;
     cursor: pointer;
     margin-top: 10px;
     border-radius: 8px;
-    display: block; /* makes the button take full width and become block-level */
-    margin: 0 auto; /* centers the button horizontally */
+    display: block;
+    margin: 0 auto; /* Centers button */
 }
 
-button.view-synopsis:hover {
-    background-color: #8E959E; /* from provided text */
-}
+    button.view-synopsis:hover {
+        background-color: #8E959E;
+    }
 
+/* Read First Chapter and Read Latest Chapter button*/
 button.read-chapter {
     border-radius: 8px;
     padding: 10px;
-    background-color: #A9B0B8; /* from provided text */
+    background-color: #A9B0B8;
     border: none;
     color: white;
-    font-size: 16px; /* from provided text */
+    font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
 }
 
-button.read-chapter:hover {
-    background-color: #8E959E; /* from provided text */
+/* Book 1 , Book 2 ... button*/
+button.read-chapterLIST {
+    width: 100%;
+    padding: 1.67px;
+    background-color: #A9B0B8;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto; /* Centers button */
 }
 
-/* CSS for Chapter Grid */
+
+    button.read-chapter:hover {
+        background-color: #8E959E;
+    }
+
+/* Chapter List Section */
 .chapter-list {
-    width: 100%; /* from provided text */
+    width: 100%;
     margin-top: 20px;
 }
 
-.chapter-list h2 {
-    font-size: 1.5em; /* from file */
-}
+    .chapter-list h2 {
+        font-size: 1.5em;
+    }
 
-.chapter-list ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* from provided text */
-    gap: 10px; /* from provided text */
-    list-style: none;
-    padding: 0;
-}
+    .chapter-list ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+    }
 
-.chapter-list li {
-    background-color: transparent; /* Make the background invisible */
-    padding: 10px; /* Keep padding to preserve spacing */
-    text-align: center;
-    border-radius: 5px; /* Still round corners in case background is added later */
-    box-shadow: none; /* Remove the shadow to make it fully invisible */
-    margin-bottom: 10px; /* from file */
-}
+    .chapter-list li {
+        background-color: transparent; /* Invisible background */
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
 
-.chapter-list li a {
-    text-decoration: none;
-    color: #fff; /* Adjust the text color to be visible on dark backgrounds */
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .chapter-list li a {
+            text-decoration: none;
+            color: #fff; /* White text for dark background */
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Ellipsis for overflowed text */
+        }
 
-.chapter-list li a:hover {
-    color: #1e90ff; /* Hover effect stays for interaction */
-}
+            .chapter-list li a:hover {
+                color: #1e90ff; /* Hover color effect */
+            }
 
-.footer {
+/* Footer (No longer used) */
+/* .footer {
     margin-top: 40px;
     text-align: center;
-}
+} */
 
-.toggle-button {
+/* Toggle button section (No longer used) */
+/* .toggle-button {
     margin-top: 20px;
     text-align: center;
-}
+} */
 
-.toggle-button button {
-    background-color: #1e90ff; /* from file */
+/* .toggle-button button {
+    background-color: #1e90ff;
     border: none;
     padding: 10px 20px;
-    border-radius: 8px; /* from file */
+    border-radius: 8px;
     color: #fff;
     cursor: pointer;
 }
 
 .toggle-button button:hover {
-    background-color: #1c7ed6; /* from file */
+    background-color: #1c7ed6;
+} */
+
+/* Book Section Styles */
+.book {
+    margin-bottom: 20px;
 }
+
+    /* Grid layout for books' chapter lists */
+    .book ul {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on big screens */
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+    }
+
+/* Responsive for smaller screens */
+@media (max-width: 800px) {
+    .book ul {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust to smaller screens */
+    }
+}
+
+/* Hidden class for toggling visibility */
+.hidden {
+    display: none !important;
+}
+
+/* Styles for each chapter link within books */
+.book ul li {
+    background-color: transparent;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: none;
+    margin-bottom: 10px;
+}
+
+    .book ul li a {
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+        .book ul li a:hover {
+            color: #1e90ff;
+        }
