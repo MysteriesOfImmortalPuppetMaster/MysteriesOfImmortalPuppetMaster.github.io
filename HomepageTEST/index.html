@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mysteries Of Immortal Puppet Master TL</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+    <script src="script.js" defer></script> <!-- Link to the external JavaScript file -->
 </head>
 <body>
     <div class="container">
@@ -35,13 +36,13 @@
                 The ancient bell echoes the laws. The moon dances under the clear light.<br>
                 Embodied with myriad strengths, who in this world dares oppose?<br>
             </p>
-            <button class="view-synopsis" onclick="toggleSynopsis()">View Synopsis</button>
+            <button class="view-synopsis">View Synopsis</button>
 
             <!-- Updated Button: First Chapter -->
             <button class="read-chapter" onclick="alert('Read First Chapter')">First Chapter</button>
 
             <!-- New Button: Latest Chapter -->
-            <button class="read-chapter" onclick="alert('Read Latest Chapter')">Latest Chapter</button>
+            <button class="read-chapter" onclick="scrollToBottom()">Latest Chapter</button>
         </div>
 
         <!-- Chapter List -->
@@ -52,106 +53,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function toggleSynopsis() {
-            const synopsisSection = document.querySelector('.synopsis-section');
-            synopsisSection.classList.toggle('collapsed');
-            const button = synopsisSection.querySelector('button.view-synopsis');
-            button.textContent = synopsisSection.classList.contains('collapsed') ? 'View Synopsis' : 'Hide Synopsis';
-        }
-
-        // Fetch chapters from the chapters.json file and populate the list
-        async function loadChapters() {
-            try {
-                const response = await fetch('chapters.json');
-                const chapters = await response.json();
-                const chaptersPerBook = [231,500]; // Array of cutoff points for books
-                const totalBooks = chaptersPerBook.length; // Total number of books defined by array
-
-                const chapterContainer = document.getElementById('chapterContainer');
-                chapterContainer.innerHTML = ''; // Clear any existing content
-
-                // Group chapters into books based on cutoff points
-                const books = [];
-                let currentBookIndex = 0;
-                let currentChapterStart = 0;
-
-                chaptersPerBook.forEach((cutoff, index) => {
-                    books[index] = chapters.slice(currentChapterStart, cutoff);
-                    currentChapterStart = cutoff;
-                });
-
-                books.forEach((bookChapters, bookIndex) => {
-                    // Create a container for the book
-                    const bookDiv = document.createElement('div');
-                    bookDiv.className = 'book';
-
-                    // Create a button to toggle the chapters
-                    const bookButton = document.createElement('button');
-                    bookButton.className = 'read-chapterLIST';
-                    bookButton.textContent = `Book ${bookIndex + 1}`;
-                    bookButton.onclick = function () {
-                        const chapterList = this.nextElementSibling;
-                        chapterList.classList.toggle('hidden');
-                    };
-                    bookDiv.appendChild(bookButton);
-
-                    // Create the list of chapters
-                    const ul = document.createElement('ul');
-
-                    bookChapters.forEach(chapter => {
-                        const li = document.createElement('li');
-                        const a = document.createElement('a');
-                        a.href = chapter.filename;
-                        a.textContent = chapter.title.slice(0, 20); // Only show the first 20 characters
-                        li.appendChild(a);
-                        ul.appendChild(li);
-                    });
-                    bookDiv.appendChild(ul);
-
-                    chapterContainer.appendChild(bookDiv);
-                });
-
-                // Now handle auto-hide or auto-show based on screen width
-                function adjustChapterVisibility() {
-                    const screenWidth = window.innerWidth;
-                    const thresholdWidth = 800; // Adjust this threshold as needed
-                    const bookUls = document.querySelectorAll('.book ul');
-                    bookUls.forEach((ul, index) => {
-                        const isLastBook = index === bookUls.length - 1;
-                        if (isLastBook) {
-                            // Always show the last book's chapters
-                            ul.classList.remove('hidden');
-                        } else {
-                            if (screenWidth < thresholdWidth) {
-                                // For mobile users, auto-hide the books
-                                ul.classList.add('hidden');
-                            } else {
-                                // For big screens, auto-show the books
-                                ul.classList.remove('hidden');
-                            }
-                        }
-                    });
-                }
-
-                // Initial adjustment
-                adjustChapterVisibility();
-
-                // Listen for window resize events to adjust display
-                window.addEventListener('resize', adjustChapterVisibility);
-
-            } catch (error) {
-                console.error('Error loading chapters:', error);
-            }
-        }
-
-        // Load the chapters when the page is loaded
-        window.onload = loadChapters;
-    </script>
-
-    <!-- Remove external script.js as per instructions -->
-    <!-- <script src="script.js"></script> -->
-
 </body>
 </html>
