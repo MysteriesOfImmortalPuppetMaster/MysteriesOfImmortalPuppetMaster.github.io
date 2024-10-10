@@ -42,26 +42,6 @@
         <button class="next-btn">Next →</button>
     </div>
 
-    <!-- Utterances comment section will load here -->
-    <div id="comment-section">
-        <h3>Comments</h3>
-        <div id="utterances-comments"></div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var script = document.createElement('script');
-            script.src = 'https://utteranc.es/client.js';
-            script.setAttribute('repo', 'MysteriesOfImmortalPuppetMaster/MysteriesOfImmortalPuppetMaster.github.io');
-            script.setAttribute('issue-term', 'pathname');
-            script.setAttribute('label', 'book-comment');
-            script.setAttribute('theme', 'github-light');
-            script.setAttribute('crossorigin', 'anonymous');
-            script.async = true;
-            document.getElementById('utterances-comments').appendChild(script);
-        });
-    </script>
-
     <script src="script.js"></script>
 </body>
 </html>
