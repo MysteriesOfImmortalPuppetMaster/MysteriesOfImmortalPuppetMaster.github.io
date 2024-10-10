@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2d2d2d;
+    color: #fff;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.book-cover {
+    text-align: center;
+}
+
+.book-cover img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.book-info {
+    margin-top: 20px;
+}
+
+.book-info h1 {
+    font-size: 2em;
+}
+
+.book-info p {
+    line-height: 1.6;
+}
+
+.chapter-list {
+    margin-top: 20px;
+}
+
+.chapter-list h2 {
+    font-size: 1.5em;
+}
+
+.chapter-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.chapter-list ul li {
+    margin-bottom: 10px;
+}
+
+.chapter-list ul li a {
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+.chapter-list ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.toggle-button {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.toggle-button button {
+    background-color: #1e90ff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.toggle-button button:hover {
+    background-color: #1c7ed6;
+}
