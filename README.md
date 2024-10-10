@@ -10,7 +10,7 @@ feel free to contribute.
 
 - replace ppt1.png
 - replace google988ebf5d...html  ( google search index )
--replace chapters inside /chapters
+- replace chapters inside /chapters
 - replace the gtag.js link inside index.html ( this script is used for google analytics )
 - replace the following meta tag inside index.html:
         <meta property="og:image" content="https://i.imgur.com/5QU6ZWZ.png" />
