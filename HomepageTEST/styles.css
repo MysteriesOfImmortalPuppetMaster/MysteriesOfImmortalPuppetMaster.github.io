@@ -13,13 +13,38 @@ body {
     margin: auto; /* from provided text */
     background-color: #333; /* from file */
     padding: 20px;
-    border-radius: 8px; /* from file */
+    border-radius: 4px; /* from file */
 }
 
 .book-info-container {
+    position: relative; /* Required to position the background behind the content */
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
+    padding: 20px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5); /* Black background with 50% opacity to dim the banner image */
+}
+
+.book-info-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('banner50percent.webp'); /* Replace with the path to your banner */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5; /* Set the banner's opacity to 50% */
+    z-index: 0; /* Ensure the banner stays behind the content */
+    border-radius: 8px; /* Match the container's border-radius */
+}
+
+.book-cover, .book-info {
+    position: relative;
+    z-index: 1; /* Ensures that the content stays above the background image */
 }
 
 .book-cover {
@@ -65,14 +90,15 @@ body {
 
 .synopsis-section.collapsed p.full-synopsis {
     display: none;
-
 }
+
 /*synopsis text squish. only applies to large screen widths*/
 .preview-synopsis, .full-synopsis {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
 }
+
 @media (min-width: 601px) {
     /* Apply the 80% width rule only when the screen width is greater than 600px */
     .preview-synopsis, .full-synopsis {
@@ -83,14 +109,17 @@ body {
 }
 
 button.view-synopsis {
-    width: 100%;
-    padding: 6.67px;
+    width: 90%;
+    padding: 1.67px;
     background-color: #A9B0B8; /* from provided text */
     border: none;
     color: white;
-    font-size: 24px; /* from provided text */
+    font-size: 20px; /* from provided text */
     cursor: pointer;
     margin-top: 10px;
+    border-radius: 8px;
+    display: block; /* makes the button take full width and become block-level */
+    margin: 0 auto; /* centers the button horizontally */
 }
 
 button.view-synopsis:hover {
@@ -98,7 +127,8 @@ button.view-synopsis:hover {
 }
 
 button.read-chapter {
-    padding: 15px;
+    border-radius: 8px;
+    padding: 10px;
     background-color: #A9B0B8; /* from provided text */
     border: none;
     color: white;
