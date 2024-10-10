@@ -1,64 +1,139 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #2d2d2d;
+    background-color: #2d2d2d; /* from file */
     color: #fff;
     padding: 20px;
 }
 
 .container {
-    max-width: 900px;
-    margin: 0 auto;
-    background-color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px; /* from provided text */
+    margin: auto; /* from provided text */
+    background-color: #333; /* from file */
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 8px; /* from file */
+}
+
+.book-info-container {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .book-cover {
-    text-align: center;
+    flex: 0 0 auto; /* from provided text */
+    margin-right: 20px; /* from provided text */
+    text-align: center; /* from file */
 }
 
 .book-cover img {
-    max-width: 100%;
+    width: 150px; /* from provided text */
     height: auto;
-    border-radius: 8px;
+    border-radius: 8px; /* from file */
 }
 
 .book-info {
-    margin-top: 20px;
+    flex: 1 1 auto; /* from provided text */
+    max-width: calc(100% - 170px); /* from provided text */
+    margin-top: 20px; /* from file */
 }
 
 .book-info h1 {
-    font-size: 2em;
+    font-size: 2em; /* from file */
 }
 
 .book-info p {
-    line-height: 1.6;
+    line-height: 1.6; /* from file */
 }
 
+@media (max-width: 600px) {
+    .book-info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .book-cover {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    .book-info {
+        max-width: 100%;
+        text-align: center;
+    }
+}
+
+.synopsis-section.collapsed p.full-synopsis {
+    display: none;
+}
+
+button.view-synopsis {
+    width: 100%;
+    padding: 6.67px;
+    background-color: #A9B0B8; /* from provided text */
+    border: none;
+    color: white;
+    font-size: 24px; /* from provided text */
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button.view-synopsis:hover {
+    background-color: #8E959E; /* from provided text */
+}
+
+button.read-chapter {
+    padding: 15px;
+    background-color: #A9B0B8; /* from provided text */
+    border: none;
+    color: white;
+    font-size: 16px; /* from provided text */
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button.read-chapter:hover {
+    background-color: #8E959E; /* from provided text */
+}
+
+/* CSS for Chapter Grid */
 .chapter-list {
+    width: 100%; /* from provided text */
     margin-top: 20px;
 }
 
 .chapter-list h2 {
-    font-size: 1.5em;
+    font-size: 1.5em; /* from file */
 }
 
 .chapter-list ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* from provided text */
+    gap: 10px; /* from provided text */
     list-style: none;
     padding: 0;
 }
 
-.chapter-list ul li {
-    margin-bottom: 10px;
+.chapter-list li {
+    background-color: transparent; /* Make the background invisible */
+    padding: 10px; /* Keep padding to preserve spacing */
+    text-align: center;
+    border-radius: 5px; /* Still round corners in case background is added later */
+    box-shadow: none; /* Remove the shadow to make it fully invisible */
+    margin-bottom: 10px; /* from file */
 }
 
-.chapter-list ul li a {
-    color: #1e90ff;
+.chapter-list li a {
     text-decoration: none;
+    color: #fff; /* Adjust the text color to be visible on dark backgrounds */
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.chapter-list ul li a:hover {
-    text-decoration: underline;
+.chapter-list li a:hover {
+    color: #1e90ff; /* Hover effect stays for interaction */
 }
 
 .footer {
@@ -72,14 +147,14 @@ body {
 }
 
 .toggle-button button {
-    background-color: #1e90ff;
+    background-color: #1e90ff; /* from file */
     border: none;
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 8px; /* from file */
     color: #fff;
     cursor: pointer;
 }
 
 .toggle-button button:hover {
-    background-color: #1c7ed6;
+    background-color: #1c7ed6; /* from file */
 }

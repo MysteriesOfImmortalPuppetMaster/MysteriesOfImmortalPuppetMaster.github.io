@@ -4,67 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mysteries Of Immortal Puppet Master TL</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
     <div class="container">
         <!-- Book Cover and Info -->
-        <div class="book-cover">
-            <img src="cover.webp" alt="Book Cover">
+        <div class="book-info-container">
+            <div class="book-cover">
+                <img src="cover.webp" alt="Book Cover">
+            </div>
+            <div class="book-info">
+                <h1>Mysteries Of Immortal Puppet Master</h1>
+                <p>Author: Gu Zhen Ren, 蛊人</p>
+            </div>
         </div>
-        <div class="book-info">
-            <h1>Mysteries Of Immortal Puppet Master</h1>
-            <p>Author: Gu Zhen Ren, 蛊真人</p>
-            <p><strong>Synopsis:</strong></p>
-            <p>
+
+        <!-- Synopsis Section -->
+        <div class="synopsis-section collapsed">
+            <h2>Synopsis</h2>
+            <p class="preview-synopsis">
                 In the heart of the volcano, the remnants left behind by the sages yearned for their successors.
-
-Risking her life, his mother obtained the Immortal Palace Seal, handing it to Ning Zhuo before her passing.
-
-“The Buddha Heart Demon Seal!”
-
-To transcend into either Buddha or the Demon.
-
-With this seal grasped firmly, he could inscribe a heart seal and command the creation of puppets.
-
-While ordinary individuals struggled under the weight of just controlling a few, the burden was exceptionally light for, Ning Zhuo, who effortlessly commanded tens of thousands with a single gesture.
-
-“Mother, I will fulfill your wishes and obtain the Immortal Palace!” He vowed.
-
-Indeed.
-
-Immortal Puppets; capable of spiritual secrets; their work skillful and rational.
-
-A new realm is opened up, and things are in sync with the heavens.
-
-The ancient bell echoes the laws. The moon dances under the clear light.
-
-Embodied with myriad strengths, who in this world dares oppose?
+                Risking her life, his mother obtained the Immortal Palace Seal, handing it to Ning Zhuo before her passing.
+                “The Buddha Heart Demon Seal!”
+                To transcend into either Buddha or the Demon.
+                With this seal grasped firmly, he could inscribe a heart seal and command the creation of puppets...
             </p>
-            <button onclick="alert('Start Reading!')">Start Reading</button>
-        </div>
-
-        <!-- Toggle Button -->
-        <div class="toggle-button">
-            <button id="toggleView">Switch to Raw Chapter View</button>
+            <p class="full-synopsis">
+                In the heart of the volcano, the remnants left behind by the sages yearned for their successors.
+                Risking her life, his mother obtained the Immortal Palace Seal, handing it to Ning Zhuo before her passing.
+                “The Buddha Heart Demon Seal!”
+                To transcend into either Buddha or the Demon...
+            </p>
+            <button class="view-synopsis" onclick="toggleSynopsis()">View Synopsis</button>
+            <button class="read-chapter" onclick="alert('Read Chapter 1')">Read Chapter 1</button>
         </div>
 
         <!-- Chapter List -->
         <div class="chapter-list">
             <h2>Chapters</h2>
             <ul id="chapterContainer">
-                <li><a href="#">Book 1: Chapter 1 - Awakening</a></li>
-                <li><a href="#">Book 1: Chapter 2 - Journey Begins</a></li>
-                <li><a href="#">Book 1: Chapter 3 - A New Friend</a></li>
-                <li><a href="#">Book 2: Chapter 1 - Into the Wild</a></li>
-                <li><a href="#">Book 2: Chapter 2 - The Battle</a></li>
-                <li><a href="#">Book 2: Chapter 3 - A Hero's Resolve</a></li>
-                <!-- Add more chapters as needed -->
+                <!-- JavaScript will populate this list -->
             </ul>
         </div>
-
-        
     </div>
+
+    <script>
+        function toggleSynopsis() {
+            const synopsisSection = document.querySelector('.synopsis-section');
+            synopsisSection.classList.toggle('collapsed');
+            const button = synopsisSection.querySelector('button.view-synopsis');
+            button.textContent = synopsisSection.classList.contains('collapsed') ? 'View Synopsis' : 'Hide Synopsis';
+        }
+
+        // Fetch chapters from the chapters.json file and populate the list
+        async function loadChapters() {
+            try {
+                const response = await fetch('chapters.json');
+                const chapters = await response.json();
+
+                const chapterContainer = document.getElementById('chapterContainer');
+                chapterContainer.innerHTML = ''; // Clear any existing content
+
+                chapters.forEach(chapter => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = chapter.filename;
+                    a.textContent = chapter.title.slice(0, 20); // Only show the first 20 characters
+                    li.appendChild(a);
+                    chapterContainer.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error loading chapters:', error);
+            }
+        }
+
+        // Load the chapters when the page is loaded
+        window.onload = loadChapters;
+    </script>
 
     <script src="script.js"></script> <!-- Link to the JavaScript file -->
 </body>
