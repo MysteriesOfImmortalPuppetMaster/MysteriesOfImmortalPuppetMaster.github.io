@@ -3,34 +3,20 @@ body {
     font-family: Arial, sans-serif;
     background-color: #2d2d2d; /* Background color */
     color: #fff; /* Text color */
-    padding: 20px; /* Default padding */
-    margin: 0; /* Reset body margin */
+    padding: 20px; /* Padding for the body */
 }
-/* Media query to hide body content on small screens */
 
 /* Container for all content */
 .container {
     display: flex;
     flex-direction: column;
-   
-    max-width: 900px;
+    align-items: center;
+    max-width: 800px;
     margin: auto;
-    background: linear-gradient(135deg, #333, #444); /* Gradient background */
-    
+    background-color: #333;
     padding: 20px;
     border-radius: 4px;
-    
 }
-/* is small screen, removes the padding as screenspace is valuable */
-@media (max-width: 999px) {
-    body {
-        padding: 0; /* Remove padding on small screens */
-    }
-
-    
-}
-
-   
 
 /* Book Information Styles */
 .book-info-container {
@@ -57,7 +43,7 @@ body {
         background-repeat: no-repeat;
         opacity: 0.5; /* 50% opacity */
         z-index: 0;
-        border-radius: 2px;
+        border-radius: 8px;
     }
 
 .book-cover, .book-info {
@@ -111,27 +97,6 @@ body {
     }
 }
 
-/* Read First Chapter and Read Latest Chapter button */
-button.read-chapter {
-    border-radius: 8px;
-    padding: 8px 16px; /* Reduced padding for a slimmer height */
-    background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Grey-blue (#6b879e) to grey (#A9B0B8) */
-    border: none;
-    color: whitesmoke;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    transition: background 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
-    line-height: 1.2; /* Controls text height inside */
-}
-
-    /* Hover effect */
-    button.read-chapter:hover {
-        background: linear-gradient(135deg, #3b8ccb, #256bbc); /* Slightly darker grey-blue and grey for hover */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevate shadow for hover effect */
-    }
-
 /* Synopsis Section */
 .synopsis-section.collapsed p.full-synopsis {
     display: none;
@@ -152,71 +117,56 @@ button.read-chapter {
     }
 }
 
-
-.synopsis-wrapper {
-    background-color: transparent; /* Black background */
-    width: 100%; /* Default width is 100% for smaller screens */
-    margin: 0; /* No margin to ensure it aligns left */
-}
-
-/* Media query for screens larger than 600px */
-@media (min-width: 600px) {
-    .synopsis-wrapper {
-        max-width: 100%; /* Max width of 90% for larger screens */
-        margin: 0; /* Ensures it stays aligned to the left */
-    }
-}
-
-
+/* Synopsis View/Hide Button */
 button.view-synopsis {
-    width: auto; /* Button width will fit the text */
-    height: auto; /* Button height will automatically adjust */
-    padding: 0px, 0px; /* Padding around the text */
-    background-color: dimgray;
-    border: none;
-    color: black;
-    font-size: 14px; /* Font size for text */
-    cursor: pointer;
-    margin-top: 10px;
-    border-radius: 1px;
-    display: inline-block; /* Make it inline-block for precise width/height control */
-    float: right; /* Align the button to the right */
-    text-align: center; /* Center the text inside */
-    line-height: normal; /* Ensure proper line height for the text */
-}
-
-
-    button.view-synopsis:hover {
-        background-color: darkgray;
-    }
-
-
-
-/* Book 1, Book 2 ... button */
-button.read-chapterLIST {
-    width: 100%;
+    width: 90%;
     padding: 1.67px;
-    background: linear-gradient(135deg, #6b879e, #A9B0B8); /* Grey-blue to grey gradient */
+    background-color: #A9B0B8;
     border: none;
     color: white;
     font-size: 20px;
     cursor: pointer;
     margin-top: 10px;
-    border-radius: 4px;
+    border-radius: 8px;
     display: block;
     margin: 0 auto; /* Centers button */
-    transition: background 0.3s ease, box-shadow 0.3s ease; /* Add smooth transitions */
 }
 
-    /* Hover effect for LIST button */
-    button.read-chapterLIST:hover {
-        background: linear-gradient(135deg, #5e768a, #868e96); /* Darken gradient on hover */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Add a hover shadow */
+    button.view-synopsis:hover {
+        background-color: #8E959E;
     }
 
+/* Read First Chapter and Read Latest Chapter button*/
+button.read-chapter {
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #A9B0B8;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Book 1 , Book 2 ... button*/
+button.read-chapterLIST {
+    width: 100%;
+    padding: 1.67px;
+    background-color: #A9B0B8;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto; /* Centers button */
+}
 
 
-
+    button.read-chapter:hover {
+        background-color: #8E959E;
+    }
 
 /* Chapter List Section */
 .chapter-list {
@@ -292,7 +242,7 @@ button.read-chapterLIST {
     .book ul {
         display: grid;
         grid-template-columns: repeat(3, 1fr); /* 3 columns on big screens */
-        gap: 15px;
+        gap: 10px;
         list-style: none;
         padding: 0;
     }
@@ -313,14 +263,10 @@ button.read-chapterLIST {
 .book ul li {
     background-color: transparent;
     padding: 10px;
-    text-align: left;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: none;
     margin-bottom: 10px;
-    border-top: none; /* Adds a top border */
-    border-radius: 0px; /* Ensures no rounded corners */
-    box-shadow: none; /* Disables any shadow */
-    border-left: none; /* Removes left border */
-    border-right: none; /* Removes right border */
-    border-bottom: 1px solid #555555; /* Removes bottom border */
 }
 
     .book ul li a {
@@ -335,26 +281,3 @@ button.read-chapterLIST {
         .book ul li a:hover {
             color: #1e90ff;
         }
-
-
-/* chapter load animations*/
-
-/* Add this CSS to your stylesheet */
-ul {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-out;
-}
-
-    ul.expanded {
-        max-height: 1000px; /* Adjust based on your content's height */
-    }
-
-li {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-    li.show {
-        opacity: 1;
-    }
