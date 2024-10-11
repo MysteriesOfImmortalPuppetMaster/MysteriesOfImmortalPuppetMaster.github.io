@@ -1,0 +1,83 @@
+/* Global Styles for Dark Mode and Centered Layout */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #2d2d2d; /* Dark background color */
+    color: #fff; /* Light text color */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #333, #444); /* Gradient background */
+    padding: 20px;
+    border-radius: 4px;
+}
+
+/* Book Info and Chapter Title Styling */
+.book-info-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.book-info h1, .book-info h2 {
+    margin: 0;
+    padding: 10px 0;
+    color: #fff;
+}
+
+/* Chapter Content Styling */
+#chapterContent {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #333; /* Darker background for content */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    color: #f1f1f1;
+}
+
+#chapterContent p, #chapterContent blockquote {
+    text-align: center;
+    line-height: 1.8;
+}
+
+/* Button Styling */
+button.read-chapter {
+    width: 200px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Blue gradient */
+    border: none;
+    color: whitesmoke;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 20px auto;
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.read-chapter:hover {
+    background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 800px) {
+    .container {
+        padding: 10px;
+    }
+
+    #chapterContent {
+        padding: 15px;
+    }
+
+    button.read-chapter {
+        width: 100%;
+    }
+}

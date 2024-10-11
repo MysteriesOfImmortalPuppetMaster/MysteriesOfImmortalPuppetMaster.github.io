@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\HomepageTEST"
+    "\\HomepageTEST",
+    "\\HomepageTEST\\read",
+    "\\HomepageTEST\\read\\370",
+    "\\HomepageTEST\\read\\template"
   ],
-  "SelectedNode": "\\HomepageTEST\\script.js",
+  "SelectedNode": "\\HomepageTEST\\MyScript.py",
   "PreviewInSolutionExplorer": false
 }
