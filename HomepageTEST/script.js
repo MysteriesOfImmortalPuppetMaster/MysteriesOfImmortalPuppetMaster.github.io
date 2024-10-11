@@ -13,7 +13,7 @@ function toggleSynopsis() {
     const synopsisSection = document.querySelector('.synopsis-section');
     synopsisSection.classList.toggle('collapsed');
     const button = synopsisSection.querySelector('button.view-synopsis');
-    button.textContent = synopsisSection.classList.contains('collapsed') ? 'View Synopsis' : 'Hide Synopsis';
+    button.textContent = synopsisSection.classList.contains('collapsed') ? 'v' : '^';
 }
 
 // Fetch chapters from the chapters.json file and populate the list
@@ -22,14 +22,11 @@ async function loadChapters() {
         const response = await fetch('chapters.json');
         const chapters = await response.json();
         const chaptersPerBook = [231, 500]; // Array of cutoff points for books
-        const totalBooks = chaptersPerBook.length; // Total number of books defined by array
 
         const chapterContainer = document.getElementById('chapterContainer');
         chapterContainer.innerHTML = ''; // Clear any existing content
 
-        // Group chapters into books based on cutoff points
         const books = [];
-        let currentBookIndex = 0;
         let currentChapterStart = 0;
 
         chaptersPerBook.forEach((cutoff, index) => {
@@ -38,25 +35,34 @@ async function loadChapters() {
         });
 
         books.forEach((bookChapters, bookIndex) => {
-            // Create a container for the book
             const bookDiv = document.createElement('div');
             bookDiv.className = 'book';
 
-            // Create a button to toggle the chapters
             const bookButton = document.createElement('button');
             bookButton.className = 'read-chapterLIST';
             bookButton.textContent = `Book ${bookIndex + 1}`;
             bookButton.onclick = function () {
                 const chapterList = this.nextElementSibling;
-                chapterList.classList.toggle('hidden');
+                const isExpanded = chapterList.classList.toggle('expanded');
+
+                if (isExpanded) {
+                    Array.from(chapterList.children).forEach((li, index) => {
+                        setTimeout(() => {
+                            li.classList.add('show');
+                        }, index * 10); // Delay between each chapter appearing
+                    });
+                } else {
+                    Array.from(chapterList.children).forEach(li => {
+                        li.classList.remove('show');
+                    });
+                }
             };
             bookDiv.appendChild(bookButton);
 
-            // Create the list of chapters
             const ul = document.createElement('ul');
-
             bookChapters.forEach(chapter => {
                 const li = document.createElement('li');
+                li.classList.add('chapter-item'); // Adding class to control animation
                 const a = document.createElement('a');
                 a.href = chapter.filename;
                 a.textContent = chapter.title.slice(0, 20); // Only show the first 20 characters
@@ -68,7 +74,7 @@ async function loadChapters() {
             chapterContainer.appendChild(bookDiv);
         });
 
-        // Now handle auto-hide or auto-show based on screen width
+        // Adjust visibility based on screen width
         function adjustChapterVisibility() {
             const screenWidth = window.innerWidth;
             const thresholdWidth = 800; // Adjust this threshold as needed
@@ -76,24 +82,21 @@ async function loadChapters() {
             bookUls.forEach((ul, index) => {
                 const isLastBook = index === bookUls.length - 1;
                 if (isLastBook) {
-                    // Always show the last book's chapters
-                    ul.classList.remove('hidden');
+                    ul.classList.add('expanded');
+                    Array.from(ul.children).forEach(li => li.classList.add('show'));
                 } else {
                     if (screenWidth < thresholdWidth) {
-                        // For mobile users, auto-hide the books
-                        ul.classList.add('hidden');
+                        ul.classList.remove('expanded');
+                        Array.from(ul.children).forEach(li => li.classList.remove('show'));
                     } else {
-                        // For big screens, auto-show the books
-                        ul.classList.remove('hidden');
+                        ul.classList.add('expanded');
+                        Array.from(ul.children).forEach(li => li.classList.add('show'));
                     }
                 }
             });
         }
 
-        // Initial adjustment
         adjustChapterVisibility();
-
-        // Listen for window resize events to adjust display
         window.addEventListener('resize', adjustChapterVisibility);
 
     } catch (error) {
@@ -101,13 +104,11 @@ async function loadChapters() {
     }
 }
 
-// Event listener for the synopsis toggle button
 document.addEventListener('DOMContentLoaded', () => {
     const synopsisButton = document.querySelector('button.view-synopsis');
     if (synopsisButton) {
         synopsisButton.addEventListener('click', toggleSynopsis);
     }
 
-    // Load chapters on page load
     loadChapters();
 });
