@@ -58,7 +58,7 @@ async function loadChapters() {
             bookChapters.forEach(chapter => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
-                a.href = chapter.filename;
+                a.href = `read/${chapter.filename.replace('.txt', '')}/`;
                 a.textContent = chapter.title.slice(0, 20); // Only show the first 20 characters
                 li.appendChild(a);
                 ul.appendChild(li);
