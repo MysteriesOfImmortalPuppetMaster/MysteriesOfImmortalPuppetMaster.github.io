@@ -53,19 +53,35 @@ for chapter in chapters:
     # Read chapter text
     chapter_file_path = os.path.join(chapters_folder, filename)
     with open(chapter_file_path, 'r', encoding='utf-8') as f:
-        chapter_text = f.read()
+        chapter_text = f.readlines()  # Read all lines of the chapter into a list
 
-    # Read index.html and insert chapter text into <div id="chapterContent">
+    # Extract the first line as the headline and remove it from the content
+    headline = chapter_text[0].strip()  # The first line becomes the headline
+    chapter_content = ''.join(chapter_text[1:])  # Remaining lines are the content
+
+    # Convert new lines in chapter content to <br> for HTML
+    chapter_html = chapter_content.replace('\n', '<br>\n')
+
+    # Read index.html and insert chapter headline and content
     with open(dest_index_html_path, 'r', encoding='utf-8') as f:
         soup = BeautifulSoup(f, 'html.parser')
 
-    div = soup.find('div', {'id': 'chapterContent'})
-    if div is not None:
-        div.clear()
-        div.append(BeautifulSoup(chapter_text, 'html.parser'))
+    # Insert chapter title (headline) into the headline div
+    headline_div = soup.find('div', {'id': 'chapterHeadline'})
+    if headline_div is not None:
+        headline_div.clear()
+        headline_div.append(BeautifulSoup(f'<h2>{headline}</h2>', 'html.parser'))
+
+    # Insert chapter content into the chapter content div
+    content_div = soup.find('div', {'id': 'chapterContent'})
+    if content_div is not None:
+        content_div.clear()
+        content_div.append(BeautifulSoup(chapter_html, 'html.parser'))
 
     # Write the modified index.html back
     with open(dest_index_html_path, 'w', encoding='utf-8') as f:
         f.write(str(soup))
 
 print("Folders and files have been recreated successfully inside HomepageTEST.")
+while (1):
+     ...
