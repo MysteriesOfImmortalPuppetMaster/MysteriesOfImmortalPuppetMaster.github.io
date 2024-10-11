@@ -115,7 +115,7 @@ body {
 button.read-chapter {
     border-radius: 8px;
     padding: 8px 16px; /* Reduced padding for a slimmer height */
-    background: linear-gradient(135deg, #6b879e, #A9B0B8); /* Grey-blue (#6b879e) to grey (#A9B0B8) */
+    background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Grey-blue (#6b879e) to grey (#A9B0B8) */
     border: none;
     color: whitesmoke;
     font-size: 16px;
@@ -128,7 +128,7 @@ button.read-chapter {
 
     /* Hover effect */
     button.read-chapter:hover {
-        background: linear-gradient(135deg, #5e768a, #868e96); /* Slightly darker grey-blue and grey for hover */
+        background: linear-gradient(135deg, #3b8ccb, #256bbc); /* Slightly darker grey-blue and grey for hover */
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevate shadow for hover effect */
     }
 
@@ -292,7 +292,7 @@ button.read-chapterLIST {
     .book ul {
         display: grid;
         grid-template-columns: repeat(3, 1fr); /* 3 columns on big screens */
-        gap: 10px;
+        gap: 15px;
         list-style: none;
         padding: 0;
     }
@@ -311,12 +311,16 @@ button.read-chapterLIST {
 
 /* Styles for each chapter link within books */
 .book ul li {
-    background-color:  transparent;
+    background-color: transparent;
     padding: 10px;
     text-align: left;
-    border-radius: 5px;
-    box-shadow: none;
     margin-bottom: 10px;
+    border-top: none; /* Adds a top border */
+    border-radius: 0px; /* Ensures no rounded corners */
+    box-shadow: none; /* Disables any shadow */
+    border-left: none; /* Removes left border */
+    border-right: none; /* Removes right border */
+    border-bottom: 1px solid #555555; /* Removes bottom border */
 }
 
     .book ul li a {
