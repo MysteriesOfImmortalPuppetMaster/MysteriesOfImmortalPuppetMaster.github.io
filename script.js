@@ -108,6 +108,67 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleThemeBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
     });
 
+    // Fit size toggle
+    const fitFullWidthBtn = document.getElementById("fit-full-width-btn")
+    fitFullWidthBtn.onclick = () => {
+        fitFullWidthBtn.innerHTML = (
+            document.body.classList.contains('fit-full-width') ?
+            `<span class="material-symbols-outlined">width_full</span> Full Width&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` :
+            `<span class="material-symbols-outlined">width_normal</span> Normal Width`
+        );
+        document.body.classList.toggle('fit-full-width');
+    };
+
+    // Fullscreen toggle
+    const fullscreenBtn = document.getElementById("fullscreen-btn")
+
+    if (
+        document.fullscreenEnabled ||
+        document.webkitFullscreenEnabled || // Safari
+        document.mozFullScreenEnabled ||    // Firefox
+        document.msFullscreenEnabled
+    ) {
+        // display the button
+        fullscreenBtn.style.display = "initial";
+
+        const elem = document.documentElement;
+        
+        /* View in fullscreen */
+        function openFullscreen() {
+            fullscreenBtn.innerText = "fullscreen_exit";
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            } else {
+                elem.disabled = true
+            }
+        }
+
+        /* Close fullscreen */
+        function closeFullscreen() {
+            fullscreenBtn.innerText = "fullscreen";
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
+        }
+
+        fullscreenBtn.onclick = function () {
+            if (this.innerText == "fullscreen") {
+                openFullscreen()
+            } else {
+                closeFullscreen()
+            }
+        }
+    }
+
+
     // Initialize the app by loading the chapter list
     loadChapterList();
 

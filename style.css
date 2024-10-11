@@ -18,6 +18,21 @@ body {
         color: #ddd;
     }
 
+
+
+.material-symbols-outlined {
+    font-size: inherit !important;
+    vertical-align: text-top;
+}
+
+body.fit-full-width #chapter-content {
+    max-width: 100% !important;
+}
+
+body.fit-full-width #chapter-content > * {
+    max-width: 100% !important;
+}
+
 #chapter-nav, #chapter-nav-bottom {
     margin-bottom: 20px;
     display: flex;
@@ -25,7 +40,7 @@ body {
     gap: 20px;
 }
 
-    #chapter-nav button, #chapter-nav-bottom button, #toggle-theme-btn {
+    #chapter-nav button, #chapter-nav-bottom button, #toggle-theme-btn, #fullscreen-btn, #fit-full-width-btn {
         padding: 10px 15px;
         font-size: 16px;
         border: none;
@@ -36,7 +51,7 @@ body {
         transition: background-color 0.3s;
     }
 
-        #chapter-nav button:hover, #chapter-nav-bottom button:hover, #toggle-theme-btn:hover {
+        #chapter-nav button:hover, #chapter-nav-bottom button:hover, #toggle-theme-btn:hover, #fullscreen-btn:hover, #fit-full-width-btn:hover {
             background-color: #005f7f;
         }
 
@@ -78,25 +93,37 @@ body {
     }
 
 /* Dark mode switch button */
-#theme-toggle {
+#visual-toggles {
     text-align: right;
     margin-bottom: 20px;
 }
 
 /* Dark mode specific styles */
-body.dark-mode #toggle-theme-btn {
+body.dark-mode #toggle-theme-btn, body.dark-mode #fullscreen-btn, body.dark-mode #fit-full-width-btn {
     background-color: #444;
     color: #fff;
 }
 
-body.dark-mode #chapter-nav button, body.dark-mode #chapter-nav-bottom button, body.dark-mode #chapter-select {
+body.dark-mode #chapter-nav button, body.dark-mode #chapter-nav-bottom button, body.dark-mode #chapter-select, body.dark-mode #fullscreen-btn {
     background-color: #444;
     color: #fff;
 }
 
-    body.dark-mode #chapter-nav button:hover, body.dark-mode #chapter-nav-bottom button:hover, body.dark-mode #toggle-theme-btn:hover {
+    body.dark-mode #chapter-nav button:hover, body.dark-mode #chapter-nav-bottom button:hover, body.dark-mode #toggle-theme-btn:hover, body.dark-mode #fullscreen-btn:hover , body.dark-mode #fit-full-width-btn:hover {
         background-color: #666;
     }
+
+#fullscreen-btn {
+    border-radius: 0;
+    border-bottom-right-radius: 5px !important;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+    font-size: 5vmin !important;
+    font-weight: bolder;
+    padding: 5px;
+}
 
 /* Responsive styles */
 @media (max-width: 600px) {
@@ -117,5 +144,9 @@ body.dark-mode #chapter-nav button, body.dark-mode #chapter-nav-bottom button, b
 
     #chapter-content p {
         font-size: 16px;
+    }
+
+    #fit-full-width-btn {
+        display: none;
     }
 }
