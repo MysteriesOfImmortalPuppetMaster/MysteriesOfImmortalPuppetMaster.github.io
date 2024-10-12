@@ -320,7 +320,7 @@ button.read-chapterLIST {
     box-shadow: none; /* Disables any shadow */
     border-left: none; /* Removes left border */
     border-right: none; /* Removes right border */
-    border-bottom: 1px solid #555555; /* Removes bottom border */
+    border-bottom: 1px solid #555555; 
 }
 
     .book ul li a {
@@ -347,7 +347,7 @@ ul {
 }
 
     ul.expanded {
-        max-height: 1000px; /* Adjust based on your content's height */
+        max-height: inherit; /* Adjust based on your content's height */
     }
 
 li {
