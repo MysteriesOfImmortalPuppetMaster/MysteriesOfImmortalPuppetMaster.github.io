@@ -17,6 +17,7 @@ function toggleSynopsis() {
 }
 
 // Fetch chapters from the chapters.json file and populate the list
+// Fetch chapters from the chapters.json file and populate the list
 async function loadChapters() {
     try {
         const response = await fetch('chapters.json');
@@ -51,10 +52,14 @@ async function loadChapters() {
                             li.classList.add('show');
                         }, index * 10); // Delay between each chapter appearing
                     });
+                    // Save user choice in a data attribute
+                    bookButton.dataset.expanded = "true";
                 } else {
                     Array.from(chapterList.children).forEach(li => {
                         li.classList.remove('show');
                     });
+                    // Update user choice in a data attribute
+                    bookButton.dataset.expanded = "false";
                 }
             };
             bookDiv.appendChild(bookButton);
@@ -74,23 +79,28 @@ async function loadChapters() {
             chapterContainer.appendChild(bookDiv);
         });
 
-        // Adjust visibility based on screen width
+        // Adjust visibility based on screen width, but keep user choice persistent
         function adjustChapterVisibility() {
             const screenWidth = window.innerWidth;
             const thresholdWidth = 800; // Adjust this threshold as needed
-            const bookUls = document.querySelectorAll('.book ul');
-            bookUls.forEach((ul, index) => {
-                const isLastBook = index === bookUls.length - 1;
+            const bookButtons = document.querySelectorAll('.read-chapterLIST');
+            bookButtons.forEach((button, index) => {
+                const chapterList = button.nextElementSibling;
+                const isLastBook = index === bookButtons.length - 1;
+
                 if (isLastBook) {
-                    ul.classList.add('expanded');
-                    Array.from(ul.children).forEach(li => li.classList.add('show'));
+                    chapterList.classList.add('expanded');
+                    Array.from(chapterList.children).forEach(li => li.classList.add('show'));
                 } else {
-                    if (screenWidth < thresholdWidth) {
-                        ul.classList.remove('expanded');
-                        Array.from(ul.children).forEach(li => li.classList.remove('show'));
-                    } else {
-                        ul.classList.add('expanded');
-                        Array.from(ul.children).forEach(li => li.classList.add('show'));
+                    // Check if user has manually expanded/collapsed this book
+                    const userExpanded = button.dataset.expanded === "true";
+
+                    if (screenWidth < thresholdWidth && !userExpanded) {
+                        chapterList.classList.remove('expanded');
+                        Array.from(chapterList.children).forEach(li => li.classList.remove('show'));
+                    } else if (userExpanded || screenWidth >= thresholdWidth) {
+                        chapterList.classList.add('expanded');
+                        Array.from(chapterList.children).forEach(li => li.classList.add('show'));
                     }
                 }
             });
