@@ -291,16 +291,19 @@ button.read-chapterLIST {
     /* Grid layout for books' chapter lists */
     .book ul {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 columns on big screens */
+        grid-template-columns: repeat(3, minmax(0, 300px)); /* 3 columns on big screens */
         gap: 15px;
         list-style: none;
         padding: 0;
     }
-
-/* Responsive for smaller screens */
-@media (max-width: 800px) {
+@media (max-width: 510px) {
     .book ul {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust to smaller screens */
+        grid-template-columns: repeat(2, minmax(0, 1fr)); /* Always display 2 columns */
+    }
+}
+@media (max-width: 305px) {
+    .book ul {
+        grid-template-columns: repeat(1, minmax(0, 1fr)); /* Always display 2 columns */
     }
 }
 

@@ -65,7 +65,7 @@ async function loadChapters() {
                 li.classList.add('chapter-item'); // Adding class to control animation
                 const a = document.createElement('a');
                 a.href = `read/${chapter.filename.replace('.txt', '')}/`;
-                a.textContent = chapter.title.slice(0, 20); // Only show the first 20 characters
+                a.textContent = chapter.title; // Removed the 20-character slicing
                 li.appendChild(a);
                 ul.appendChild(li);
             });
