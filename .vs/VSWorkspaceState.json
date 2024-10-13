@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\HomepageTEST"
+    "\\HomepageTEST",
+    "\\HomepageTEST\\read",
+    "\\HomepageTEST\\read\\105",
+    "\\HomepageTEST\\read\\365"
   ],
-  "SelectedNode": "\\chapters.json",
+  "SelectedNode": "\\HomepageTEST\\read\\365\\template.js",
   "PreviewInSolutionExplorer": false
 }
