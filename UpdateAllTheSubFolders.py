@@ -2,7 +2,7 @@ import os
 import json
 import shutil
 from bs4 import BeautifulSoup
-
+print("running Update script")
 # Base directory for everything to be isolated inside HomepageTEST
 base_dir = 'MysteriesOfImmortalPuppetMaster.github.io'
 
