@@ -65,7 +65,7 @@ body {
 /* Button Styling */
 button.read-chapter {
     width: 150px; /* Adjust width of buttons */
-    padding: 10px 20px;
+    padding: 10px 10px;
     background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Blue gradient */
     border: none;
     color: whitesmoke;
@@ -116,9 +116,9 @@ button.read-chapter {
     flex-shrink: 0; /* Prevent buttons from shrinking */
 }
 
-#chapter-select-bottom {
+#chapter-select-bottom, #chapter-select-top {
     flex-grow: 1; /* Allow the select to take up remaining space */
-    max-width: 300px; /* Limit the width of the select */
+    max-width: 350px; /* Limit the width of the select */
     margin: 0 10px; /* Add some margin around the select */
 }
 
@@ -126,7 +126,7 @@ button.read-chapter {
 
 /* Style for the chapter select dropdown */
 #chapter-select-top, #chapter-select-bottom {
-    padding: 10px;
+    padding: 5px;
     font-size: 16px;
     border: 2px solid #BCBCBD; /* Green border matching buttons */
     border-radius: 5px;
