@@ -6,9 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:image" content="https://i.imgur.com/5QU6ZWZ.png" />
-    <title>Mysteries Of Immortal Puppet Master </title>
+    <title>Mysteries Of Immortal Puppet Master</title>
     <link rel="icon" type="image/webp" href="../../ppt1.webp">
     <link rel="stylesheet" href="../template.css"> <!-- Link to the updated template CSS -->
+
+    <!-- Google Analytics tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XEFBZ7YNS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-2XEFBZ7YNS');
+    </script>
 </head>
 
 <body>
@@ -40,15 +49,15 @@
 
         <footer>
             <div class="bottomButtons">
-            <button class="read-chapter" onclick="prevChapter()">Previous Chapter</button>
+                <button class="read-chapter" onclick="prevChapter()">Previous Chapter</button>
 
-            <!-- Dropdown for selecting a chapter -->
-            <select id="chapter-select-bottom" onchange="selectChapter(event)">
-                <!-- Options will be dynamically populated by JavaScript -->
-            </select>
+                <!-- Dropdown for selecting a chapter -->
+                <select id="chapter-select-bottom" onchange="selectChapter(event)">
+                    <!-- Options will be dynamically populated by JavaScript -->
+                </select>
 
-            <button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
-        </div>
+                <button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
+            </div>
         </footer>
     </div>
     <script src="../template.js" async></script>

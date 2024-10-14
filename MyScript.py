@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup
 base_dir = 'MysteriesOfImmortalPuppetMaster.github.io'
 
 # Paths
-chapters_json_path = os.path.join(base_dir, 'chapters.json')
-chapters_folder = os.path.join(base_dir, 'chapters')
-read_folder = os.path.join(base_dir, 'read')
+chapters_json_path = os.path.join( 'chapters.json')
+chapters_folder = os.path.join( 'chapters')
+read_folder = os.path.join( 'read')
 template_html_path = os.path.join(read_folder, 'template.html')  # Adjusted from .template.html
 template_folder_path = os.path.join(read_folder, 'template')  # Adjusted from .template
 
