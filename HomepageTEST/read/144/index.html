@@ -6,7 +6,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Mysteries Of Immortal Puppet Master - Chapter 1</title>
-<link href="template.css" rel="stylesheet"/> <!-- Link to the updated template CSS -->
+<link href="../template.css" rel="stylesheet"/> <!-- Link to the updated template CSS -->
 </head>
 <body>
 <div class="container">
@@ -15,6 +15,14 @@
 <h1>Mysteries Of Immortal Puppet Master</h1>
 </div>
 </header>
+<div class="bottomButtons">
+<button class="read-chapter" onclick="prevChapter()">Previous Chapter</button>
+<!-- Dropdown for selecting a chapter -->
+<select id="chapter-select-top" onchange="selectChapter(event)">
+<!-- Options will be dynamically populated by JavaScript -->
+</select>
+<button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
+</div>
 <!-- New Headline Section -->
 <div class="chapter-headline" id="chapterHeadline"><h2>Chapter 144: He Hid Too Deeply!</h2></div>
 <div id="chapterContent"><br/>
@@ -260,10 +268,14 @@ The Dragon Turtle Fire Spirit was extremely angry, wanting to roar in Meng Kui's
 <footer>
 <div class="bottomButtons">
 <button class="read-chapter" onclick="prevChapter()">Previous Chapter</button>
+<!-- Dropdown for selecting a chapter -->
+<select id="chapter-select-bottom" onchange="selectChapter(event)">
+<!-- Options will be dynamically populated by JavaScript -->
+</select>
 <button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
 </div>
 </footer>
 </div>
-<script src="template.js"></script>
+<script async="" src="../template.js"></script>
 </body>
 </html>

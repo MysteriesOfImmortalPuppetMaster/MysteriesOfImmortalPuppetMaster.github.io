@@ -27,24 +27,23 @@ for item in os.listdir(read_folder):
         elif os.path.isfile(item_path):
             os.remove(item_path)  # Delete any files that are not template.html
 
-# Recreate chapter folders and files
+# Just copy the template files into /read (once, not for each chapter)
+for item in os.listdir(template_folder_path):
+    src_path = os.path.join(template_folder_path, item)
+    dest_path = os.path.join(read_folder, item)
+
+    # If it's a directory, copy the directory tree; otherwise, just copy the file
+    if os.path.isdir(src_path):
+        shutil.copytree(src_path, dest_path)
+    else:
+        shutil.copy(src_path, dest_path)
+
+# Create subfolders and only place index.html inside each one
 for chapter in chapters:
     filename = chapter['filename']  # e.g., '101.txt'
-    # Remove file extension for folder name
-    folder_name = os.path.splitext(filename)[0]
+    folder_name = os.path.splitext(filename)[0]  # Create a folder named without the extension
     new_folder_path = os.path.join(read_folder, folder_name)
-    os.makedirs(new_folder_path, exist_ok=True)
-
-    # Copy template files directly into the new folder (not inside a subfolder)
-    for item in os.listdir(template_folder_path):
-        src_path = os.path.join(template_folder_path, item)
-        dest_path = os.path.join(new_folder_path, item)
-        
-        # If it's a directory, copy the directory tree; otherwise, just copy the file
-        if os.path.isdir(src_path):
-            shutil.copytree(src_path, dest_path)
-        else:
-            shutil.copy(src_path, dest_path)
+    os.makedirs(new_folder_path, exist_ok=True)  # Create the subfolder for each chapter
 
     # Copy template.html into the new folder as index.html
     dest_index_html_path = os.path.join(new_folder_path, 'index.html')
@@ -82,6 +81,6 @@ for chapter in chapters:
     with open(dest_index_html_path, 'w', encoding='utf-8') as f:
         f.write(str(soup))
 
-print("Folders and files have been recreated successfully inside HomepageTEST.")
-while (1):
-     ...
+print("Subfolders created, and index.html generated inside each one.")
+while True:
+    ...
