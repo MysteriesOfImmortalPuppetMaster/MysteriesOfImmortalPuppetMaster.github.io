@@ -1,77 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="description" content="A fan-translation of the book &quot;Mysteries Of Immortal Puppet Master.&quot;">
-    <meta name="google-site-verification" content="BoegADGU4Rm7gTLEYJNwP5xLFkgoPvj9T-jV3pd6Crs" />
+    <meta name="description" content="A fan-translation of the book &quot;Mysteries Of Immortal Puppet Master.&quot; ">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:image" content="https://i.imgur.com/5QU6ZWZ.png" />
-
     <title>Mysteries Of Immortal Puppet Master TL</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
     <link rel="icon" type="image/webp" href="ppt1.webp">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Merriweather:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=fullscreen,fullscreen_exit,width_full,width_normal" />
-
-    <!-- Google Analytics tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XEFBZ7YNS"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-2XEFBZ7YNS');
-    </script>
+    <script src="script.js" defer></script> <!-- Link to the external JavaScript file -->
 </head>
 <body>
-    
-	<button class="material-symbols-outlined" id="fullscreen-btn">
-		fullscreen
-	</button>
+    <div class="container">
+        <!-- Book Cover and Info -->
+        <div class="book-info-container">
+            <div class="book-cover">
+                <img src="cover50.webp" alt="Book Cover">
+            </div>
+            <div class="book-info">
+                <h1>Mysteries Of Immortal Puppet Master</h1>
+                <p>Author: <a href="https://my.qidian.com/author/1338744/" style="color: inherit; text-decoration: none;">Gu Zhen Ren, 蛊真人</a></p>
+            </div>
+        </div>
 
-    <div id="visual-toggles">
-        <button id="fit-full-width-btn">
-            <span class="material-symbols-outlined">width_full</span> Fit Full Width
-        </button>
-        <button id="toggle-theme-btn">🌙 Dark Mode</button>
+        <!-- Synopsis Section -->
+        <div class="synopsis-section collapsed">
+            <h2>Synopsis</h2>
+            <p class="preview-synopsis">
+                In the heart of the volcano, the remnants left behind by the sages yearned for their successors.<br>
+                Risking her life, his mother obtained the Immortal Palace Seal, handing it to Ning Zhuo before her passing.<br>
+                With this seal grasped firmly, he could inscribe a heart seal and command the creation of puppets.<br>
+            </p>
+            <p class="full-synopsis">
+                While ordinary individuals struggled under the weight of just controlling a few, Ning Zhuo effortlessly commanded tens of thousands with a single gesture.<br><br>
+                "Mother, I will fulfill your wishes and obtain the Immortal Palace!" he vowed.<br><br>
+                Immortal Puppets; capable of spiritual secrets; their work skillful and rational.<br>
+                A new realm is opened up, and things are in sync with the heavens.<br>
+                The ancient bell echoes the laws. The moon dances under the clear light.<br>
+                Embodied with myriad strengths, who in this world dares oppose?<br>
+            </p>
+            <button class="view-synopsis">v</button>
+
+            <!-- Updated Button: First Chapter -->
+            <button class="read-chapter" onclick="window.location.href='read/101/'">First Chapter</button>
+
+
+            <!-- New Button: Latest Chapter -->
+            <button class="read-chapter" onclick="scrollToBottom()">Latest Chapter</button>
+        </div>
+
+        <!-- Chapter List -->
+        <div class="chapter-list">
+            <h2>Chapters</h2>
+            <div id="chapterContainer">
+                <!-- JavaScript will populate this list -->
+            </div>
+        </div>
     </div>
-
-
-    <div id="chapter-nav">
-        <button class="prev-btn">← Previous</button>
-        <select id="chapter-select"></select>
-        <button class="next-btn">Next →</button>
-    </div>
-
-    <div id="chapter-content">
-        <!-- Chapter content will be loaded here -->
-    </div>
-
-    <div id="chapter-nav-bottom">
-        <button class="prev-btn">← Previous</button>
-        <button class="next-btn">Next →</button>
-    </div>
-
-    <!-- Utterances comment section will load here -->
-    <div id="comment-section">
-        <h3>Comments</h3>
-        <div id="utterances-comments"></div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var script = document.createElement('script');
-            script.src = 'https://utteranc.es/client.js';
-            script.setAttribute('repo', 'MysteriesOfImmortalPuppetMaster/MysteriesOfImmortalPuppetMaster.github.io');
-            script.setAttribute('issue-term', 'pathname');
-            script.setAttribute('label', 'book-comment');
-            script.setAttribute('theme', 'github-light');
-            script.setAttribute('crossorigin', 'anonymous');
-            script.async = true;
-            document.getElementById('utterances-comments').appendChild(script);
-        });
-    </script>
-
-    <script src="script.js"></script>
-</section>
 </body>
 </html>

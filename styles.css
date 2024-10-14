@@ -1,0 +1,364 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2d2d2d; /* Background color */
+    color: #fff; /* Text color */
+    padding: 20px; /* Default padding */
+    margin: 0; /* Reset body margin */
+}
+/* Media query to hide body content on small screens */
+
+/* Container for all content */
+.container {
+    display: flex;
+    flex-direction: column;
+   
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #333, #444); /* Gradient background */
+    
+    padding: 20px;
+    border-radius: 4px;
+    
+}
+/* is small screen, removes the padding as screenspace is valuable */
+@media (max-width: 999px) {
+    body {
+        padding: 0; /* Remove padding on small screens */
+    }
+
+    
+}
+
+   
+
+/* Book Information Styles */
+.book-info-container {
+    position: relative; /* For background positioning */
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 20px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+    /* Background banner behind the book info */
+    .book-info-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('banner50percent.webp'); /* Background image */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.5; /* 50% opacity */
+        z-index: 0;
+        border-radius: 2px;
+    }
+
+.book-cover, .book-info {
+    position: relative;
+    z-index: 1; /* Ensures content stays above background */
+}
+
+/* Book cover image */
+.book-cover {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    text-align: center;
+}
+
+    .book-cover img {
+        width: 150px;
+        height: auto;
+        border-radius: 8px;
+    }
+
+/* Book title and author info */
+.book-info {
+    flex: 1 1 auto;
+    max-width: calc(100% - 170px);
+    margin-top: 20px;
+}
+
+    .book-info h1 {
+        font-size: 2em;
+    }
+
+    .book-info p {
+        line-height: 1.6;
+    }
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .book-info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .book-cover {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .book-info {
+        max-width: 100%;
+        text-align: center;
+    }
+}
+
+/* Read First Chapter and Read Latest Chapter button */
+button.read-chapter {
+    border-radius: 8px;
+    padding: 8px 16px; /* Reduced padding for a slimmer height */
+    background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Grey-blue (#6b879e) to grey (#A9B0B8) */
+    border: none;
+    color: whitesmoke;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
+    line-height: 1.2; /* Controls text height inside */
+}
+
+    /* Hover effect */
+    button.read-chapter:hover {
+        background: linear-gradient(135deg, #3b8ccb, #256bbc); /* Slightly darker grey-blue and grey for hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevate shadow for hover effect */
+    }
+
+/* Synopsis Section */
+.synopsis-section.collapsed p.full-synopsis {
+    display: none;
+}
+
+/* Synopsis text adjustments for larger screens */
+.preview-synopsis, .full-synopsis {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+@media (min-width: 601px) {
+    .preview-synopsis, .full-synopsis {
+        width: 99%; /* For larger screens */
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+
+.synopsis-wrapper {
+    background-color: transparent; /* Black background */
+    width: 100%; /* Default width is 100% for smaller screens */
+    margin: 0; /* No margin to ensure it aligns left */
+}
+
+/* Media query for screens larger than 600px */
+@media (min-width: 600px) {
+    .synopsis-wrapper {
+        max-width: 100%; /* Max width of 90% for larger screens */
+        margin: 0; /* Ensures it stays aligned to the left */
+    }
+}
+
+
+button.view-synopsis {
+    width: auto; /* Button width will fit the text */
+    height: auto; /* Button height will automatically adjust */
+    padding: 0px, 0px; /* Padding around the text */
+    background-color: dimgray;
+    border: none;
+    color: black;
+    font-size: 14px; /* Font size for text */
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 1px;
+    display: inline-block; /* Make it inline-block for precise width/height control */
+    float: right; /* Align the button to the right */
+    text-align: center; /* Center the text inside */
+    line-height: normal; /* Ensure proper line height for the text */
+ 
+}
+
+
+    button.view-synopsis:hover {
+        background-color: darkgray;
+    }
+
+
+
+/* Book 1, Book 2 ... button */
+button.read-chapterLIST {
+    width: 100%;
+    padding: 1.67px;
+    background: linear-gradient(135deg, #6b879e, #A9B0B8); /* Grey-blue to grey gradient */
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto; /* Centers button */
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Add smooth transitions */
+}
+
+    /* Hover effect for LIST button */
+    button.read-chapterLIST:hover {
+        background: linear-gradient(135deg, #5e768a, #868e96); /* Darken gradient on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Add a hover shadow */
+    }
+
+
+
+
+
+/* Chapter List Section */
+.chapter-list {
+    width: 100%;
+    margin-top: 20px;
+}
+
+    .chapter-list h2 {
+        font-size: 1.5em;
+    }
+
+    .chapter-list ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .chapter-list li {
+        background-color: transparent; /* Invisible background */
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
+
+        .chapter-list li a {
+            text-decoration: none;
+            color: #fff; /* White text for dark background */
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Ellipsis for overflowed text */
+        }
+
+            .chapter-list li a:hover {
+                color: #1e90ff; /* Hover color effect */
+            }
+
+/* Footer (No longer used) */
+/* .footer {
+    margin-top: 40px;
+    text-align: center;
+} */
+
+/* Toggle button section (No longer used) */
+/* .toggle-button {
+    margin-top: 20px;
+    text-align: center;
+} */
+
+/* .toggle-button button {
+    background-color: #1e90ff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.toggle-button button:hover {
+    background-color: #1c7ed6;
+} */
+
+/* Book Section Styles */
+.book {
+    margin-bottom: 20px;
+}
+
+    /* Grid layout for books' chapter lists */
+    .book ul {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 300px)); /* 3 columns on big screens */
+        gap: 15px;
+        list-style: none;
+        padding: 0;
+    }
+@media (max-width: 510px) {
+    .book ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr)); /* Always display 2 columns */
+    }
+}
+@media (max-width: 305px) {
+    .book ul {
+        grid-template-columns: repeat(1, minmax(0, 1fr)); /* Always display 2 columns */
+    }
+}
+
+/* Hidden class for toggling visibility */
+.hidden {
+    display: none !important;
+}
+
+/* Styles for each chapter link within books */
+.book ul li {
+    background-color: transparent;
+    padding: 10px;
+    text-align: left;
+    margin-bottom: 10px;
+    border-top: none; /* Adds a top border */
+    border-radius: 0px; /* Ensures no rounded corners */
+    box-shadow: none; /* Disables any shadow */
+    border-left: none; /* Removes left border */
+    border-right: none; /* Removes right border */
+    border-bottom: 1px solid #555555; 
+}
+
+    .book ul li a {
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+        .book ul li a:hover {
+            color: #1e90ff;
+        }
+
+
+/* chapter load animations*/
+
+/* Add this CSS to your stylesheet */
+ul {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+    ul.expanded {
+        max-height: inherit; /* Adjust based on your content's height */
+    }
+
+li {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+    li.show {
+        opacity: 1;
+    }

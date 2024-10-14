@@ -1,0 +1,187 @@
+﻿/* Global Styles for Dark Mode and Centered Layout */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #2d2d2d; /* Dark background color */
+    color: #fff; /* Light text color */
+    margin: 0;
+    padding: 0; /* Remove padding for smaller screens */
+}
+
+/* Apply padding only for screens larger than 600px */
+@media (min-width: 941px) {
+    body {
+        padding: 20px;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #333, #444); /* Gradient background */
+
+    padding: 0px;
+    padding-bottom: 50px; /* Add bottom padding */
+    border-radius: 4px;
+}
+
+/* Apply padding only for screens larger than 600px */
+@media (min-width: 928px) {
+    body {
+        padding: 20px;
+    }
+}
+
+/* Book Info and Chapter Title Styling */
+.book-info-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.book-info h1, .book-info h2 {
+    margin: 0;
+    padding: 10px 0;
+    color: #fff;
+}
+
+/* Chapter Content Styling */
+#chapterContent {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #333; /* Darker background for content */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+    color: #f1f1f1;
+}
+
+    #chapterContent p, #chapterContent blockquote {
+        text-align: center;
+        line-height: 1.8;
+    }
+
+/* Button Styling */
+button.read-chapter {
+    width: 150px; /* Adjust width of buttons */
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Blue gradient */
+    border: none;
+    color: whitesmoke;
+    font-size: 16px; /* Default font size */
+    cursor: pointer;
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+    /* Hover effect */
+    button.read-chapter:hover {
+        background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 464px) {
+    button.read-chapter {
+        width: 100%; /* Full width for buttons */
+        font-size: 4vw; /* Make font size responsive to screen width */
+        padding: 8px 10px;
+    }
+}
+
+.chapter-headline {
+    width: 93%; /* Ensure the div takes up the full width */
+    text-align: left; /* Center the text within the div */
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 30px;
+    padding: 0px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Modified CSS for the layout with buttons left and right of the select */
+.bottomButtons {
+    display: flex;
+    justify-content: space-between; /* Force buttons to left and right of select */
+    align-items: center; /* Vertically align items */
+    max-width: 800px; /* Lock the width to match the #chapterContent */
+    margin: 0 auto; /* Center the buttons container */
+}
+
+button.read-chapter {
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+#chapter-select-bottom {
+    flex-grow: 1; /* Allow the select to take up remaining space */
+    max-width: 300px; /* Limit the width of the select */
+    margin: 0 10px; /* Add some margin around the select */
+}
+
+/* chapter selector */
+
+/* Style for the chapter select dropdown */
+#chapter-select-top, #chapter-select-bottom {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #BCBCBD; /* Green border matching buttons */
+    border-radius: 5px;
+    background-color: #333; /* Dark background to match theme */
+    color: #fff; /* White text for readability */
+    appearance: none; /* Removes default styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%; /* Full width for better look in UI */
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    height: 39px;
+}
+
+    /* Hover and focus effects */
+    #chapter-select-top:hover, #chapter-select-bottom:hover,
+    #chapter-select-top:focus, #chapter-select-bottom:focus {
+        border-color: #2196F3; /* Blue color on hover/focus for consistency with site’s buttons */
+        background-color: #444; /* Slightly lighter dark color for hover/focus state */
+    }
+
+    /* Custom arrow for the dropdown to fit theme */
+    #chapter-select-top::after, #chapter-select-bottom::after {
+        content: '▼'; /* Arrow */
+        position: absolute;
+        right: 10px;
+        color: #fff;
+        pointer-events: none;
+    }
+
+/* Container for the chapter select */
+.chapter-selector {
+    display: inline-block;
+    position: relative; /* For custom arrow positioning */
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    #chapter-select-top, #chapter-select-bottom {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+
+    .bottomButtons {
+        flex-direction: column; /* Stack the buttons and select vertically on small screens */
+        align-items: center; /* Center items vertically */
+    }
+
+    button.read-chapter {
+        width: 100%; /* Full width for buttons */
+        max-width: 100%;
+    }
+
+    #chapter-select-bottom {
+        width: 100%; /* Full width for select on smaller screens */
+        max-width: 100%;
+        margin: 10px 0; /* Add margin between buttons and select */
+    }
+}
