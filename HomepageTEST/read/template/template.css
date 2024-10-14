@@ -20,9 +20,12 @@ body {
     max-width: 900px;
     margin: auto;
     background: linear-gradient(135deg, #333, #444); /* Gradient background */
+
     padding: 0px;
+    padding-bottom: 50px; /* Add bottom padding */
     border-radius: 4px;
 }
+
 /* Apply padding only for screens larger than 600px */
 @media (min-width: 928px) {
     body {
@@ -50,7 +53,7 @@ body {
     background-color: #333; /* Darker background for content */
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    font-size: 18px;
+    font-size: 20px;
     color: #f1f1f1;
 }
 
@@ -61,14 +64,13 @@ body {
 
 /* Button Styling */
 button.read-chapter {
-    width: 200px;
+    width: 150px; /* Adjust width of buttons */
     padding: 10px 20px;
     background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Blue gradient */
     border: none;
     color: whitesmoke;
     font-size: 16px; /* Default font size */
     cursor: pointer;
-    margin: 20px auto;
     border-radius: 8px;
     display: block;
     text-align: center;
@@ -91,7 +93,6 @@ button.read-chapter {
     }
 }
 
-
 .chapter-headline {
     width: 93%; /* Ensure the div takes up the full width */
     text-align: left; /* Center the text within the div */
@@ -102,20 +103,26 @@ button.read-chapter {
     border-bottom: 1px solid #ccc;
 }
 
-
+/* Modified CSS for the layout with buttons left and right of the select */
 .bottomButtons {
-    /* Use flexbox to align the buttons horizontally */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 70%;
+    justify-content: space-between; /* Force buttons to left and right of select */
+    align-items: center; /* Vertically align items */
+    max-width: 800px; /* Lock the width to match the #chapterContent */
     margin: 0 auto; /* Center the buttons container */
 }
 
+button.read-chapter {
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
 
+#chapter-select-bottom {
+    flex-grow: 1; /* Allow the select to take up remaining space */
+    max-width: 300px; /* Limit the width of the select */
+    margin: 0 10px; /* Add some margin around the select */
+}
 
-
-/* chapter selector*/
+/* chapter selector */
 
 /* Style for the chapter select dropdown */
 #chapter-select-top, #chapter-select-bottom {
@@ -129,10 +136,7 @@ button.read-chapter {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 100%; /* Full width for better look in UI */
-    max-width: 300px; /* Restrict max width to avoid overly large dropdowns */
-    min-width: 200px; /* Restrict max width to avoid overly large dropdowns */
     cursor: pointer;
-    margin: 10px 0;
     transition: border-color 0.3s ease, background-color 0.3s ease;
     height: 39px;
 }
@@ -163,5 +167,21 @@ button.read-chapter {
 @media (max-width: 600px) {
     #chapter-select-top, #chapter-select-bottom {
         max-width: 100%; /* Full width on smaller screens */
+    }
+
+    .bottomButtons {
+        flex-direction: column; /* Stack the buttons and select vertically on small screens */
+        align-items: center; /* Center items vertically */
+    }
+
+    button.read-chapter {
+        width: 100%; /* Full width for buttons */
+        max-width: 100%;
+    }
+
+    #chapter-select-bottom {
+        width: 100%; /* Full width for select on smaller screens */
+        max-width: 100%;
+        margin: 10px 0; /* Add margin between buttons and select */
     }
 }
