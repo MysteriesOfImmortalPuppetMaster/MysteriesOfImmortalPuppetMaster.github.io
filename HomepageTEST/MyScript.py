@@ -77,6 +77,12 @@ for chapter in chapters:
         content_div.clear()
         content_div.append(BeautifulSoup(chapter_html, 'html.parser'))
 
+    # Modify the <title> tag to include the chapter headline
+    title_tag = soup.find('title')
+    if title_tag is not None:
+        base_title = "Mysteries Of Immortal Puppet Master - "
+        title_tag.string = f'{base_title}{headline}'
+
     # Write the modified index.html back
     with open(dest_index_html_path, 'w', encoding='utf-8') as f:
         f.write(str(soup))
