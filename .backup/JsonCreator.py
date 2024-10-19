@@ -42,5 +42,4 @@ if __name__ == '__main__':
     chapter_data = get_chapter_data(chapters_dir)
     save_to_json(chapter_data, output_file)
     print(f'Chapter data saved to {output_file}')
-    while(1):
-       ...
+
