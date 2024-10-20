@@ -33,19 +33,19 @@ I have found that a 50% compression rate ( lossy ) on Webp images results in the
 - remove google988ebf...html as it serves to proof to google that i am the owner of the git site.
 
 - inside index.html ( root folder ) 
--- in the meta tags section: replace the folowing imgur link with an upload of your cover. ( linking the raw image from github turned out not to work ) ((  <meta property="og:image" content="https://i.imgur.com/5QU6ZWZ.png" /> ))
--- remove the google analytics script.
--- in the "book info class:  change author and the link to the Author's page ( <p>Author: <a href="https://my.qidian.com/author/1338744/" style="color: inherit; text-decoration: none;">Gu Zhen Ren, 蛊真人</a></p> )
--- in the "book info class:  change book title (  <h1>Mysteries Of Immortal Puppet Master</h1> )
--- in the "Synopsis" Section: Change the Synopsis. ( "preview Synopsis is the first half, "full synopsis" is the 2nd. the full synopsis is revealed with the arrow button )
+- in the meta tags section: replace the folowing imgur link with an upload of your cover. ( linking the raw image from github turned out not to work ) ((  <meta property=."og:image" content="https://i.imgur.com/5QU6ZWZ.png" /> ))
+- remove the google analytics script.
+- in the "book info class:  change author and the link to the Author's page ( <p>Author: <a href=."https://my.qidian.com/author/1338744/" style="color: inherit; text-decoration: none;">Gu Zhen Ren, 蛊真人</a></p> )
+- in the "book info class:  change book title (  <>Mysteries Of Immortal Puppet Master</> )
+- in the "Synopsis" Section: Change the Synopsis. ( "preview Synopsis is the first half, "full synopsis" is the 2nd. the full synopsis is revealed with the arrow button )
 
 - inside template.html ( root/read/ )
--- Change this title. in the head:  ( <meta name="description" content="A fan-translation of the book &quot;Mysteries Of Immortal Puppet Master.&quot;"> )
--- also change this imgur link again: ( <meta property="og:image" content="https://i.imgur.com/5QU6ZWZ.png" /> )
+- Change this title. in the head:  ( <meta name="description" content=."A fan-translation of the book &quot;Mysteries Of Immortal Puppet Master.&quot;"> )
+- also change this imgur link again: ( <meta property=."og:image" content="https://i.imgur.com/5QU6ZWZ.png" /> )
 For those wondering, it exists as a "preview image" that you see when you paste the link on sites like discord, facebook and **good** webbrowsers that aren't google.
--- change title: ( <title>Mysteries Of Immortal Puppet Master</title> )
--- remove google analytics script ( again )
--- change the headline, displaying the book name (  <h1><a href="../../" style="text-decoration: none; color: inherit;">Mysteries Of Immortal Puppet Master</a></h1> )
+- change title: ( <title>Mysteries Of Immortal Puppet Master</title> )
+- remove google analytics script ( again )
+- change the headline, displaying the book name (  <><a href=."../../" style="text-decoration: none; color: inherit;">Mysteries Of Immortal Puppet Master</a></> )
 This also serves as a link to the Homepage
 
 - Inside "UpdateWebsite.py ( root )"
