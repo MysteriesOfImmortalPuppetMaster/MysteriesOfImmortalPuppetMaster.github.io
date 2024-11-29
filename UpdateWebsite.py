@@ -3,6 +3,7 @@ import json
 import re
 import shutil
 from bs4 import BeautifulSoup
+import chardet
 
 # ==========================================
 # Start of JsonCreator.py code
@@ -13,9 +14,17 @@ chapters_dir = './chapters'
 output_file = 'chapters.json'
 
 def get_chapter_title(file_path):
-    """Extract the first line (title) from a chapter file."""
+    """Extract the first line (title) from a chapter file with detected encoding."""
+    # # Read the file in binary mode to detect encoding
+    # with open(file_path, 'rb') as file:
+    #     raw_data = file.read()
+    #     result = chardet.detect(raw_data)
+    #     encoding = result['encoding']
+    #     if encoding is None:
+    #             encoding = 'utf-8'
+    # # Decode using the detected encoding
     with open(file_path, 'r', encoding='utf-8') as file:
-        title = file.readline().strip()  # Read the first line and strip any leading/trailing whitespace
+        title = file.readline().strip()
     return title
 
 def natural_sort_key(filename):
@@ -108,8 +117,21 @@ def main():
 
         # Read chapter text
         chapter_file_path = os.path.join(chapters_folder, filename)
-        with open(chapter_file_path, 'r', encoding='utf-8') as f:
-            chapter_text = f.readlines()  # Read all lines of the chapter into a list
+
+        # Detect encoding
+        # with open(chapter_file_path, 'rb') as f:
+        #     raw_data = f.read()
+        #     result = chardet.detect(raw_data)
+        #     encoding = result['encoding']
+        #     if encoding is None:
+        #         encoding = 'utf-8'  # Default to UTF-8 if encoding cannot be detected
+
+        # Read the chapter text using the detected encoding
+        with open(chapter_file_path, 'r', encoding='utf-8', errors='replace') as f:
+            chapter_text = f.readlines()
+
+
+
 
         # Extract the first line as the headline and remove it from the content
         headline = chapter_text[0].strip()  # The first line becomes the headline
