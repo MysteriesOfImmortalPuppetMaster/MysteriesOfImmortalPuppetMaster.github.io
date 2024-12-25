@@ -4,6 +4,13 @@ import re
 import shutil
 from bs4 import BeautifulSoup
 import chardet
+import json
+from datetime import datetime
+from datetime import timedelta
+from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
+
 
 # ==========================================
 # Start of JsonCreator.py code
@@ -69,6 +76,114 @@ chapters_folder = os.path.join('chapters')
 read_folder = os.path.join('read')
 template_html_path = os.path.join(read_folder, 'template.html')  # Adjusted from .template.html
 template_folder_path = os.path.join(read_folder, 'template')     # Adjusted from .template
+
+
+
+#" new chapters function thing "
+
+
+def Super_NewADDEDCHapterFunction():
+    # Load chapters.json
+    def load_chapters(json_file):
+        with open(json_file, 'r', encoding='utf-8') as file:
+            return json.load(file)
+
+    # Generate new HTML content for chapters panel
+    def generate_chapters_html(chapters, newest_existing_title):
+        chapter_html = ""
+        for chapter in reversed(chapters):  # Assuming latest chapter is last
+            if chapter['title'] == newest_existing_title:
+                break  # Stop adding once we reach the newest existing chapter
+            chapter_id = chapter['filename'].replace('.txt', '')
+            utc_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+            chapter_html += f'''<div class="chaptersPanel-item" data-url="/read/{chapter_id}/" data-utc="{utc_time}">
+                <b>{chapter['title']}</b>
+                <div class="local-timestamp"></div>
+            </div>\n'''
+        return chapter_html
+
+    # Get the newest existing chapter title from the HTML file
+    def get_newest_existing_title(html_file):
+        with open(html_file, 'r', encoding='utf-8') as file:
+            soup = BeautifulSoup(file, 'html.parser')
+        chapters_panel = soup.find('div', {'id': 'chaptersPanelContent'})
+        if not chapters_panel:
+            return None
+        newest_item = chapters_panel.find('div', {'class': 'chaptersPanel-item'})
+        if newest_item:
+            return newest_item.find('b').text.strip()  # Extract the chapter title
+        return None
+
+    # Add new chapters to the HTML file
+    def update_html(html_file, new_chapters_html):
+        with open(html_file, 'r', encoding='utf-8') as file:
+            soup = BeautifulSoup(file, 'html.parser')
+
+        chapters_panel = soup.find('div', {'id': 'chaptersPanelContent'})
+        if chapters_panel:
+            # Append new content at the top
+            chapters_panel.insert(0, BeautifulSoup(new_chapters_html, 'html.parser'))
+
+        with open(html_file, 'w', encoding='utf-8') as file:
+            file.write(str(soup))
+
+
+    # Function to process the HTML
+    def limit_chapters_entries_unique_823(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            soup = BeautifulSoup(file, 'html.parser')
+
+        chapters_panel = soup.find('div', {'class': 'chaptersPanel-content'})
+        if not chapters_panel:
+            print("Chapters panel not found.")
+            return
+
+        entries = chapters_panel.find_all('div', {'class': 'chaptersPanel-item'})
+
+        # Check if the number of entries is less than or equal to 5
+        if len(entries) <= 5:
+            print("Number of entries is 5 or fewer. No action required.")
+            return
+
+        # Parse UTC dates and limit entries
+        while len(entries) > 5:
+            print("doing something")
+            latest_entry_date = datetime.strptime(entries[0]['data-utc'], '%Y-%m-%dT%H:%M:%SZ')
+            last_entry_date = datetime.strptime(entries[-1]['data-utc'], '%Y-%m-%dT%H:%M:%SZ')
+
+            # Check if the last entry is within 24 hours of the latest entry
+            if latest_entry_date - last_entry_date > timedelta(hours=24):
+                entries[-1].decompose()  # Remove the last entry
+                entries = chapters_panel.find_all('div', {'class': 'chaptersPanel-item'})
+            else:
+                break
+
+        # Save the modified HTML back to the file
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(str(soup))
+
+        print("Entries have been successfully limited.")
+
+
+
+    json_file = 'chapters.json'
+    html_file = 'index.html'
+
+    # Load data
+    chapters = load_chapters(json_file)
+ 
+    # Get the newest existing chapter title from the HTML
+    newest_existing_title = get_newest_existing_title(html_file)
+
+    # Generate new HTML content
+    new_chapters_html = generate_chapters_html(chapters, newest_existing_title)
+
+    # Update the HTML file
+    update_html(html_file, new_chapters_html)
+
+    
+    # Call the function with the path to the index.html file
+    limit_chapters_entries_unique_823('index.html')
 
 def main():
     # Run JsonCreator.py code
@@ -167,6 +282,7 @@ def main():
             f.write(str(soup))
 
     print("Subfolders created, and index.html generated inside each one.")
+    Super_NewADDEDCHapterFunction()
     print("Python Script completed. Console can be closed now")
 
 if __name__ == '__main__':

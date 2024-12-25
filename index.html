@@ -1,18 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta name="description" content="A fan-translation of the book &quot;Mysteries Of Immortal Puppet Master.&quot;">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:image" content="https://i.imgur.com/5QU6ZWZ.png" />
-    <title>Mysteries Of Immortal Puppet Master TL</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
-    <link rel="icon" type="image/webp" href="ppt1.webp">
-    <script src="script.js" defer></script> <!-- Link to the external JavaScript file -->
-
-    <!-- Google Analytics tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XEFBZ7YNS"></script>
-    <script>
+<meta content='A fan-translation of the book "Mysteries Of Immortal Puppet Master."' name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="https://i.imgur.com/5QU6ZWZ.png" property="og:image"/>
+<title>Mysteries Of Immortal Puppet Master TL</title>
+<link href="styles.css" rel="stylesheet"/> <!-- Link to the external CSS file -->
+<link href="ppt1.webp" rel="icon" type="image/webp"/>
+<!-- ScrollBooster Library -->
+<script src="https://cdn.jsdelivr.net/npm/scrollbooster@3.0.0/dist/scrollbooster.min.js"></script>
+<script defer="" src="script.js"></script> <!-- Link to the external JavaScript file -->
+<!-- Google Analytics tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2XEFBZ7YNS"></script>
+<script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
@@ -20,51 +22,246 @@
     </script>
 </head>
 <body>
-    <div class="container">
-        <!-- Book Cover and Info -->
-        <div class="book-info-container">
-            <div class="book-cover">
-                <img src="cover50.webp" alt="Book Cover">
-            </div>
-            <div class="book-info">
-                <h1>Mysteries Of Immortal Puppet Master</h1>
-                <p>Author: <a href="https://my.qidian.com/author/1338744/" style="color: inherit; text-decoration: none;">Gu Zhen Ren, 蛊真人</a></p>
-                <p>Links:&nbsp;<a href="https://www.webnovel.com/book/mysteries-of-immortal-puppet-master_30435694005894905" style="color: inherit; text-decoration: none;">Official Release</a>,&nbsp;<a href="https://discord.com/invite/A7RwNZZ5q6" style="color: inherit; text-decoration: none;">Community Discord</a></p>
-            </div>
-        </div>
+<div class="container">
+<!-- Book Cover and Info -->
+<div class="book-info-container">
+<div class="book-cover">
+<img alt="Book Cover" src="cover50.webp"/>
+</div>
+<div class="book-info">
+<h1>Mysteries Of Immortal Puppet Master</h1>
+<p>Author: <a href="https://my.qidian.com/author/1338744/" style="color: inherit; text-decoration: none;">Gu Zhen Ren, 蛊真人</a></p>
+<p>Links: <a href="https://www.webnovel.com/book/mysteries-of-immortal-puppet-master_30435694005894905" style="color: inherit; text-decoration: none;">Official Release</a>, <a href="https://discord.com/invite/A7RwNZZ5q6" style="color: inherit; text-decoration: none;">Community Discord</a></p>
+</div>
+</div>
+<!-- Synopsis Section -->
+<div class="synopsis-section collapsed">
+<h2>Synopsis</h2>
+<p class="preview-synopsis">
+                In the heart of the volcano, the remnants left behind by the sages yearned for their successors.<br/>
+                Risking her life, his mother obtained the Immortal Palace Seal, handing it to Ning Zhuo before her passing.<br/>
+                With this seal grasped firmly, he could inscribe a heart seal and command the creation of puppets.<br/>
+</p>
+<p class="full-synopsis">
+                While ordinary individuals struggled under the weight of just controlling a few, Ning Zhuo effortlessly commanded tens of thousands with a single gesture.<br/><br/>
+                "Mother, I will fulfill your wishes and obtain the Immortal Palace!" he vowed.<br/><br/>
+                Immortal Puppets; capable of spiritual secrets; their work skillful and rational.<br/>
+                A new realm is opened up, and things are in sync with the heavens.<br/>
+                The ancient bell echoes the laws. The moon dances under the clear light.<br/>
+                Embodied with myriad strengths, who in this world dares oppose?<br/>
+</p>
+<button class="view-synopsis">v</button>
+<!-- Updated Button: First Chapter -->
+<button class="read-chapter" onclick="window.location.href='read/101/'">First Chapter</button>
+<!-- New Button: Latest Chapter -->
+<button class="read-chapter" onclick="scrollToBottom()">Latest Chapter</button>
+</div>
+<!-- New Chapters Section -->
+<div class="chaptersPanel_buffer" id="chaptersPanel_buffer"><h2>New Chapters</h2></div>
+<style>
+            .chaptersPanel {
 
-        <!-- Synopsis Section -->
-        <div class="synopsis-section collapsed">
-            <h2>Synopsis</h2>
-            <p class="preview-synopsis">
-                In the heart of the volcano, the remnants left behind by the sages yearned for their successors.<br>
-                Risking her life, his mother obtained the Immortal Palace Seal, handing it to Ning Zhuo before her passing.<br>
-                With this seal grasped firmly, he could inscribe a heart seal and command the creation of puppets.<br>
-            </p>
-            <p class="full-synopsis">
-                While ordinary individuals struggled under the weight of just controlling a few, Ning Zhuo effortlessly commanded tens of thousands with a single gesture.<br><br>
-                "Mother, I will fulfill your wishes and obtain the Immortal Palace!" he vowed.<br><br>
-                Immortal Puppets; capable of spiritual secrets; their work skillful and rational.<br>
-                A new realm is opened up, and things are in sync with the heavens.<br>
-                The ancient bell echoes the laws. The moon dances under the clear light.<br>
-                Embodied with myriad strengths, who in this world dares oppose?<br>
-            </p>
-            <button class="view-synopsis">v</button>
+                max-height: 200px;
+                overflow: hidden;
+                border: 1px solid #4b4b4b;
+                border-radius: 8px;
+                padding-right: 3px;
+                padding-left: 3px;
+                background: linear-gradient(to bottom, #343434, #343434);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                cursor: grab;
+                position: relative;
+                user-select: none;
+                color: #ddd;
+            }
 
-            <!-- Updated Button: First Chapter -->
-            <button class="read-chapter" onclick="window.location.href='read/101/'">First Chapter</button>
+            .chaptersPanel-item * {
+                pointer-events: none; /* Disable pointer events on child elements */
+                flex: 1;
+            }
 
-            <!-- New Button: Latest Chapter -->
-            <button class="read-chapter" onclick="scrollToBottom()">Latest Chapter</button>
-        </div>
+            .chaptersPanel-content {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                
+       
+                
+            }
 
-        <!-- Chapter List -->
-        <div class="chapter-list">
-            <h2>Chapters</h2>
-            <div id="chapterContainer">
-                <!-- JavaScript will populate this list -->
-            </div>
-        </div>
-    </div>
+            .chaptersPanel-item {
+                
+                
+                padding: 10px 15px;
+                cursor: pointer;
+                border-bottom: 1px solid #555;
+                background: linear-gradient(to right, #2e2e2e, #242424);
+                border-radius: 4px;
+                transition: background-color 0.2s, transform 0.1s ease;
+                margin: 5px 0;
+                z-index: 10;
+            }
+
+                .chaptersPanel-item:hover {
+                    background: linear-gradient(to right, #3c3c3c, #292929);
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                    transform: scale(1.02);
+                }
+
+                .chaptersPanel-item:last-child {
+                    border-bottom: none;
+            
+                }
+
+                .chaptersPanel-item:active {
+                    background: linear-gradient(to right, #444, #333);
+                    transform: scale(0.98);
+                }
+
+            /* Optional: Add a scroll bar style */
+            .chaptersPanel-content::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .chaptersPanel-content::-webkit-scrollbar-thumb {
+                background: #555;
+                border-radius: 3px;
+            }
+
+                .chaptersPanel-content::-webkit-scrollbar-thumb:hover {
+                    background: #666;
+                }
+
+
+        </style>
+<div class="chaptersPanel" id="chaptersPanel">
+<div class="chaptersPanel-content" id="chaptersPanelContent"><div class="chaptersPanel-item" data-url="/read/479/" data-utc="2024-12-25T02:10:00Z">
+<b>Chapter 479: Opening the Fields Without Obstruction</b>
+<div class="local-timestamp"></div>
+</div>
+<div class="chaptersPanel-item" data-url="/read/478/" data-utc="2024-12-23T01:56:41Z">
+<b>Chapter 478: A Toast to Dispel Old Grudges</b>
+<div class="local-timestamp"></div>
+</div>
+<div class="chaptersPanel-item" data-url="/read/477/" data-utc="2024-12-22T01:24:26Z">
+<b>Chapter 477: Mulan’s Husband</b>
+<div class="local-timestamp"></div>
+</div>
+<div class="chaptersPanel-item" data-url="/read/476/" data-utc="2023-12-21T01:24:26Z">
+<b>Chapter 476: The General-Testing Scroll (Two-in-One)</b>
+<div class="local-timestamp"></div>
+</div>
+<div class="chaptersPanel-item" data-url="/read/475.1/" data-utc="2023-12-20T01:24:26Z">
+<b>Author Note: Relying Only on Myself!</b>
+<div class="local-timestamp"></div>
+</div>
+
+</div>
+</div>
+<script>
+            // Get the container and items
+            const panelContent = document.getElementById('chaptersPanelContent');
+            const items = panelContent.getElementsByClassName('chaptersPanel-item');
+
+            // Calculate the margin for the last item
+            const marginPerItem = 20; // Adjust this value as needed
+            if (items.length > 0) {
+                items[items.length - 1].style.marginBottom = `${marginPerItem * items.length}px`;
+            }
+
+
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const viewport = document.getElementById("chaptersPanel");
+                const content = document.getElementById("chaptersPanelContent");
+
+                // Initialize ScrollBooster
+                new ScrollBooster({
+                    viewport: viewport,
+                    content: content,
+                    scrollMode: 'transform', // Smooth transform-based scrolling
+                    direction: 'vertical',    // Enable vertical scrolling
+                    emulateScroll: true,      // Allow mousewheel and touch scrolling
+                    bounce: false,            // Prevent snapping back
+                });
+
+                // Variables to track drag and click
+                let isDragging = false;
+                let startX = 0;
+                let startY = 0;
+
+                // Add mouse event listeners
+                content.addEventListener('mousedown', (e) => {
+                    isDragging = false;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                });
+
+                content.addEventListener('mousemove', (e) => {
+                    if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) {
+                        isDragging = true;
+                    }
+                });
+
+                content.addEventListener('mouseup', (e) => {
+                    if (!isDragging) {
+                        const target = e.target;
+                        if (target.classList.contains('chaptersPanel-item')) {
+                            const url = target.getAttribute('data-url');
+                            if (url) {
+                                location.href = url;
+                            }
+                        }
+                    }
+                });
+
+                // Convert UTC timestamps to local time
+                document.querySelectorAll('.chaptersPanel-item').forEach(item => {
+                    const utcTime = item.getAttribute('data-utc');
+                    const localTimeElement = item.querySelector('.local-timestamp');
+                    if (utcTime && localTimeElement) {
+                        const date = new Date(utcTime);
+                        const localTimeString = date.toLocaleString(); // Converts to local time string
+                        localTimeElement.textContent = localTimeString;
+                    }
+                });
+
+
+
+
+
+                // Prevent page scroll when interacting with chaptersPanel on touch devices
+                viewport.addEventListener("touchmove", (e) => {
+                    const scrollTop = viewport.scrollTop;
+                    const scrollHeight = viewport.scrollHeight;
+                    const clientHeight = viewport.clientHeight;
+                    const atTop = scrollTop === 0;
+                    const atBottom = scrollTop + clientHeight >= scrollHeight;
+
+                    if (
+                        (atTop && e.touches[0].clientY > 0) ||
+                        (atBottom && e.touches[0].clientY < 0)
+                    ) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+
+                // Disable mousewheel scrolling on PC when hovering over chaptersPanel
+                viewport.addEventListener("wheel", (e) => {
+                    if (viewport.matches(':hover')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }, { passive: false });
+            });
+        </script>
+<!-- Chapter List -->
+<div class="chapter-list">
+<h2>Chapters</h2>
+<div id="chapterContainer">
+<!-- JavaScript will populate this list -->
+</div>
+</div>
+</div>
 </body>
 </html>
