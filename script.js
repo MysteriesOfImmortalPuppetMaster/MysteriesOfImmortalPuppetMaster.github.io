@@ -22,7 +22,7 @@ async function loadChapters() {
     try {
         const response = await fetch('chapters.json');
         const chapters = await response.json();
-        const chaptersPerBook = [232, 500]; // Array of cutoff points for books
+        const chaptersPerBook = [232, 700]; // Array of cutoff points for books
 
         const chapterContainer = document.getElementById('chapterContainer');
         chapterContainer.innerHTML = ''; // Clear any existing content
