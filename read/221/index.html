@@ -351,11 +351,22 @@ Where could it find justice?<br/>
                 .commentInputSection input[type="text"] {
                     min-width: 200px;
                     width: 30%;
+                    background: linear-gradient(to bottom,#343434,#343434);
+                    border: 1px solid #ccc;
+                    color: #ffffff; /* Text color */
+                    padding: 5px;
+                    border-radius: 3px;
                 }
 
                 .commentInputSection textarea {
                     width: 90%;
                     box-sizing: border-box; /* Ensures padding and border are included in width */
+                    background: linear-gradient(to bottom,#343434,#343434); /* Light gradient */
+                    border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+                    padding: 10px; /* Optional: Add padding for better usability */
+                    border-radius: 3px; /* Optional: Rounded corners */
+                    font-size: 14px; /* Optional: Improve text visibility */
+                    color: #ffffff;
                 }
 
             #charCounter {
@@ -377,6 +388,26 @@ Where could it find justice?<br/>
                 border-bottom: 1px solid #ddd;
                 border-radius: 1px;
             }
+
+            .commentInputSection button[type="submit"] {
+                width: 150px; /* Adjust width of buttons */
+                padding: 10px 10px;
+                background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Blue gradient */
+                border: none;
+                color: whitesmoke;
+                font-size: 16px; /* Default font size */
+                cursor: pointer;
+                border-radius: 8px;
+                display: block;
+                text-align: center;
+                transition: background 0.3s ease, box-shadow 0.3s ease;
+                white-space: nowrap; /* Prevent text wrapping */
+            }
+
+                .commentInputSection button[type="submit"]:hover {
+                    background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                }
 
             .comment {
                 margin-bottom: 10px;
