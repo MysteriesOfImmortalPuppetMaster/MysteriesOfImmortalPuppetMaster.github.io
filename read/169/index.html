@@ -251,7 +251,105 @@ He could now organize his own team and explore the Lava Immortal Palace.</div>
 <button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
 </div>
 </footer>
+<div class="commentInputSection">
+<h3>Leave a Comment ( This feature is experimental and subject to change. Comments may be deleted at some point. We'll see )</h3>
+<form id="commentForm">
+<label for="nameInput">Name (optional):</label><br/>
+<input id="nameInput" maxlength="25" placeholder="Anonymous" type="text"/><br/><br/>
+<label for="commentInput">Comment:</label><br/>
+<div style="position: relative;">
+<textarea id="commentInput" maxlength="250" placeholder="Write your comment here" rows="4"></textarea>
+<span id="charCounter">250</span>
+</div>
+<button type="submit">Submit Comment</button>
+</form>
+</div>
+<div class="mainCommentSection">
+            Loading comments...
+        </div>
+<style>
+            .commentInputSection {
+                margin-top: 30px;
+                margin-bottom: 2px;
+                padding: 10px;
+                background: rgba(0, 0, 0, 0);
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                border-radius: 1px;
+            }
+
+                .commentInputSection input[type="text"] {
+                    min-width: 200px;
+                    width: 30%;
+                }
+
+                .commentInputSection textarea {
+                    width: 90%;
+                    box-sizing: border-box; /* Ensures padding and border are included in width */
+                }
+
+            #charCounter {
+                position: absolute;
+                bottom: 8px;
+                right: 10px;
+                font-size: 0.85em;
+                color: #666;
+                pointer-events: none;
+            }
+
+            .commentInputSection h3 {
+                margin-top: 0;
+            }
+
+            .mainCommentSection {
+                padding: 10px;
+                background: rgba(0, 0, 0, 0);
+                border-bottom: 1px solid #ddd;
+                border-radius: 1px;
+            }
+
+            .comment {
+                margin-bottom: 10px;
+                padding: 5px;
+                border-bottom: 1px solid #ccc;
+                color: #D8D9D9;
+                overflow-wrap: break-word; /* Modern equivalent of word-wrap */
+                white-space: normal; /* Prevent text from sticking to a single line */
+                overflow: hidden; /* Prevent horizontal scrolling */
+                text-overflow: ellipsis; /* Optionally, add ellipsis for overflowing text */
+            }
+
+                .comment:last-child {
+                    border-bottom: none;
+                }
+
+                .comment strong {
+                    font-size: 1.2em;
+                    color: white;
+                }
+
+                .comment em {
+                    color: #888;
+                    font-size: 0.9em;
+                }
+
+            #charCounter {
+                position: relative;
+                bottom: 8px;
+                right: 50px;
+                font-size: 0.85em;
+                color: grey; /* Default color */
+                pointer-events: none; /* Prevent interaction with the counter */
+            }
+
+
+
+            textarea {
+                resize: none; /* Prevents resizing */
+            }
+        </style>
 </div>
 <script async="" src="../template.js"></script>
+<script src="../comments.js"></script>
 </body>
 </html>
