@@ -309,13 +309,14 @@ On the other side, Zhou Zhu was also desperately clearing away the ants. His sit
             .commentInputSection h3 {
                 margin-top: 0;
             }
-
+            /*the large box with all the comments inside*/
             .mainCommentSection {
                 padding: 10px;
                 background: rgba(0, 0, 0, 0);
                 border-bottom: 1px solid #ddd;
                 border-radius: 1px;
             }
+
 
             .commentInputSection button[type="submit"] {
                 width: 150px; /* Adjust width of buttons */
@@ -336,9 +337,9 @@ On the other side, Zhou Zhu was also desperately clearing away the ants. His sit
                     background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
                     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
                 }
-
+            /*comment box*/
             .comment {
-                margin-bottom: 10px;
+                padding-bottom: 10px;
                 padding: 5px;
                 border-bottom: 1px solid #ccc;
                 color: #D8D9D9;
@@ -348,19 +349,39 @@ On the other side, Zhou Zhu was also desperately clearing away the ants. His sit
                 text-overflow: ellipsis; /* Optionally, add ellipsis for overflowing text */
             }
 
-                .comment:last-child {
-                    border-bottom: none;
+                .comment:hover {
+                    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for a 'pop' effect */
+                    transform: scale(1.01); /* Slightly increase the size */
                 }
 
-                .comment strong {
-                    font-size: 1.2em;
-                    color: white;
+            .reply-button {
+                background: none;
+                color: #007bff;
+                border: none;
+                font-size: 14px;
+                cursor: pointer;
+                padding: 0;
+            }
+
+                .reply-button:hover {
+                
+                    color: deepskyblue;
                 }
 
-                .comment em {
-                    color: #888;
-                    font-size: 0.9em;
-                }
+
+            .comment:last-child {
+                border-bottom: none;
+            }
+
+            .comment strong {
+                font-size: 1.2em;
+                color: white;
+            }
+
+            .comment em {
+                color: #888;
+                font-size: 0.9em;
+            }
 
             #charCounter {
                 position: relative;
