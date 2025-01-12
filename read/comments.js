@@ -115,7 +115,7 @@ async function fetchCommentsForCurrentSource() {
                         replyTextarea.placeholder = "Write your reply...";
                         replyTextarea.rows = 3;
                         replyTextarea.maxLength = 250;
-                   
+
 
                         replyBoxDiv.appendChild(replyTextarea);
 
@@ -125,8 +125,8 @@ async function fetchCommentsForCurrentSource() {
                         charCounter.style.fontSize = "14px"; // Optional: Adjust font size
                         charCounter.style.marginTop = "5px"; // Optional: Add spacing
                         charCounter.style.position = "relative";
-                        charCounter.style.bottom= "8px";
-                        charCounter.style.right= "40px";
+                        charCounter.style.bottom = "8px";
+                        charCounter.style.right = "40px";
                         replyBoxDiv.appendChild(charCounter);
 
                         replyTextarea.addEventListener("input", () => {
