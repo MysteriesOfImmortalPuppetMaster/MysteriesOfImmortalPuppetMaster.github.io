@@ -1,4 +1,4 @@
-﻿const API_URL = "https://comments.puppetinsanity-gov.workers.dev/api/data";
+const API_URL = "https://comments.puppetinsanity-gov.workers.dev/api/data";
 
 const commentInput = document.getElementById("commentInput");
 const charCounter = document.getElementById("charCounter");
