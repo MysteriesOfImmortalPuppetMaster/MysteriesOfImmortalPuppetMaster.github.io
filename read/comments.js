@@ -266,3 +266,4 @@ async function submitComment(event) {
 document.getElementById("commentForm").addEventListener("submit", submitComment);
 
 window.addEventListener("DOMContentLoaded", fetchCommentsForCurrentSource);
+
