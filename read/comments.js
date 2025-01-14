@@ -84,11 +84,15 @@ async function fetchCommentsForCurrentSource() {
                 commentDiv.classList.add("comment");
                 commentDiv.style.marginLeft = `${level * 20}px`; // Indent replies
 
+
+                const authorColor = comment.authorRank === "admin" ? "#bc0000" :
+                    comment.authorRank === "moderator" ? "#2e7fff" : "";
+
                 commentDiv.innerHTML = `
-                    <strong>${comment.author || "Anonymous"}</strong><br/>
-                    <span>${comment.content}</span><br/>
-                    <em>${new Date(comment.date).toLocaleString()}</em>
-                `;
+            <strong style="color: ${authorColor};">${comment.author || "Anonymous"}</strong><br/>
+            <span>${comment.content}</span><br/>
+            <em>${new Date(comment.date).toLocaleString()}</em>
+        `;
 
                 // Add reply button only if the comment is not a reply itself
                 if (comment.nested === null) {
