@@ -1,4 +1,4 @@
-// STEP ONE: Extract the folder name from the URL
+﻿// STEP ONE: Extract the folder name from the URL
 function getCurrentFolder() {
     let currentUrl = window.location.href;
     let folderPattern = /\/([^\/]+)\/?$/;
@@ -159,3 +159,81 @@ function loadChapterDropdowns() {
 window.onload = function () {
     loadChapterDropdowns();
 };
+
+
+
+
+
+
+
+/*light mode toggle*/
+
+let toggleButton = document.getElementById('light-mode-toggle');
+let isButtonPresent = true;
+
+// Add click event listener for light mode toggle
+function toggleLightMode() {
+    document.body.classList.toggle('light-mode');
+
+    // Update button icon based on the mode
+    toggleButton.textContent = document.body.classList.contains('light-mode') ? '🌞' : '🌙';
+
+    // Save theme preference in localStorage
+    const isLightMode = document.body.classList.contains('light-mode');
+    localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+}
+
+toggleButton.addEventListener('click', toggleLightMode);
+
+// Handle scroll to remove/recreate button
+window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY;
+
+    if (scrollPosition > 20 && isButtonPresent) {
+        // Remove the button if scrolled past 20px
+        toggleButton.remove();
+        isButtonPresent = false;
+    } else if (scrollPosition <= 20 && !isButtonPresent) {
+        // Recreate the button if back at the top
+        toggleButton = document.createElement('button');
+        toggleButton.id = 'light-mode-toggle';
+        toggleButton.ariaLabel = 'Toggle light mode';
+        toggleButton.textContent = document.body.classList.contains('light-mode') ? '🌞' : '🌙';
+        toggleButton.addEventListener('click', toggleLightMode);
+        document.body.appendChild(toggleButton);
+        isButtonPresent = true;
+
+        // Apply styles immediately to match the original button
+        toggleButton.style.position = 'fixed';
+        toggleButton.style.top = '20px';
+        toggleButton.style.right = '20px';
+        toggleButton.style.width = '50px';
+        toggleButton.style.height = '50px';
+        toggleButton.style.backgroundColor = document.body.classList.contains('light-mode')
+            ? '#ffffff'
+            : '#2d2d2d';
+        toggleButton.style.color = document.body.classList.contains('light-mode')
+            ? '#2d2d2d'
+            : '#ffffff';
+        toggleButton.style.borderRadius = '50%';
+        toggleButton.style.cursor = 'pointer';
+        toggleButton.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
+        toggleButton.style.fontSize = '20px';
+        toggleButton.style.zIndex = '1000';
+        toggleButton.style.display = 'flex';
+        toggleButton.style.alignItems = 'center';
+        toggleButton.style.justifyContent = 'center';
+        toggleButton.style.transition = 'background-color 0.3s, color 0.3s, box-shadow 0.3s';
+    }
+});
+
+// Apply saved theme on page load
+window.addEventListener('load', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        toggleButton.textContent = '🌞';
+    } else {
+        toggleButton.textContent = '🌙';
+    }
+});

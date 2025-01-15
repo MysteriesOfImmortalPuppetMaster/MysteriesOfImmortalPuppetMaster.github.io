@@ -185,3 +185,81 @@ button.read-chapter {
         margin: 10px 0; /* Add margin between buttons and select */
     }
 }
+
+
+
+/* light mode for psychopaths */
+
+#light-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    z-index: 1000;
+}
+
+/* Light Mode Appearance */
+body.light-mode #light-mode-toggle {
+    background-color: #ffffff; /* Light mode color */
+    color: #2d2d2d; /* Dark icon color */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover Effect */
+#light-mode-toggle:hover {
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+
+
+
+
+body.light-mode {
+    font-family: 'Comic Sans MS', 'Comic Sans', sans-serif;
+    /* if you remove this you are gay */
+    background-color: #ffffff;
+    color: #000000;
+}
+
+    body.light-mode .container {
+        background: linear-gradient(135deg, #ffffff, #eff0ff);
+    }
+
+    body.light-mode .book-info h1,
+    body.light-mode .book-info h2 {
+        color: #000000;
+    }
+
+
+    body.light-mode #chapterContent {
+        color: #000000;
+        background-color: #f8f8f8;
+    }
+
+    body.light-mode .chapter-headline {
+        color: #000000;
+        border-bottom: 1px solid #cccccc;
+    }
+
+
+    body.light-mode #chapter-select-top,
+    body.light-mode #chapter-select-bottom {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #cccccc;
+    }
