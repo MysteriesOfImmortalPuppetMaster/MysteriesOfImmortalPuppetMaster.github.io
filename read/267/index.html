@@ -364,10 +364,14 @@ As Ning Zhuo continued, Zhu Xuanji's thoughts naturally followed, deducing how S
                 text-overflow: ellipsis; /* Optionally, add ellipsis for overflowing text */
             }
 
-                .comment:hover {
-                    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for a 'pop' effect */
-                    transform: scale(1.01); /* Slightly increase the size */
-                }
+            body.light-mode .comment {
+                color: black;
+            }
+
+            .comment:hover {
+                box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for a 'pop' effect */
+                transform: scale(1.01); /* Slightly increase the size */
+            }
 
             .reply-button {
                 background: none;
@@ -390,6 +394,10 @@ As Ning Zhuo continued, Zhu Xuanji's thoughts naturally followed, deducing how S
             .comment strong {
                 font-size: 1.2em;
                 color: white;
+            }
+
+            body.light-mode .comment strong {
+                color: slategrey;
             }
 
             .comment em {
