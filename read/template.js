@@ -176,7 +176,7 @@ function toggleLightMode() {
     document.body.classList.toggle('light-mode');
 
     // Update button icon based on the mode
-    toggleButton.textContent = document.body.classList.contains('light-mode') ? '🌞' : '🌙';
+    toggleButton.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
 
     // Save theme preference in localStorage
     const isLightMode = document.body.classList.contains('light-mode');
@@ -198,7 +198,7 @@ window.addEventListener('scroll', () => {
         toggleButton = document.createElement('button');
         toggleButton.id = 'light-mode-toggle';
         toggleButton.ariaLabel = 'Toggle light mode';
-        toggleButton.textContent = document.body.classList.contains('light-mode') ? '🌞' : '🌙';
+        toggleButton.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
         toggleButton.addEventListener('click', toggleLightMode);
         document.body.appendChild(toggleButton);
         isButtonPresent = true;
@@ -207,18 +207,18 @@ window.addEventListener('scroll', () => {
         toggleButton.style.position = 'fixed';
         toggleButton.style.top = '20px';
         toggleButton.style.right = '20px';
-        toggleButton.style.width = '50px';
-        toggleButton.style.height = '50px';
+        toggleButton.style.width = '40px'; // Smaller width
+        toggleButton.style.height = '40px'; // Smaller height
         toggleButton.style.backgroundColor = document.body.classList.contains('light-mode')
             ? '#ffffff'
             : '#2d2d2d';
         toggleButton.style.color = document.body.classList.contains('light-mode')
             ? '#2d2d2d'
             : '#ffffff';
-        toggleButton.style.borderRadius = '50%';
+        toggleButton.style.borderRadius = '5px'; // Square corners with slight rounding
         toggleButton.style.cursor = 'pointer';
-        toggleButton.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
-        toggleButton.style.fontSize = '20px';
+        toggleButton.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.2)'; // Subtler shadow
+        toggleButton.style.fontSize = '16px'; // Slightly smaller font
         toggleButton.style.zIndex = '1000';
         toggleButton.style.display = 'flex';
         toggleButton.style.alignItems = 'center';
@@ -232,7 +232,7 @@ window.addEventListener('load', () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
-        toggleButton.textContent = '🌞';
+        toggleButton.textContent = '☀️';
     } else {
         toggleButton.textContent = '🌙';
     }
