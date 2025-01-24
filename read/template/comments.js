@@ -71,8 +71,15 @@ async function fetchCommentsForCurrentSource() {
         const rootComments = [];
         comments.forEach(comment => {
             if (comment.nested !== null) {
-                commentsMap[comment.nested]?.replies.push(commentsMap[comment.ID]);
+                if (commentsMap[comment.nested]) {
+                    // If the comment it's replying to exists, add it as a reply
+                    commentsMap[comment.nested].replies.push(commentsMap[comment.ID]);
+                } else {
+                    // If the parent comment does not exist, treat it as a root-level comment
+                    rootComments.push(commentsMap[comment.ID]);
+                }
             } else {
+                // If the comment is not a reply, treat it as a root-level comment
                 rootComments.push(commentsMap[comment.ID]);
             }
         });
