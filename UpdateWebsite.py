@@ -147,7 +147,7 @@ def Super_NewADDEDCHapterFunction():
 
         # Parse UTC dates and limit entries
         while len(entries) > 5:
-            print("doing something")
+            print("limiting entries")
             latest_entry_date = datetime.strptime(entries[0]['data-utc'], '%Y-%m-%dT%H:%M:%SZ')
             last_entry_date = datetime.strptime(entries[-1]['data-utc'], '%Y-%m-%dT%H:%M:%SZ')
 
