@@ -83,7 +83,10 @@ async function fetchCommentsForCurrentSource() {
                 rootComments.push(commentsMap[comment.ID]);
             }
         });
-
+        
+        rootComments.forEach(comment => {
+            comment.replies.reverse();
+        });
         // Recursive function to render comments
         function renderComments(comments, parentElement, level = 0) {
             comments.forEach(comment => {
