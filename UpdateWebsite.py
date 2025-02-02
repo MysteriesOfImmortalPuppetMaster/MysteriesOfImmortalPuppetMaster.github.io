@@ -10,6 +10,8 @@ from datetime import timedelta
 from bs4 import BeautifulSoup
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 # ==========================================
@@ -283,7 +285,111 @@ def main():
 
     print("Subfolders created, and index.html generated inside each one.")
     Super_NewADDEDCHapterFunction()
+    super_audio_function()
     print("Python Script completed. Console can be closed now")
+
+
+def super_audio_function():
+    INJECTED_HTML = """
+    <p id="folderInfo" class="timer"></p>
+    <div class="bigbox">
+        <div class="audio-controls">
+            <button id="playPauseBtn">▶</button>
+        </div>
+        <div class="smlboxplusTime">
+            <div class="smlbox">
+                <canvas id="visualizer"></canvas>
+                <div id="progressBarContainer">
+                    <div id="progressBar"></div>
+                </div>
+            </div>
+            <div class="timer-container">
+                <span id="currentTime" class="timer">0:00</span>
+                <span id="totalTime" class="timer">3:45</span>
+            </div>
+        </div>
+    </div>
+    <div class="volume-container">
+        <span class="audio-icon">🔊</span>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+    </div>
+    <audio id="currentAudio" style="display:none;" preload="auto" crossOrigin="anonymous"></audio>
+    <audio id="nextAudio" style="display:none;" preload="auto" crossOrigin="anonymous"></audio>
+    <script src="../audioDisplay.js"></script>
+    <link rel="stylesheet" href="../audioDisplay.css">
+    """
+
+    BASE_AUDIO_URL = "https://mysteriesofimmortalpuppetmaster.github.io/audioStash/"
+    READ_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "read")
+
+    def check_audio_metadata(url):
+        try:
+            response = requests.head(url)
+            return response.status_code == 200
+        except requests.RequestException as e:
+            print(f"[ERROR] Failed to request {url}: {e}")
+            return False
+
+    def process_subdirectory(folder_path, folder_name, exists):
+        index_file = os.path.join(folder_path, "index.html")
+        if not os.path.isfile(index_file):
+            print(f"[INFO] No index.html found in {folder_path}, skipping.")
+            return
+
+        with open(index_file, "r", encoding="utf-8") as f:
+            soup = BeautifulSoup(f, "html.parser")
+
+        player_div = soup.find("div", class_="player-container")
+        if not player_div:
+            print(f"[INFO] No <div class='player-container'> found in {index_file}, skipping.")
+            return
+
+        # Set the audio source attribute regardless of whether metadata exists.
+        audio_src = f"{BASE_AUDIO_URL}{folder_name}"
+        player_div["audio-src"] = audio_src
+
+        if exists:
+            print(f"[INFO] Found audio_metadata.json for folder '{folder_name}'. Injecting HTML snippet.")
+            player_div.clear()
+            player_div.insert(0, BeautifulSoup(INJECTED_HTML, "html.parser"))
+        else:
+            print(f"[INFO] audio_metadata.json not found for folder '{folder_name}'. Leaving the div unchanged.")
+
+        with open(index_file, "w", encoding="utf-8") as f:
+            f.write(str(soup))
+        print(f"[INFO] Updated {index_file}")
+
+    def main2():
+        if not os.path.isdir(READ_DIR):
+            print(f"[ERROR] The folder {READ_DIR} does not exist.")
+            return
+
+        # Gather folder names and their corresponding audio_metadata URLs.
+        folders = []
+        for entry in os.listdir(READ_DIR):
+            folder_path = os.path.join(READ_DIR, entry)
+            if os.path.isdir(folder_path):
+                folders.append((entry, folder_path))
+            else:
+                print(f"[DEBUG] {entry} is not a directory, skipping.")
+
+        # Check for audio_metadata.json concurrently.
+        results = {}
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            future_to_folder = {
+                executor.submit(check_audio_metadata, f"{BASE_AUDIO_URL}{folder_name}/audio_metadata.json"): (folder_name, folder_path)
+                for folder_name, folder_path in folders
+            }
+            for future in as_completed(future_to_folder):
+                folder_name, folder_path = future_to_folder[future]
+                exists = future.result()
+                results[folder_name] = (folder_path, exists)
+
+        # Process each folder using the result from the HEAD request.
+        for folder_name, (folder_path, exists) in results.items():
+            print(f"[INFO] Processing folder: {folder_name}")
+            process_subdirectory(folder_path, folder_name, exists)
+    main2()
 
 if __name__ == '__main__':
     main()
