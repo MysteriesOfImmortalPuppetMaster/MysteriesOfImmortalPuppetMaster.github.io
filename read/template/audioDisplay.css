@@ -68,7 +68,7 @@
     min-width: 95px; /* Minimum width to prevent squeezing */
 }
 
-button {
+#playPauseBtn {
     background-color: #007bff;
     border: none;
     border-radius: 50%;
@@ -83,7 +83,7 @@ button {
     transition: background-color 0.3s ease;
 }
 
-    button:hover {
+    #playPauseBtn:hover {
         background-color: #0056b3;
     }
 
