@@ -5,7 +5,7 @@
 <meta content='A fan-translation of the book "Mysteries Of Immortal Puppet Master."' name="description"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="https://i.imgur.com/5QU6ZWZ.png" property="og:image">
+<meta content="https://i.imgur.com/5QU6ZWZ.png" property="og:image"/>
 <title>Mysteries Of Immortal Puppet Master - Chapter 268: Ning Xiaohui's Testimony Before Death</title>
 <link href="../../ppt1.webp" rel="icon" type="image/webp"/>
 <link href="../template.css" rel="stylesheet"/> <!-- Link to the updated template CSS -->
@@ -17,7 +17,7 @@
         gtag('js', new Date());
         gtag('config', 'G-2XEFBZ7YNS');
     </script>
-</meta></head>
+</head>
 <body>
 <div class="container">
 <header class="book-info-container">
@@ -32,6 +32,41 @@
 <!-- Options will be dynamically populated by JavaScript -->
 </select>
 <button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
+</div>
+<div audio-src="https://mysteriesofimmortalpuppetmaster.github.io/audioStash/268" class="player-container">
+<p class="timer" id="folderInfo"></p>
+<div class="bigbox">
+<!-- Play/Pau<div class="audio-controls">se + Timers -->
+<div class="audio-controls">
+<button id="playPauseBtn">▶</button>
+</div>
+<div class="smlboxplusTime">
+<div class="smlbox">
+<!-- Visualization canvas -->
+<canvas id="visualizer">
+</canvas>
+<!-- Custom progress bar -->
+<div id="progressBarContainer">
+<div id="progressBar"></div>
+</div>
+</div>
+<!-- Timers below the bar -->
+<div class="timer-container">
+<span class="timer" id="currentTime">0:00</span>
+<span class="timer" id="totalTime">3:45</span>
+</div>
+</div>
+</div>
+<!-- Volume Control -->
+<div class="volume-container">
+<span class="audio-icon">🔊</span>
+<input id="volumeControl" max="1" min="0" step="0.01" type="range" value="0.5"/>
+</div>
+<!-- Hidden audio elements for chunk preloading -->
+<audio crossorigin="anonymous" id="currentAudio" preload="auto" style="display:none;"></audio>
+<audio crossorigin="anonymous" id="nextAudio" preload="auto" style="display:none;"></audio>
+<script src="../audioDisplay.js"></script>
+<link href="../audioDisplay.css" rel="stylesheet"/>
 </div>
 <!-- New Headline Section -->
 <div class="chapter-headline" id="chapterHeadline"><h2>Chapter 268: Ning Xiaohui's Testimony Before Death</h2></div>

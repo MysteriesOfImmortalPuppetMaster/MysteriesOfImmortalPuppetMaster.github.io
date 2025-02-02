@@ -1,0 +1,137 @@
+
+
+.player-container {
+    background: #1e1e1e;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    border-radius: 3px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    width: 90%;
+    margin-top: 20px;
+  
+}
+
+#folderSelect {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #f5f5f5;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+#visualizer {
+    top: 9px;
+    width: 100%;
+    height: 86%;
+    border-radius: 5px;
+    background-color: transparent;
+    position: relative; /* Allows positioning of child elements */
+    clip-path: inset(0 0 50% 0); /* Clip the bottom half of the visualizer */
+    overflow: hidden; /* Ensure no content spills out */
+}
+
+
+#progressBarContainer {
+    position: relative;
+    bottom: 20px;
+    height: 20px;
+    width: 100%;
+    background-color: #444;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#progressBar {
+    position: absolute; /* Place the bar within the visualizer */
+    bottom: 0; /* Align the progress bar to the bottom of the visualizer */
+    left: 0;
+    height: 12px; /* Bar height */
+    width: 0%; /* Dynamic width will represent progress */
+    border-radius: 4px;
+    background-color: #00bfff;
+    transition: width 0.1s linear;
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 20%;
+    min-width: 95px; /* Minimum width to prevent squeezing */
+}
+
+button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+.timer {
+    color: #b3b3b3;
+    font-size: 14px;
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+    .volume-container input[type="range"] {
+        flex-grow: 1;
+        accent-color: #1e90ff;
+    }
+
+.audio-icon {
+    font-size: 24px;
+    color: #00bfff;
+}
+
+.bigbox {
+    display: flex; /* Lay out play button and content side by side */
+    align-items: center; /* Vertically align items */
+    
+    width: 100%;
+    height: 70px;
+}
+
+.smlbox {
+    width: 100%;
+    height: 85%;
+}
+
+.smlboxplusTime {
+    width: 100%;
+    height: 100%;
+}
+
+.timer-container {
+    position: relative;
+    height: 15%;
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Push first and second text to opposite ends */
+    width: 100%; /* Ensure it spans the container width */
+}

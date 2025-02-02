@@ -83,7 +83,7 @@ async function fetchCommentsForCurrentSource() {
                 rootComments.push(commentsMap[comment.ID]);
             }
         });
-        
+
         rootComments.forEach(comment => {
             comment.replies.reverse();
         });
