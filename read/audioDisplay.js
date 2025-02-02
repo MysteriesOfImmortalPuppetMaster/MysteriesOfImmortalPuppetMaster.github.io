@@ -49,7 +49,7 @@ async function loadURLMetadata(URL) {
     console.log(`[loadURLMetadata] Attempting to load metadata from URL: ${URL}`);
 
     try {
-        // Changed: Use the provided URL to fetch metadata
+        // Fetch metadata
         const metadataUrl = `${URL}/audio_metadata.json`;
         console.log(`[loadURLMetadata] Fetching JSON: ${metadataUrl}`);
 
@@ -61,9 +61,7 @@ async function loadURLMetadata(URL) {
         const metadata = await resp.json();
         console.log("[loadURLMetadata] Received metadata:", metadata);
 
-        // Changed: Updated display text to show URL instead of folder
-
-
+        // Reset arrays and variables
         chunkFiles = [];
         chunkDurations = [];
         chunkBaseTimes = [];
@@ -81,20 +79,14 @@ async function loadURLMetadata(URL) {
             chunkBaseTimes[i] = i === 0 ? 0 : chunkBaseTimes[i - 1] + chunkDurations[i - 1];
         }
 
+        // Update total track length and display
         totalTrackLength = metadata.total_duration;
         totalTimeSpan.textContent = formatTime(totalTrackLength);
 
-        // Changed: Use full URL paths for audio sources
-        if (chunkFiles.length > 0) {
-            currentAudio.src = `${URL}/${chunkFiles[0]}`;
-            console.log("[loadURLMetadata] currentAudio.src set to:", currentAudio.src);
-            if (chunkFiles.length > 1) {
-                nextAudio.src = `${URL}/${chunkFiles[1]}`;
-                console.log("[loadURLMetadata] nextAudio.src preloaded to:", nextAudio.src);
-            }
-        } else {
-            console.warn("[loadURLMetadata] No chunkFiles found in metadata!");
-        }
+        // Clear audio sources to prevent pre-fetching
+        currentAudio.removeAttribute('src');
+        nextAudio.removeAttribute('src');
+        console.log("[loadURLMetadata] Cleared audio sources to prevent pre-fetching.");
 
     } catch (error) {
         console.error("[loadURLMetadata] Error:", error);
@@ -105,29 +97,32 @@ playPauseBtn.addEventListener('click', () => {
     console.log("[playPauseBtn] Clicked. isPlaying currently:", isPlaying);
 
     if (!audioCtx) {
-        console.log("[playPauseBtn] Creating new AudioContext...");
         audioCtx = new AudioContext();
     }
     if (audioCtx.state === 'suspended') {
-        console.log("[playPauseBtn] Resuming suspended AudioContext...");
         audioCtx.resume();
     }
 
     if (isPlaying) {
-        // If we are currently playing, then pause
-        console.log("[playPauseBtn] Pausing currentAudio at time:", currentAudio.currentTime);
         currentAudio.pause();
         playPauseBtn.textContent = '▶';
     } else {
-        // If we are currently paused, then play
-        console.log("[playPauseBtn] Attempting to play currentAudio. Current time:", currentAudio.currentTime);
+        // Check if sources need to be set up (first play)
+        if (!currentAudio.src) {
+            currentAudio.src = `${URL}/${chunkFiles[0]}`;
+            console.log("[playPauseBtn] Set currentAudio.src to:", currentAudio.src);
+            if (chunkFiles.length > 1) {
+                nextAudio.src = `${URL}/${chunkFiles[1]}`;
+                console.log("[playPauseBtn] Preloaded nextAudio.src to:", nextAudio.src);
+            }
+        }
+
         connectAnalyser(currentAudio);
         currentAudio.play().catch(err => console.error("[playPauseBtn] Play error:", err));
         playPauseBtn.textContent = '⏸';
     }
 
     isPlaying = !isPlaying;
-    console.log("[playPauseBtn] isPlaying is now:", isPlaying);
 });
 
 volumeControl.addEventListener('input', (ev) => {
