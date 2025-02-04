@@ -68,3 +68,13 @@ Up until the near end of the completion of this site, i was not aware that share
 I used to paste every file inside /template into every chapter folder.
 T.L.D.R.
 I made it cuz its dumb, and i am too lazy to change it.
+
+
+
+-update 02/03/25
+made a bunch of changes to the site.
+At this point, its hopeless.
+just give me a github message and i'll try to figure out how to configure this site.
+it has so many variables and stuff, that it would be a matter of hours just to configure this for a different book.
+maybe i'll make the site truely functional and just base it on a bunch of files.
+maybe i won't, cuz thats a lot of work.
