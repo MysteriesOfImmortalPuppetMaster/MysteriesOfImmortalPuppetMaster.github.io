@@ -14,11 +14,8 @@ import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import sys
 
-# ==========================================
-# Start of JsonCreator.py code
-# ==========================================
 
-# Define the directory where your chapter files are located
+
 chapters_dir = './chapters'
 output_file = 'chapters.json'
 
@@ -61,23 +58,17 @@ def save_to_json(data, output_path):
     with open(output_path, 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file, indent=4)
 
-# ==========================================
-# End of JsonCreator.py code
-# ==========================================
 
-# ==========================================
-# Start of UpdateAllTheSubfolders.py code
-# ==========================================
 
-# Base directory for everything to be isolated inside HomepageTEST
+
 base_dir = 'MysteriesOfImmortalPuppetMaster.github.io'
 
-# Paths
+
 chapters_json_path = os.path.join('chapters.json')
 chapters_folder = os.path.join('chapters')
 read_folder = os.path.join('read')
-template_html_path = os.path.join(read_folder, 'template.html')  # Adjusted from .template.html
-template_folder_path = os.path.join(read_folder, 'template')     # Adjusted from .template
+template_html_path = os.path.join(read_folder, 'template.html')  
+template_folder_path = os.path.join(read_folder, 'template')     
 
 
 
@@ -85,7 +76,7 @@ template_folder_path = os.path.join(read_folder, 'template')     # Adjusted from
 
 
 def Super_NewADDEDCHapterFunction():
-    # Load chapters.json
+ 
     def load_chapters(json_file):
         with open(json_file, 'r', encoding='utf-8') as file:
             return json.load(file)
@@ -395,6 +386,4 @@ if __name__ == '__main__':
     main()
 
 
-# ==========================================
-# End of UpdateAllTheSubfolders.py code
-# ==========================================
+
