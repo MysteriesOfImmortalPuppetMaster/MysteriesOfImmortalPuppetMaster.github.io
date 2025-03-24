@@ -1,0 +1,27 @@
+
+#custom-notification-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #ff5733; /* Custom red-orange color */
+    padding: 15px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    display: none; /* Hidden by default */
+    font-family: Arial, sans-serif;
+}
+
+#custom-notification-banner .custom-banner-close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    background: black;
+    padding: 5px 10px;
+    border-radius: 50%;
+}
