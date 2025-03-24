@@ -13,7 +13,10 @@ from datetime import datetime, timedelta
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import sys
-
+import os
+import asyncio
+import aiohttp
+from bs4 import BeautifulSoup
 
 
 chapters_dir = './chapters'
@@ -276,11 +279,12 @@ def main():
 
     print("Subfolders created, and index.html generated inside each one.")
     Super_NewADDEDCHapterFunction()
-    super_audio_function()
+    super_audio_function_old()
+    #asyncio.run (super_audio_function())
     print("Python Script completed. Console can be closed now")
 
 
-def super_audio_function():
+def super_audio_function_old():
     INJECTED_HTML = """
     <p id="folderInfo" class="timer"></p>
     <div class="bigbox">
@@ -382,6 +386,112 @@ def super_audio_function():
             process_subdirectory(folder_path, folder_name, exists)
     main2()
 
+async def super_audio_function():
+    INJECTED_HTML = """
+    <p id="folderInfo" class="timer"></p>
+    <div class="bigbox">
+        <div class="audio-controls">
+            <button id="playPauseBtn">▶</button>
+        </div>
+        <div class="smlboxplusTime">
+            <div class="smlbox">
+                <canvas id="visualizer"></canvas>
+                <div id="progressBarContainer">
+                    <div id="progressBar"></div>
+                </div>
+            </div>
+            <div class="timer-container">
+                <span id="currentTime" class="timer">0:00</span>
+                <span id="totalTime" class="timer">3:45</span>
+            </div>
+        </div>
+    </div>
+    <div class="volume-container">
+        <span class="audio-icon">🔊</span>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+    </div>
+    <audio id="currentAudio" style="display:none;" preload="auto" crossOrigin="anonymous"></audio>
+    <audio id="nextAudio" style="display:none;" preload="auto" crossOrigin="anonymous"></audio>
+    <script src="../audioDisplay.js"></script>
+    <link rel="stylesheet" href="../audioDisplay.css">
+    """
+
+    BASE_AUDIO_URL = "https://mysteriesofimmortalpuppetmaster.github.io/audioStash/"
+    READ_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "read")
+
+
+    async def check_audio_metadata(session, url, semaphore):
+        async with semaphore:
+            try:
+                async with session.head(url) as response:
+                    return response.status == 200
+            except Exception as e:
+                print(f"[ERROR] Failed to request {url}: {e}")
+                return False
+
+
+    def process_subdirectory(folder_path, folder_name, exists):
+        index_file = os.path.join(folder_path, "index.html")
+        if not os.path.isfile(index_file):
+            print(f"[INFO] No index.html found in {folder_path}, skipping.")
+            return
+
+        with open(index_file, "r", encoding="utf-8") as f:
+            soup = BeautifulSoup(f, "html.parser")
+
+        player_div = soup.find("div", class_="player-container")
+        if not player_div:
+            print(f"[INFO] No <div class='player-container'> found in {index_file}, skipping.")
+            return
+
+        audio_src = f"{BASE_AUDIO_URL}{folder_name}"
+        player_div["audio-src"] = audio_src
+
+        if exists:
+            print(f"[INFO] Found audio_metadata.json for folder '{folder_name}'. Injecting HTML snippet.")
+            player_div.clear()
+            player_div.insert(0, BeautifulSoup(INJECTED_HTML, "html.parser"))
+        else:
+            print(f"[INFO] audio_metadata.json not found for folder '{folder_name}'. Leaving the div unchanged.")
+
+        with open(index_file, "w", encoding="utf-8") as f:
+            f.write(str(soup))
+
+        # Log the updated file
+        print(f"[UPDATED] {index_file}")
+
+
+    async def main_async():
+        if not os.path.isdir(READ_DIR):
+            print(f"[ERROR] The folder {READ_DIR} does not exist.")
+            return
+
+        # Gather folder names and their corresponding audio_metadata URLs.
+        folders = []
+        for entry in os.listdir(READ_DIR):
+            folder_path = os.path.join(READ_DIR, entry)
+            if os.path.isdir(folder_path):
+                folders.append((entry, folder_path))
+            else:
+                print(f"[DEBUG] {entry} is not a directory, skipping.")
+
+        semaphore = asyncio.Semaphore(50)  # Limit to 50 concurrent requests
+        async with aiohttp.ClientSession() as session:
+            tasks = {
+                folder_name: asyncio.create_task(
+                    check_audio_metadata(session, f"{BASE_AUDIO_URL}{folder_name}/audio_metadata.json", semaphore)
+                )
+                for folder_name, _ in folders
+            }
+            results = {}
+            for folder_name, folder_path in folders:
+                exists = await tasks[folder_name]
+                results[folder_name] = (folder_path, exists)
+
+        # Process each folder using the result from the HEAD request.
+        for folder_name, (folder_path, exists) in results.items():
+            print(f"[INFO] Processing folder: {folder_name}")
+            process_subdirectory(folder_path, folder_name, exists) #not used atm it stinks and doesnt work
 if __name__ == '__main__':
     main()
 
