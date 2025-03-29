@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content='A fan-translation of the book "Mysteries Of Immortal Puppet Master."' name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="https://i.imgur.com/5QU6ZWZ.png" property="og:image"/>
+<title>Mysteries Of Immortal Puppet Master - Apology!</title>
+<link href="../../ppt1.webp" rel="icon" type="image/webp"/>
+<link href="../template.css" rel="stylesheet"/> <!-- Link to the updated template CSS -->
+<!-- Google Analytics tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2XEFBZ7YNS"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-2XEFBZ7YNS');
+    </script>
+</head>
+<body>
+<div class="container">
+<header class="book-info-container">
+<div class="book-info">
+<h1><a href="../../" style="text-decoration: none; color: inherit;">Mysteries Of Immortal Puppet Master</a></h1>
+</div>
+</header>
+<div class="bottomButtons">
+<button class="read-chapter" onclick="prevChapter()">Previous Chapter</button>
+<!-- Dropdown for selecting a chapter -->
+<select id="chapter-select-top" onchange="selectChapter(event)">
+<!-- Options will be dynamically populated by JavaScript -->
+</select>
+<button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
+</div>
+<div audio-src="https://mysteriesofimmortalpuppetmaster.github.io/audioStash/561.1" class="player-container">
+</div>
+<!-- New Headline Section -->
+<div class="chapter-headline" id="chapterHeadline"><h2>Apology!</h2></div>
+<div id="chapterContent"><br/>
+A sincere apology to everyone!<br/>
+<br/>
+Looking back at March, I only released two new chapters, totaling just over 10,000 words, while taking multiple leaves of absence - this is truly inexcusable.<br/>
+<br/>
+Plans are always beautiful, but executing them often turns into a mess.<br/>
+<br/>
+Most importantly, I feel deeply ashamed for failing to meet everyone's expectations - this is entirely my fault!<br/>
+<br/>
+One person's time and energy are very limited. I need to study and seek advice in multiple ways to find a sustainable approach to fulfilling my commitments. Fortunately, I have recently made some promising progress!<br/>
+<br/>
+The ten-year commitment I proposed will not be abandoned - I will remain steadfast throughout these ten years.<br/>
+<br/>
+Those familiar with my work know that the update frequency of "Mysteries of Immortal Puppet Master" far exceeds that of "Reverend Insanity" and "Infinite Blood Core". Maintaining a steady update volume has always been a challenge for me, especially as an author who follows a strict outline-driven approach.<br/>
+<br/>
+Since I started updating in April last year, I've had to work late into the night, with most of my bedtimes falling between 2 to 3 AM.<br/>
+<br/>
+Over the past year, through learning and seeking advice, I've come to understand the difficulties ahead. The ten-year commitment I made with everyone is an arduous and challenging journey. While I have made some progress, it's only the first step - a mere starting point.<br/>
+<br/>
+Regardless of what the final outcome of these ten years may be, at the very least, I can say to myself: I have never slacked off or given up. I have been pushing myself to my limits and striving with all my strength.<br/>
+<br/>
+I am only human-flesh and blood. I get tired, I feel pain, and I need time to adjust and adapt. Please allow me some time to readjust and regain my footing.<br/>
+<br/>
+That said, underperforming is still underperforming. I take full responsibility, and I sincerely apologize to all my supportive readers!<br/>
+<br/>
+In April, I will join the reader community to personally apologize and engage in direct discussions. I will listen to your criticisms and suggestions!<br/>
+<br/>
+I am truly sorry, everyone!</div>
+<button aria-label="Toggle light mode" id="light-mode-toggle">
+            🌙
+        </button>
+<footer>
+<div class="bottomButtons">
+<button class="read-chapter" onclick="prevChapter()">Previous Chapter</button>
+<!-- Dropdown for selecting a chapter -->
+<select id="chapter-select-bottom" onchange="selectChapter(event)">
+<!-- Options will be dynamically populated by JavaScript -->
+</select>
+<button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
+</div>
+</footer>
+<div class="commentInputSection">
+<h3>Leave a Comment</h3>
+<form id="commentForm">
+<label for="nameInput">Name (optional):</label><br/>
+<input id="nameInput" maxlength="25" placeholder="Anonymous" type="text"/><br/><br/>
+<label for="commentInput">Comment:</label><br/>
+<div style="position: relative;">
+<textarea id="commentInput" maxlength="250" placeholder="Write your comment here" rows="4"></textarea>
+<span id="charCounter">250</span>
+</div>
+<button type="submit">Submit Comment</button>
+</form>
+</div>
+<div class="mainCommentSection">
+            Loading comments...
+        </div>
+<style>
+            .commentInputSection {
+                margin-top: 30px;
+                margin-bottom: 2px;
+                padding: 10px;
+                background: rgba(0, 0, 0, 0);
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                border-radius: 1px;
+            }
+
+                .commentInputSection input[type="text"] {
+                    min-width: 200px;
+                    width: 30%;
+                    background: linear-gradient(to bottom,#343434,#343434);
+                    border: 1px solid #ccc;
+                    color: #ffffff; /* Text color */
+                    padding: 5px;
+                    border-radius: 3px;
+                }
+
+                .commentInputSection textarea {
+                    width: 90%;
+                    box-sizing: border-box; /* Ensures padding and border are included in width */
+                    background: linear-gradient(to bottom,#343434,#343434); /* Light gradient */
+                    border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+                    padding: 10px; /* Optional: Add padding for better usability */
+                    border-radius: 3px; /* Optional: Rounded corners */
+                    font-size: 14px; /* Optional: Improve text visibility */
+                    color: #ffffff;
+                }
+
+            #charCounter {
+                position: absolute;
+                bottom: 8px;
+                right: 10px;
+                font-size: 0.85em;
+                color: #666;
+                pointer-events: none;
+            }
+
+            .commentInputSection h3 {
+                margin-top: 0;
+            }
+            /*the large box with all the comments inside*/
+            .mainCommentSection {
+                padding: 10px;
+                background: rgba(0, 0, 0, 0);
+                border-bottom: 1px solid #ddd;
+                border-radius: 1px;
+            }
+
+
+            .commentInputSection button[type="submit"] {
+                width: 150px; /* Adjust width of buttons */
+                padding: 10px 10px;
+                background: linear-gradient(135deg, #3b8ccb, #2d85ec); /* Blue gradient */
+                border: none;
+                color: whitesmoke;
+                font-size: 16px; /* Default font size */
+                cursor: pointer;
+                border-radius: 8px;
+                display: block;
+                text-align: center;
+                transition: background 0.3s ease, box-shadow 0.3s ease;
+                white-space: nowrap; /* Prevent text wrapping */
+            }
+
+                .commentInputSection button[type="submit"]:hover {
+                    background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                }
+            /*comment box*/
+            .comment {
+                padding-bottom: 10px;
+                padding: 5px;
+                border-bottom: 1px solid #ccc;
+                color: #D8D9D9;
+                overflow-wrap: break-word; /* Modern equivalent of word-wrap */
+                white-space: normal; /* Prevent text from sticking to a single line */
+                overflow: hidden; /* Prevent horizontal scrolling */
+                text-overflow: ellipsis; /* Optionally, add ellipsis for overflowing text */
+            }
+
+            body.light-mode .comment {
+                color: black;
+            }
+
+            .comment:hover {
+                box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for a 'pop' effect */
+                transform: scale(1.01); /* Slightly increase the size */
+            }
+
+            .reply-button {
+                background: none;
+                color: #007bff;
+                border: none;
+                font-size: 14px;
+                cursor: pointer;
+                padding: 0;
+            }
+
+                .reply-button:hover {
+                    color: deepskyblue;
+                }
+
+
+            .comment:last-child {
+                border-bottom: none;
+            }
+
+            .comment strong {
+                font-size: 1.2em;
+                color: white;
+            }
+
+            body.light-mode .comment strong {
+                color: slategrey;
+            }
+
+            .comment em {
+                color: #888;
+                font-size: 0.9em;
+            }
+
+            #charCounter {
+                position: relative;
+                bottom: 8px;
+                right: 50px;
+                font-size: 0.85em;
+                color: grey; /* Default color */
+                pointer-events: none; /* Prevent interaction with the counter */
+            }
+
+
+
+            textarea {
+                resize: none; /* Prevents resizing */
+            }
+        </style>
+</div>
+<script async="" src="../template.js"></script>
+<script src="../comments.js"></script>
+</body>
+</html>
