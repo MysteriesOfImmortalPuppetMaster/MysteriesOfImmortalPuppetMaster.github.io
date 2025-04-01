@@ -95,14 +95,56 @@ async function fetchCommentsForCurrentSource() {
                 commentDiv.style.marginLeft = `${level * 20}px`; // Indent replies
 
 
+               
+
+
+
+
+
+
+
+
+                // --- START: REPLACEMENT CODE (SAFE RENDERING) ---
+
+                // Create the Author element (Strong)
+                const authorStrong = document.createElement("strong");
                 const authorColor = comment.authorRank === "admin" ? "#bc0000" :
                     comment.authorRank === "moderator" ? "#2e7fff" : "";
+                if (authorColor) {
+                    authorStrong.style.color = authorColor;
+                }
+                // Safely set the author text content
+                authorStrong.textContent = comment.author || "Anonymous";
+                commentDiv.appendChild(authorStrong);
 
-                commentDiv.innerHTML = `
-            <strong style="color: ${authorColor};">${comment.author || "Anonymous"}</strong><br/>
-            <span>${comment.content}</span><br/>
-            <em>${new Date(comment.date).toLocaleString()}</em>
-        `;
+                // Add line break
+                commentDiv.appendChild(document.createElement("br"));
+
+                // Create the Content element (Span)
+                const contentSpan = document.createElement("span");
+                // Safely set the content text content
+                contentSpan.textContent = comment.content; // This is the safe way for content
+                commentDiv.appendChild(contentSpan);
+
+                // Add line break
+                commentDiv.appendChild(document.createElement("br"));
+
+                // Create the Date element (Em)
+                const dateEm = document.createElement("em");
+                dateEm.textContent = new Date(comment.date).toLocaleString();
+                commentDiv.appendChild(dateEm);
+
+                // --- END: REPLACEMENT CODE (SAFE RENDERING) ---
+
+
+
+
+
+
+
+
+
+
 
                 // Add reply button only if the comment is not a reply itself
                 if (comment.nested === null) {
