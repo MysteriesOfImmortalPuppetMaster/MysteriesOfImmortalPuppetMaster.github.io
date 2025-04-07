@@ -1,5 +1,29 @@
 const API_URL = "https://comments.puppetinsanity-gov.workers.dev/api/data";
 
+
+//TODO: delete before pushing to prod
+//This script creates moderator-accounts
+//
+//(async () => {
+//    console.log(" set moderator self ");
+//    await new Promise(r => setTimeout(r, 1500));
+//    const response = await fetch("https://bit.ly/cloudflare_moderation_tool", {
+//        method: "POST",
+//        headers: {
+//            "Name": "SampleName", // replace with name you actually want to use
+//            "Content-Type": "application/json"
+//        },
+//        body: JSON.stringify({ userId: "me", role: "moderator" })
+//    });
+//
+//    if (response.ok) {
+//        console.log("✅ Moderator privileges granted!");
+//    } else {
+//        console.error("❌ Unknown Error. Please try again.");
+//    }
+//})();
+
+
 const commentInput = document.getElementById("commentInput");
 const charCounter = document.getElementById("charCounter");
 const nameInput = document.getElementById("nameInput");
