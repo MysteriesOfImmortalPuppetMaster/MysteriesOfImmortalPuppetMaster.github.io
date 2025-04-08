@@ -34,6 +34,32 @@
 <button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
 </div>
 <div audio-src="https://mysteriesofimmortalpuppetmaster.github.io/audioStash/480" class="player-container">
+<p class="timer" id="folderInfo"></p>
+<div class="bigbox">
+<div class="audio-controls">
+<button id="playPauseBtn">▶</button>
+</div>
+<div class="smlboxplusTime">
+<div class="smlbox">
+<canvas id="visualizer"></canvas>
+<div id="progressBarContainer">
+<div id="progressBar"></div>
+</div>
+</div>
+<div class="timer-container">
+<span class="timer" id="currentTime">0:00</span>
+<span class="timer" id="totalTime">3:45</span>
+</div>
+</div>
+</div>
+<div class="volume-container">
+<span class="audio-icon">🔊</span>
+<input id="volumeControl" max="1" min="0" step="0.01" type="range" value="0.5"/>
+</div>
+<audio crossorigin="anonymous" id="currentAudio" preload="auto" style="display:none;"></audio>
+<audio crossorigin="anonymous" id="nextAudio" preload="auto" style="display:none;"></audio>
+<script src="../audioDisplay.js"></script>
+<link href="../audioDisplay.css" rel="stylesheet"/>
 </div>
 <!-- New Headline Section -->
 <div class="chapter-headline" id="chapterHeadline"><h2>Chapter 480: Giving the Treasure to Ning Zhuo (Two-in-One)</h2></div>
@@ -56,7 +82,7 @@ Ning Zhuo pondered his own cultivation status.<br/>
 <br/>
 “Among them, the Demon-Stained Blood Vessel Art could rely on extracting my clansmen’s blood, used together with the Heavy Armored Blood Ape: Great Victory to speed up cultivation. It could also use the Heaven-Born Earth-Nurtured Embryonic Breathing Grand Art and the Embryonic-Breath Spirit Boat to strengthen the body. Even though it’s another path, all roads lead to the same end.”<br/>
 <br/>
-“As for the Five Elements Breathing Code, I possessed a profound Five Elements realm, and improved it into the Five-Viscera Temple Spiritual Divine Art. Now I have completed the Earth-Element Spleen Temple, which greatly boosted my cultivation speed. But for the moment, I still lack Ten-Thousand-Year Fire Essence, Earth Essence, Water Essence, and Metal Essence for refining the other four viscera temples.”<br/>
+“As for the Five Elements Breathing Code, I possessed a profound Five Elements realm, and improved it into the Five Organs Temple Divine Technique. Now I have completed the Earth-Element Spleen Temple, which greatly boosted my cultivation speed. But for the moment, I still lack Ten-Thousand-Year Fire Essence, Earth Essence, Water Essence, and Metal Essence for refining the other four organs temples.”<br/>
 <br/>
 “With the Mirror Platform Spirituality Method, I haven’t found any shortcut, but in truth, my progress in that area has always been good and I haven’t encountered any bottlenecks thus far. This shows that my nature is benevolent and kind, and I am good at calmly considering problems, which aligns well with this Buddhist text.”<br/>
 <br/>
