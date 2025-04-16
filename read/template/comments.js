@@ -146,6 +146,7 @@ async function fetchCommentsForCurrentSource() {
 
                 // Create the Content element (Span)
                 const contentSpan = document.createElement("span");
+                contentSpan.style.whiteSpace = "pre-line";
                 // Safely set the content text content
                 contentSpan.textContent = comment.content; // This is the safe way for content
                 commentDiv.appendChild(contentSpan);
