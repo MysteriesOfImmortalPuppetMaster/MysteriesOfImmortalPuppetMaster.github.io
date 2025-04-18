@@ -1,4 +1,4 @@
-const API_URL = "https://comments.pptinsanity.workers.dev/api/data";
+const API_URL = "https://commentator-worker.pptinsanity.workers.dev/api/data";
 
 
 //TODO: delete before pushing to prod
