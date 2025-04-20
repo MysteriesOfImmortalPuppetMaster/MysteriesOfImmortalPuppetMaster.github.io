@@ -34,6 +34,32 @@
 <button class="read-chapter" onclick="nextChapter()">Next Chapter</button>
 </div>
 <div audio-src="https://mysteriesofimmortalpuppetmaster.github.io/audioStash/375" class="player-container">
+<p class="timer" id="folderInfo"></p>
+<div class="bigbox">
+<div class="audio-controls">
+<button id="playPauseBtn">▶</button>
+</div>
+<div class="smlboxplusTime">
+<div class="smlbox">
+<canvas id="visualizer"></canvas>
+<div id="progressBarContainer">
+<div id="progressBar"></div>
+</div>
+</div>
+<div class="timer-container">
+<span class="timer" id="currentTime">0:00</span>
+<span class="timer" id="totalTime">3:45</span>
+</div>
+</div>
+</div>
+<div class="volume-container">
+<span class="audio-icon">🔊</span>
+<input id="volumeControl" max="1" min="0" step="0.01" type="range" value="0.5"/>
+</div>
+<audio crossorigin="anonymous" id="currentAudio" preload="auto" style="display:none;"></audio>
+<audio crossorigin="anonymous" id="nextAudio" preload="auto" style="display:none;"></audio>
+<script src="../audioDisplay.js"></script>
+<link href="../audioDisplay.css" rel="stylesheet"/>
 </div>
 <!-- New Headline Section -->
 <div class="chapter-headline" id="chapterHeadline"><h2>Chapter 375: Asking Senior Brother for Help Again</h2></div>
