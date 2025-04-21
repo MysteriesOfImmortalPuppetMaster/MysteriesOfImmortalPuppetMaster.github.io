@@ -59,9 +59,8 @@ async function fetchCommentsForCurrentSource() {
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            //throw new Error(`Failed to fetch comment: ${response.status}${errorData?.message ? `: ${errorData.message}` : ''}`);
-            alert(`Failed to fetch comment: ${errorData}`);
+            const errorText = await response.text();
+            alert(`Failed to fetch comments: ${errorText}`);
         }
 
         const comments = await response.json();
