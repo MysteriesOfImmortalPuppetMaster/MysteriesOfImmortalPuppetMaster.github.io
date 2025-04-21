@@ -273,9 +273,8 @@ async function fetchCommentsForCurrentSource() {
                                 });
 
                                 if (!response.ok) {
-                                    const errorData = await response.json().catch(() => null);
-                                    //throw new Error(`Failed to submit reply: ${response.status}${errorData?.message ? `: ${errorData.message}` : ''}`);
-                                    alert(`Failed to submit reply: ${errorData}`);
+                                    const errorText = await response.text();
+                                    alert(`Failed to submit reply: ${errorText}`);
                                 }
 
                                 alert("Reply submitted successfully!");
@@ -330,9 +329,8 @@ async function submitComment(event) {
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            //throw new Error(`Failed to submit comment: ${response.status}${errorData?.message ? `: ${errorData.message}` : ''}`);
-            alert(`Failed to submit comment: ${errorData}`);
+            const errorText = await response.text();
+            alert(`Failed to submit comment: ${errorText}`);
         }
 
         alert("Comment submitted successfully!");
