@@ -59,7 +59,8 @@ async function fetchCommentsForCurrentSource() {
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch comments: ${response.status}`);
+            const errorData = await response.json().catch(() => null);
+            throw new Error(`Failed to fetch comment: ${response.status}${errorData?.message ? `: ${errorData.message}` : ''}`);
         }
 
         const comments = await response.json();
@@ -272,7 +273,8 @@ async function fetchCommentsForCurrentSource() {
                                 });
 
                                 if (!response.ok) {
-                                    throw new Error(`Failed to submit reply: ${response.status}`);
+                                    const errorData = await response.json().catch(() => null);
+                                    throw new Error(`Failed to submit reply: ${response.status}${errorData?.message ? `: ${errorData.message}` : ''}`);
                                 }
 
                                 alert("Reply submitted successfully!");
@@ -327,7 +329,8 @@ async function submitComment(event) {
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to submit comment: ${response.status}`); // Fixed error message syntax
+            const errorData = await response.json().catch(() => null);
+            throw new Error(`Failed to submit comment: ${response.status}${errorData?.message ? `: ${errorData.message}` : ''}`);
         }
 
         alert("Comment submitted successfully!");
