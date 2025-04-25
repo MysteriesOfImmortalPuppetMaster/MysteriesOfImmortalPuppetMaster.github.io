@@ -3,18 +3,12 @@ import json
 import re
 import shutil
 from bs4 import BeautifulSoup
-import json
-from datetime import datetime
-from datetime import timedelta
-from bs4 import BeautifulSoup
-from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import os
 import asyncio
 import aiohttp
-from bs4 import BeautifulSoup
+
 
 
 chapters_dir = './chapters'
