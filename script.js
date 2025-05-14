@@ -1,5 +1,3 @@
-// script.js
-
 // Scroll to the bottom of the page
 function scrollToBottom() {
     window.scrollTo({
@@ -8,15 +6,7 @@ function scrollToBottom() {
     });
 }
 
-// Toggle Synopsis visibility
-function toggleSynopsis() {
-    const synopsisSection = document.querySelector('.synopsis-section');
-    synopsisSection.classList.toggle('collapsed');
-    const button = synopsisSection.querySelector('button.view-synopsis');
-    button.textContent = synopsisSection.classList.contains('collapsed') ? 'v' : '^';
-}
 
-// Fetch chapters from the chapters.json file and populate the list
 // Fetch chapters from the chapters.json file and populate the list
 async function loadChapters() {
     try {
@@ -115,10 +105,5 @@ async function loadChapters() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const synopsisButton = document.querySelector('button.view-synopsis');
-    if (synopsisButton) {
-        synopsisButton.addEventListener('click', toggleSynopsis);
-    }
-
     loadChapters();
 });
