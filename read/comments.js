@@ -157,7 +157,7 @@ async function fetchCommentsForCurrentSource() {
 
                 // Create the Date element (Em)
                 const dateEm = document.createElement("em");
-                dateEm.textContent = new Date(comment.date).toLocaleString();
+                dateEm.textContent = new Date(comment.date + 'Z').toLocaleString();
                 commentDiv.appendChild(dateEm);
 
                 // --- END: REPLACEMENT CODE (SAFE RENDERING) ---
