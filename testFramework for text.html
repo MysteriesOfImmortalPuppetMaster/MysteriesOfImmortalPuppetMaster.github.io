@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Styled Paragraph Comments</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 2em;
+  }
+  article {
+    background: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: left;
+  }
+  p {
+    position: relative; /* Keep relative for containing the popover */
+    margin: 1.5em 0;
+    padding: 0.5em;
+    transition: background 0.2s;
+    cursor: pointer;
+    border: 1px dashed transparent;
+  }
+  p:hover {
+    background: rgba(200,200,255,0.2);
+  }
+  p:focus-within,
+  p:focus {
+    outline: none;
+    background: rgba(200,200,255,0.3);
+    border-color: #6b8dd6;
+  }
+  .create-btn {
+    display: none; /* Hidden by default */
+    margin-top: 0.8em; /* Added margin to push it down */
+    padding: 0.3em 0.6em;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg,#6b8dd6,#3b5ab8);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: transform 0.2s, opacity 0.2s;
+    opacity: 0;
+    /* Removed position, top, right */
+  }
+
+  /* Show button only when the paragraph has focus */
+  p:focus .create-btn,
+  p:focus-within .create-btn {
+    display: block; /* Changed to block to appear below */
+    opacity: 1;
+  }
+
+  .create-btn:hover {
+    transform: scale(1.05);
+  }
+  [popover] {
+    padding: 1em;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 6px;
+    max-width: 280px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 80px;
+    padding: 0.5em;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-family: inherit;
+    resize: vertical;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  }
+  form button {
+    margin-top: 0.5em;
+    padding: 0.4em 0.8em;
+    border: none;
+    border-radius: 4px;
+    background: #3b5ab8;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  form button:hover {
+    background: #2e478f;
+  }
+</style>
+</head>
+<body>
+<article>
+  <p tabindex="0">
+    This is the first paragraph of example text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <button class="create-btn" popovertarget="cmt1">Create comment</button>
+  </p>
+  <div id="cmt1" popover>
+    <form>
+      <textarea placeholder="Your comment…"></textarea><br>
+      <button type="button" popovertarget="cmt1" popovertargetaction="hide">Close</button>
+    </form>
+  </div>
+
+  <p tabindex="0">
+    Here is the second paragraph, providing more content to demonstrate the layout. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+    <button class="create-btn" popovertarget="cmt2">Create comment</button>
+  </p>
+  <div id="cmt2" popover>
+    <form>
+      <textarea placeholder="Your comment…"></textarea><br>
+      <button type="button" popovertarget="cmt2" popovertargetaction="hide">Close</button>
+    </form>
+  </div>
+
+  <p tabindex="0">
+    And a third paragraph, to ensure there's enough text to properly test the scrolling and overall appearance. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+    <button class="create-btn" popovertarget="cmt3">Create comment</button>
+  </p>
+  <div id="cmt3" popover>
+    <form>
+      <textarea placeholder="Your comment…"></textarea><br>
+      <button type="button" popovertarget="cmt3" popovertargetaction="hide">Close</button>
+    </form>
+  </div>
+
+  <p tabindex="0">
+    Finally, a fourth paragraph to round out the example content. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+    <button class="create-btn" popovertarget="cmt4">Create comment</button>
+  </p>
+  <div id="cmt4" popover>
+    <form>
+      <textarea placeholder="Your comment…"></textarea><br>
+      <button type="button" popovertarget="cmt4" popovertargetaction="hide">Close</button>
+    </form>
+  </div>
+</article>
+</body>
+</html>
