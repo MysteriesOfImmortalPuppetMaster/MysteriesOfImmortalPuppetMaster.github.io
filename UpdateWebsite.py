@@ -438,9 +438,14 @@ def main():
         # "preParse" step: Prepare HTML content from chapter text
         headline = chapter_text[0].strip() if chapter_text else "Untitled Chapter"
         chapter_content = ''.join(chapter_text[1:])
-        chapter_html = chapter_content.replace('\n', '<br>\n')
-        timess.append(time.time())  # After preParse
 
+        #chapter_html = chapter_content.replace('\n', '<br>\n')
+        lines = chapter_content.split('\n')
+        wrapped_lines = [
+            f'<paragraph index="{i}">{line}</paragraph><br><br>' if line.strip() else ''
+            for i, line in enumerate(lines)
+        ]
+        chapter_html = '\n'.join(wrapped_lines)
         # "Parse" step: Use a deep copy of the pre-parsed template soup.
         # This is MUCH faster than reading from disk and parsing each time.
         soup = copy.deepcopy(original_parsed_template_soup)
