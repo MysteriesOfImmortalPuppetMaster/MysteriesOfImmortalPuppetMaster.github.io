@@ -355,10 +355,7 @@ def super_audio_functionn():
 
 def main():
     start_time = time.time()
-    # Run JsonCreator.py code
-    # chapters = get_chapter_data(chapters_dir)
-    # save_to_json(chapters, output_file)
-    # print(f'Chapter data saved to {output_file}')
+
     chapters = get_chapter_data(chapters_dir)
     save_to_json(chapters, output_file)
     print(f'Chapter data saved to {output_file}')
