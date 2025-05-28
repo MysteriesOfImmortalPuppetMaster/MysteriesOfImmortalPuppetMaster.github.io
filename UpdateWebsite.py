@@ -4,8 +4,6 @@ import re
 import shutil
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-import requests
-from concurrent.futures import ThreadPoolExecutor, as_completed
 import asyncio
 import aiohttp
 import time
@@ -14,7 +12,7 @@ from bs4 import BeautifulSoup
 import asyncio
 import aiohttp
 import time
-from concurrent.futures import ThreadPoolExecutor
+import copy
 
 chapters_dir = './chapters'
 output_file = 'chapters.json'
@@ -84,7 +82,7 @@ template_folder_path = os.path.join(read_folder, 'template')
 
 
 
-def Super_NewADDEDCHapterFunction():
+def UpdateHomepagePreview():
  
     def load_chapters(json_file):
         with open(json_file, 'r', encoding='utf-8') as file:
@@ -356,11 +354,11 @@ def super_audio_functionn():
     asyncio.run(main_async())
 
 def main():
+    start_time = time.time()
     # Run JsonCreator.py code
-    # Get the chapter data and save it to a JSON file
-    chapters = get_chapter_data(chapters_dir)
-    save_to_json(chapters, output_file)
-    print(f'Chapter data saved to {output_file}')
+    # chapters = get_chapter_data(chapters_dir)
+    # save_to_json(chapters, output_file)
+    # print(f'Chapter data saved to {output_file}')
 
     print("Running Update script")
 
@@ -371,91 +369,128 @@ def main():
     # Delete any existing chapter folders inside /read (but keep /template and template.html)
     for item in os.listdir(read_folder):
         item_path = os.path.join(read_folder, item)
-        # Skip the template folder and template.html
         if item != 'template' and item != 'template.html':
             if os.path.isdir(item_path):
-                shutil.rmtree(item_path)  # Delete directory and all contents
+                shutil.rmtree(item_path)
             elif os.path.isfile(item_path):
-                os.remove(item_path)  # Delete any files that are not template.html
+                os.remove(item_path)
 
     # Just copy the template files into /read (once, not for each chapter)
-    for item in os.listdir(template_folder_path):
-        src_path = os.path.join(template_folder_path, item)
-        dest_path = os.path.join(read_folder, item)
+    # This part seems to copy a /template subfolder and template.html into /read
+    # Ensure this is what you intend (e.g. CSS, JS for the template.html)
+    # If template_html_path is os.path.join(read_folder, 'template.html'), this is fine.
+    # This section is for general template assets, not the chapter-specific HTML generation.
+    if os.path.exists(template_folder_path): # Check if template_folder_path exists
+        for item in os.listdir(template_folder_path):
+            src_path = os.path.join(template_folder_path, item)
+            dest_path = os.path.join(read_folder, item)
+            if os.path.isdir(src_path):
+                if os.path.exists(dest_path): # Avoid error if dest_path already exists
+                    shutil.rmtree(dest_path)
+                shutil.copytree(src_path, dest_path)
+            else:
+                shutil.copy(src_path, dest_path)
+    else:
+        print(f"Warning: Template folder {template_folder_path} not found. Skipping asset copy.")
 
-        # If it's a directory, copy the directory tree; otherwise, just copy the file
-        if os.path.isdir(src_path):
-            shutil.copytree(src_path, dest_path)
-        else:
-            shutil.copy(src_path, dest_path)
 
-    # Create subfolders and only place index.html inside each one
+    # --- OPTIMIZATION: Load and parse the template HTML ONCE ---
+    try:
+        with open(template_html_path, 'r', encoding='utf-8') as f_template:
+            original_parsed_template_soup = BeautifulSoup(f_template, 'lxml')
+        print(f"Template HTML '{template_html_path}' parsed successfully.")
+    except FileNotFoundError:
+        print(f"Error: Template HTML file not found at {template_html_path}. Exiting.")
+        return
+    except Exception as e:
+        print(f"Error parsing template HTML {template_html_path}: {e}. Exiting.")
+        return
+
+
+
     for chapter in chapters:
-        filename = chapter['filename']  # e.g., '101.txt'
-        folder_name = os.path.splitext(filename)[0]  # Create a folder named without the extension
+        timess = []
+        loop_iter_start_time = time.time() # Start of current iteration's processing
+        timess.append(loop_iter_start_time) # This is t0 for the first step ('Copy')
+
+        # Setup paths
+        title = chapter['title']
+        filename = chapter['filename']
+        folder_name = os.path.splitext(filename)[0]
         new_folder_path = os.path.join(read_folder, folder_name)
-        os.makedirs(new_folder_path, exist_ok=True)  # Create the subfolder for each chapter
+        
+        # "Copy" step: Create directory for the chapter.
+        # The original shutil.copy of template.html for parsing is removed.
+        os.makedirs(new_folder_path, exist_ok=True)
+        dest_index_html_path = os.path.join(new_folder_path, 'index.html') # Path for final output
+       
 
-        # Copy template.html into the new folder as index.html
-        dest_index_html_path = os.path.join(new_folder_path, 'index.html')
-        shutil.copy(template_html_path, dest_index_html_path)
-
-        # Read chapter text
+        # "Read" step: Read chapter content file
         chapter_file_path = os.path.join(chapters_folder, filename)
+        try:
+            with open(chapter_file_path, 'r', encoding='utf-8', errors='replace') as f:
+                chapter_text = f.readlines()
+        except FileNotFoundError:
+            print(f"Warning: Chapter file {chapter_file_path} not found. Skipping chapter '{title}'.")
+            continue # Skip to next chapter
+       
 
-        # Detect encoding
-        # with open(chapter_file_path, 'rb') as f:
-        #     raw_data = f.read()
-        #     result = chardet.detect(raw_data)
-        #     encoding = result['encoding']
-        #     if encoding is None:
-        #         encoding = 'utf-8'  # Default to UTF-8 if encoding cannot be detected
-
-        # Read the chapter text using the detected encoding
-        with open(chapter_file_path, 'r', encoding='utf-8', errors='replace') as f:
-            chapter_text = f.readlines()
-
-
-
-
-        # Extract the first line as the headline and remove it from the content
-        headline = chapter_text[0].strip()  # The first line becomes the headline
-        chapter_content = ''.join(chapter_text[1:])  # Remaining lines are the content
-
-        # Convert new lines in chapter content to <br> for HTML
+        # "preParse" step: Prepare HTML content from chapter text
+        headline = chapter_text[0].strip() if chapter_text else "Untitled Chapter"
+        chapter_content = ''.join(chapter_text[1:])
         chapter_html = chapter_content.replace('\n', '<br>\n')
+        timess.append(time.time())  # After preParse
 
-        # Read index.html and insert chapter headline and content
-        with open(dest_index_html_path, 'r', encoding='utf-8') as f:
-            soup = BeautifulSoup(f, 'html.parser')
+        # "Parse" step: Use a deep copy of the pre-parsed template soup.
+        # This is MUCH faster than reading from disk and parsing each time.
+        soup = copy.deepcopy(original_parsed_template_soup)
+      
 
-        # Insert chapter title (headline) into the headline div
+        # "Modify" step: Update the soup with chapter-specific content
         headline_div = soup.find('div', {'id': 'chapterHeadline'})
-        if headline_div is not None:
+        if headline_div:
             headline_div.clear()
-            headline_div.append(BeautifulSoup(f'<h2>{headline}</h2>', 'html.parser'))
+            # More efficient way to add the new headline
+            new_h2 = soup.new_tag('h2')
+            new_h2.string = headline
+            headline_div.append(new_h2)
+        else:
+            print(f"Warning: 'chapterHeadline' div not found in template for chapter '{title}'.")
 
-        # Insert chapter content into the chapter content div
+
         content_div = soup.find('div', {'id': 'chapterContent'})
-        if content_div is not None:
+        if content_div:
             content_div.clear()
-            content_div.append(BeautifulSoup(chapter_html, 'html.parser'))
+            temp_fragment_soup = BeautifulSoup(f"<div>{chapter_html}</div>", 'lxml')
+            content_div.append(temp_fragment_soup)
+        else:
+            print(f"Warning: 'chapterContent' div not found in template for chapter '{title}'.")
 
-        # Modify the <title> tag to include the chapter headline
         title_tag = soup.find('title')
-        if title_tag is not None:
-            base_title = "Mysteries Of Immortal Puppet Master - "
-            title_tag.string = f'{base_title}{headline}'
+        if title_tag:
+            title_tag.string = f'Mysteries Of Immortal Puppet Master - {headline}'
+        else:
+            print(f"Warning: '<title>' tag not found in template for chapter '{title}'.")
+        
 
-        # Write the modified index.html back
+        # "Write" step: Save the modified soup to the chapter's index.html
         safe_write(dest_index_html_path, str(soup))
 
-
+        
     print("Subfolders created, and index.html generated inside each one.")
-    Super_NewADDEDCHapterFunction()
-
+    UpdateHomepagePreview() # Make sure this function is defined or remove if not used
     super_audio_functionn()
-    print("Python Script completed. Console can be closed now")
+    print(f"The script took: {time.time()-start_time:.4f} seconds to complete.")
+    print("Website successfully updated.")
+
+   
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     main()
