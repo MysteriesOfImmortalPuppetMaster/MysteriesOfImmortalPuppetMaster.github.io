@@ -359,7 +359,9 @@ def main():
     # chapters = get_chapter_data(chapters_dir)
     # save_to_json(chapters, output_file)
     # print(f'Chapter data saved to {output_file}')
-
+    chapters = get_chapter_data(chapters_dir)
+    save_to_json(chapters, output_file)
+    print(f'Chapter data saved to {output_file}')
     print("Running Update script")
 
     # Load chapters from chapters.json
