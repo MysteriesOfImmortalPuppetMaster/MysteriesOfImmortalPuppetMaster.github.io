@@ -1,5 +1,409 @@
 [
     {
+        "title": "Chapter 1: Hanging-Hair Traveler[^1]",
+        "filename": "1.txt"
+    },
+    {
+        "title": "Chapter 2: Ning Zhuo",
+        "filename": "2.txt"
+    },
+    {
+        "title": "Chapter 3: Will",
+        "filename": "3.txt"
+    },
+    {
+        "title": "Chapter 4: Deep Knowledge[^1]",
+        "filename": "4.txt"
+    },
+    {
+        "title": "Chapter 5: An Outstanding Mechanical Construct",
+        "filename": "5.txt"
+    },
+    {
+        "title": "Chapter 6: I, Ning Zhuo, am Merely Ordinary",
+        "filename": "6.txt"
+    },
+    {
+        "title": "Chapter 7: Let Ning Zhuo Come Home",
+        "filename": "7.txt"
+    },
+    {
+        "title": "Chapter 8: Buddha Heart Demon Seal",
+        "filename": "8.txt"
+    },
+    {
+        "title": "Chapter 9: Ordinary Person Falling into a Trap",
+        "filename": "9.txt"
+    },
+    {
+        "title": "Chapter 10: The Volcanic Cave",
+        "filename": "10.txt"
+    },
+    {
+        "title": "Chapter 11: In the End, He\u2019s Still a Youngster",
+        "filename": "11.txt"
+    },
+    {
+        "title": "Chapter 12: Trap",
+        "filename": "12.txt"
+    },
+    {
+        "title": "Chapter 13: Decisive Action",
+        "filename": "13.txt"
+    },
+    {
+        "title": "Chapter 14: Bombing the Immortal Palace!",
+        "filename": "14.txt"
+    },
+    {
+        "title": "Chapter 15: Technique Transmission Bell",
+        "filename": "15.txt"
+    },
+    {
+        "title": "Chapter 16: Dungeon Interrogation",
+        "filename": "16.txt"
+    },
+    {
+        "title": "Chapter 17: Saving the Self",
+        "filename": "17.txt"
+    },
+    {
+        "title": "Chapter 18: Fei Si[^1] Offers a Plan",
+        "filename": "18.txt"
+    },
+    {
+        "title": "Chapter 19: The Explosive Fire Monkey and Ning Zhuo",
+        "filename": "19.txt"
+    },
+    {
+        "title": "Chapter 19.5: Ning Zhuo\u2019s Early Wisdom",
+        "filename": "19.5.txt"
+    },
+    {
+        "title": "Chapter 20: Dragon Turtle Fire Spirit",
+        "filename": "20.txt"
+    },
+    {
+        "title": "Chapter 21: Qi Refining, Second Level!",
+        "filename": "21.txt"
+    },
+    {
+        "title": "Chapter 22: Can't Bear to Bully Ning Zhuo",
+        "filename": "22.txt"
+    },
+    {
+        "title": "Chapter 23: Chen Cha: I really deserve to die!",
+        "filename": "23.txt"
+    },
+    {
+        "title": "Chapter 24: Ning Zhuo Enters the Immortal Palace",
+        "filename": "24.txt"
+    },
+    {
+        "title": "Chapter 25: I Have a Head",
+        "filename": "25.txt"
+    },
+    {
+        "title": "Chapter 36: Running and Jumping with the Arms",
+        "filename": "26.txt"
+    },
+    {
+        "title": "Chapter 27: Assassination",
+        "filename": "27.txt"
+    },
+    {
+        "title": "Chapter 28: Icy Embrace Art",
+        "filename": "28.txt"
+    },
+    {
+        "title": "Chapter 29: Hanging Ring",
+        "filename": "29.txt"
+    },
+    {
+        "title": "Chapter 30: A Ranking With Only One Person",
+        "filename": "30.txt"
+    },
+    {
+        "title": "Chapter 31: I Don't Want to Be on the Ranking!",
+        "filename": "31.txt"
+    },
+    {
+        "title": "Chapter 32: Exposed?",
+        "filename": "32.txt"
+    },
+    {
+        "title": "Chapter 33: Soul Returns",
+        "filename": "33.txt"
+    },
+    {
+        "title": "Chapter 34: Phoenix Soul Blood Fragrance",
+        "filename": "34.txt"
+    },
+    {
+        "title": "Chapter 35: Demonic Cultivators Conspire",
+        "filename": "35.txt"
+    },
+    {
+        "title": "Chapter 36: Joint Attack on Purple Sun",
+        "filename": "36.txt"
+    },
+    {
+        "title": "Chapter 37: Sneak Attack",
+        "filename": "37.txt"
+    },
+    {
+        "title": "Chapter 38: Successful Setup",
+        "filename": "38.txt"
+    },
+    {
+        "title": "Chapter 39: Innate Nature and Innate Talent",
+        "filename": "39.txt"
+    },
+    {
+        "title": "Chapter 40: Throw Them All Away!",
+        "filename": "40.txt"
+    },
+    {
+        "title": "Chapter 41: Help Me Cultivate",
+        "filename": "41.txt"
+    },
+    {
+        "title": "Chapter 42: Control Rod Forcing Others, Who is the Demon?",
+        "filename": "42.txt"
+    },
+    {
+        "title": "Chapter 43: A Person Must Be Humble",
+        "filename": "43.txt"
+    },
+    {
+        "title": "Chapter 44: The Demonic Cultivators are Too Arrogant!",
+        "filename": "44.txt"
+    },
+    {
+        "title": "Chapter 45: Everyone is a Protagonist",
+        "filename": "45.txt"
+    },
+    {
+        "title": "Chapter 46: Again!",
+        "filename": "46.txt"
+    },
+    {
+        "title": "Chapter 47: Cultivation",
+        "filename": "47.txt"
+    },
+    {
+        "title": "Chapter 48: Trap",
+        "filename": "48.txt"
+    },
+    {
+        "title": "Chapter 49: Receiving Rewards, Surrender",
+        "filename": "49.txt"
+    },
+    {
+        "title": "Chapter 50: Three Techniques Together",
+        "filename": "50.txt"
+    },
+    {
+        "title": "Chapter 51: First Level",
+        "filename": "51.txt"
+    },
+    {
+        "title": "Chapter 52: Unexpected Incident",
+        "filename": "52.txt"
+    },
+    {
+        "title": "Chapter 53: Yuan Dasheng[^1]",
+        "filename": "53.txt"
+    },
+    {
+        "title": "Chapter 54: Demonic Pollution",
+        "filename": "54.txt"
+    },
+    {
+        "title": "Chapter 55: Zhu Xuanji[^1]",
+        "filename": "55.txt"
+    },
+    {
+        "title": "Chapter 56: All Sides",
+        "filename": "56.txt"
+    },
+    {
+        "title": "Chapter 57: Dasheng and Da Sheng[^1]",
+        "filename": "57.txt"
+    },
+    {
+        "title": "Chapter 58: Ning Zhuo vs Yuan Dasheng",
+        "filename": "58.txt"
+    },
+    {
+        "title": "Chapter 59: Rise From the Bottom",
+        "filename": "59.txt"
+    },
+    {
+        "title": "Chapter 60: Too Many Traces",
+        "filename": "60.txt"
+    },
+    {
+        "title": "Chapter 61: Interrogating Chen Cha",
+        "filename": "61.txt"
+    },
+    {
+        "title": "Chapter 62: You Invented This Mechanical Monkey?",
+        "filename": "62.txt"
+    },
+    {
+        "title": "Chapter 63: I Want to Climb Up",
+        "filename": "63.txt"
+    },
+    {
+        "title": "Chapter 64: We Must Fight Our Way Up",
+        "filename": "64.txt"
+    },
+    {
+        "title": "Chapter 65: The Fire Persimmon Festival",
+        "filename": "65.txt"
+    },
+    {
+        "title": "Chapter 66: Critical Mistake",
+        "filename": "66.txt"
+    },
+    {
+        "title": "Chapter 67: Explosion",
+        "filename": "67.txt"
+    },
+    {
+        "title": "Chapter 68: A Ray of Hope",
+        "filename": "68.txt"
+    },
+    {
+        "title": "Chapter 69: Personal Visit to the Enemy Gang",
+        "filename": "69.txt"
+    },
+    {
+        "title": "Chapter 70: Ning Zhuo Speaks of Surrender",
+        "filename": "70.txt"
+    },
+    {
+        "title": "Chapter 71: Give Me Yuan Dasheng",
+        "filename": "71.txt"
+    },
+    {
+        "title": "Chapter 72: The Death of Dasheng",
+        "filename": "72.txt"
+    },
+    {
+        "title": "Chapter 73: The Demonic Cultivator\u2019s Disappearance",
+        "filename": "73.txt"
+    },
+    {
+        "title": "Chapter 74: Something Isn\u2019t Right",
+        "filename": "74.txt"
+    },
+    {
+        "title": "Chapter 75: Cause and Effect",
+        "filename": "75.txt"
+    },
+    {
+        "title": "Chapter 76: I Am an Official",
+        "filename": "76.txt"
+    },
+    {
+        "title": "Chapter 77: It\u2019s Actually an Immortal Talent",
+        "filename": "77.txt"
+    },
+    {
+        "title": "Chapter 78: Willing to Be a Maidservant",
+        "filename": "78.txt"
+    },
+    {
+        "title": "Chapter 79: Theory of Numbered Breaths",
+        "filename": "79.txt"
+    },
+    {
+        "title": "Chapter 80: Pushing Open the Buddha Door",
+        "filename": "80.txt"
+    },
+    {
+        "title": "Chapter 81: Yuan Dasheng\u2019s Rebirth!",
+        "filename": "81.txt"
+    },
+    {
+        "title": "Chapter 93: Golden Blood Battle Ape Dasheng",
+        "filename": "82.txt"
+    },
+    {
+        "title": "Chapter 83: Yuan Dasheng vs Meng Chong",
+        "filename": "83.txt"
+    },
+    {
+        "title": "Chapter 84: Something's Wrong, Young Master Meng Chong Has Fainted",
+        "filename": "84.txt"
+    },
+    {
+        "title": "Chapter 85: Joint Examination of the Three Clans",
+        "filename": "85.txt"
+    },
+    {
+        "title": "Chapter 86: Peak of the Third Level, Advancing a Thousand Li a Day!",
+        "filename": "86.txt"
+    },
+    {
+        "title": "Chapter 87: Discussing Ning Zhuo",
+        "filename": "87.txt"
+    },
+    {
+        "title": "Chapter 88: He was the Inventor of the Explosive Fire Monkey!",
+        "filename": "88.txt"
+    },
+    {
+        "title": "Chapter 89: Unfilial Son",
+        "filename": "89.txt"
+    },
+    {
+        "title": "Chapter 90: Ning Zhuo, My Nephew, You've Suffered!",
+        "filename": "90.txt"
+    },
+    {
+        "title": "Chapter 103: The Injustice to Ning Ze",
+        "filename": "91.txt"
+    },
+    {
+        "title": "Chapter 92: Investigating Ning Zhuo",
+        "filename": "92.txt"
+    },
+    {
+        "title": "Chapter 93: Who Would Suspect a Two-Year-Old Child?",
+        "filename": "93.txt"
+    },
+    {
+        "title": "Chapter 94: Attending the Banquet",
+        "filename": "94.txt"
+    },
+    {
+        "title": "Chapter 95: Could It Be That Ning Zhuo Has an Innate Talent?!",
+        "filename": "95.txt"
+    },
+    {
+        "title": "Chapter 96: Illusory True Lotus Seed",
+        "filename": "96.txt"
+    },
+    {
+        "title": "Chapter 97: Everyone Knows You Were Wronged",
+        "filename": "97.txt"
+    },
+    {
+        "title": "Chapter 98: Puppet Strings",
+        "filename": "98.txt"
+    },
+    {
+        "title": "Chapter 99: Life-Hanging Thread",
+        "filename": "99.txt"
+    },
+    {
+        "title": "Chapter 100: Racing Against Time",
+        "filename": "100.txt"
+    },
+    {
         "title": "Chapter 101: Yuan Er Comes Seeking Help",
         "filename": "101.txt"
     },
