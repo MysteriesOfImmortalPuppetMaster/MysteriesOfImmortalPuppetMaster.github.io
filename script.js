@@ -12,7 +12,8 @@ async function loadChapters() {
     try {
         const response = await fetch('chapters.json');
         const chapters = await response.json();
-        const chaptersPerBook = [333, 800]; // Array of cutoff points for books
+        const chaptersPerBook = [333, Infinity]; // Array of cutoff points for books
+        const BookNames = ["Lava Immortal Palace", "Myriad Phenomena Cloud Sea"];
 
         const chapterContainer = document.getElementById('chapterContainer');
         chapterContainer.innerHTML = ''; // Clear any existing content
@@ -31,7 +32,7 @@ async function loadChapters() {
 
             const bookButton = document.createElement('button');
             bookButton.className = 'read-chapterLIST';
-            bookButton.textContent = `Book ${bookIndex + 1}`;
+            bookButton.textContent = `Book ${bookIndex + 1} -- ${BookNames[bookIndex]}`;
             bookButton.onclick = function () {
                 const chapterList = this.nextElementSibling;
                 const isExpanded = chapterList.classList.toggle('expanded');
