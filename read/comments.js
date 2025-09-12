@@ -31,7 +31,7 @@ const nameInput = document.getElementById("nameInput");
 
 
 commentInput.addEventListener("input", () => {
-    const remaining = 250 - commentInput.value.length;
+    const remaining = 500 - commentInput.value.length;
     charCounter.textContent = `${remaining}`; // Corrected template literal syntax
 
     // Update the color based on the remaining character count
@@ -196,13 +196,13 @@ async function fetchCommentsForCurrentSource() {
                         const replyTextarea = document.createElement("textarea");
                         replyTextarea.placeholder = "Write your reply...";
                         replyTextarea.rows = 3;
-                        replyTextarea.maxLength = 250;
+                        replyTextarea.maxLength = 500;
 
 
                         replyBoxDiv.appendChild(replyTextarea);
 
                         const charCounter = document.createElement("span");
-                        charCounter.textContent = "250";
+                        charCounter.textContent = "500";
                         charCounter.style.color = "grey"; // Initial color
                         charCounter.style.fontSize = "14px"; // Optional: Adjust font size
                         charCounter.style.marginTop = "5px"; // Optional: Add spacing
@@ -212,7 +212,7 @@ async function fetchCommentsForCurrentSource() {
                         replyBoxDiv.appendChild(charCounter);
 
                         replyTextarea.addEventListener("input", () => {
-                            const remaining = 250 - replyTextarea.value.length;
+                            const remaining = 500 - replyTextarea.value.length;
                             charCounter.textContent = `${remaining}`;
                             charCounter.style.color = remaining < 50 ? "red" : remaining < 100 ? "orange" : "grey";
                         });
