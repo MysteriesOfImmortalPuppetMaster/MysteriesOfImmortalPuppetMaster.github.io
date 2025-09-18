@@ -59,7 +59,7 @@ def save_to_json(data, output_path):
 
 
 
-def safe_write(filepath, data, max_retries=10, delay=0.1):
+def safe_write(filepath, data, max_retries=12, delay=0.1):
     for attempt in range(max_retries):
         try:
             with open(filepath, 'w', encoding='utf-8') as f:
