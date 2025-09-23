@@ -8,7 +8,7 @@ feel free to contribute.
 
 **Steps to update this site with new chapters:**
 
--Put the .txt file of the chapter into "/chapters"
+- Put the .txt file of the chapter into "/chapters"
 name the .txt file as the N-th chapter it repesents. So chapter 300 = 300.txt  ( Floats are supported for Sub chapters or Author notes )
 Remember that the first line of the .txt file will be used as a Headline
 
