@@ -2,7 +2,4 @@
 
 ## Our Pledge
 
-We as members, contributors, and leaders pledge to have fun :)
-
-
-uhhh, don't be rude and give me stars
+We as members, contributors, and leaders pledge to have fun, not be rude and give me start :)
