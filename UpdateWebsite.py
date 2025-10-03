@@ -3,6 +3,12 @@ import json
 import re
 import shutil
 from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
+import asyncio
+import aiohttp
+import time
+import os
+from bs4 import BeautifulSoup
 import asyncio
 import aiohttp
 import time
@@ -11,14 +17,19 @@ import copy
 chapters_dir = './chapters'
 output_file = 'chapters.json'
 
-
-base_dir = 'MysteriesOfImmortalPuppetMaster.github.io'
-chapters_json_path = os.path.join('chapters.json')
-chapters_folder = os.path.join('chapters')
-read_folder = os.path.join('read')
-template_html_path = os.path.join(read_folder, 'template.html')  
-template_folder_path = os.path.join(read_folder, 'template')     
-
+def get_chapter_title(file_path):
+    """Extract the first line (title) from a chapter file with detected encoding."""
+    # # Read the file in binary mode to detect encoding
+    # with open(file_path, 'rb') as file:
+    #     raw_data = file.read()
+    #     result = chardet.detect(raw_data)
+    #     encoding = result['encoding']
+    #     if encoding is None:
+    #             encoding = 'utf-8'
+    # # Decode using the detected encoding
+    with open(file_path, 'r', encoding='utf-8') as file:
+        title = file.readline().strip()
+    return title
 
 def natural_sort_key(filename):
     """Helper function for natural sorting, accounting for integers and decimal numbers."""
@@ -33,10 +44,8 @@ def get_chapter_data(directory):
     for filename in os.listdir(directory):
         if filename.endswith('.txt'):
             file_path = os.path.join(directory, filename)
-
-            with open(file_path, 'r', encoding='utf-8') as file:
-              title = file.readline().strip()
-              chapter_list.append({"title": title, "filename": filename})
+            title = get_chapter_title(file_path)
+            chapter_list.append({"title": title, "filename": filename})
 
     # Sort the chapter list using natural sorting (handling decimals)
     chapter_list.sort(key=lambda x: natural_sort_key(x['filename']))
@@ -47,6 +56,7 @@ def save_to_json(data, output_path):
 
     with open(output_path, 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file, indent=4)
+
 
 
 def safe_write(filepath, data, max_retries=12, delay=0.1):
@@ -60,6 +70,16 @@ def safe_write(filepath, data, max_retries=12, delay=0.1):
             if attempt == max_retries - 1:
                 raise e
             time.sleep(delay * (2 ** attempt))  # exponential backoff
+
+
+
+base_dir = 'MysteriesOfImmortalPuppetMaster.github.io'
+chapters_json_path = os.path.join('chapters.json')
+chapters_folder = os.path.join('chapters')
+read_folder = os.path.join('read')
+template_html_path = os.path.join(read_folder, 'template.html')  
+template_folder_path = os.path.join(read_folder, 'template')     
+
 
 
 def UpdateHomepagePreview():
@@ -471,8 +491,10 @@ def main():
 
 
 
+
+
+
+
+
 if __name__ == '__main__':
     main()
-
-
-
