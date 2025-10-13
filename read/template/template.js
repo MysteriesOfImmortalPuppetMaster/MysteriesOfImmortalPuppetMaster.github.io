@@ -219,6 +219,12 @@ function toggleLightMode() {
     localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
 }
 
+
+
+
+
+
+
 toggleButton.addEventListener('click', toggleLightMode);
 
 // Handle scroll to remove/recreate button
@@ -274,8 +280,6 @@ window.addEventListener('load', () => {
     }
 
 
- 
-
     const scrollRequestJSON = localStorage.getItem('scrollRequest');
     if (scrollRequestJSON) { 
         const scrollRequest = JSON.parse(scrollRequestJSON);
@@ -292,7 +296,10 @@ window.addEventListener('load', () => {
             localStorage.removeItem('scrollRequest'); 
         }, SCROLL_DELAY_MS);
     }
+
+
 });
+
 
 document.addEventListener('keydown', function(event) {
     switch(event.key) {
@@ -307,6 +314,7 @@ document.addEventListener('keydown', function(event) {
 
 
 setInterval(() => {
+    if (!document.hasFocus()) return;
     const data = {
         url: window.location.href,
         scrollPosition: window.scrollY,

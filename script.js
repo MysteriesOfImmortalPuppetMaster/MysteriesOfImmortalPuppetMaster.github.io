@@ -107,13 +107,38 @@ async function loadChapters() {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadChapters();
+    disableButton();
 });
+
+function disableButton(){
+    const saved = JSON.parse(localStorage.getItem('pageState'))
+    if (!saved || !saved.url) {
+        const nextButtons = document.querySelectorAll('button[onclick="goToSavedState()"]');
+        nextButtons.forEach(button => {
+            button.disabled = true;
+            button.style.opacity = '0.5';
+            button.style.cursor = 'not-allowed';
+        });
+    }
+}
 
 
 
 function goToSavedState() {
     const saved = JSON.parse(localStorage.getItem('pageState'))
-    if (!saved || !saved.url) return;
+    if (!saved || !saved.url) {
+        
+        const nextButtons = document.querySelectorAll('button[onclick="goToSavedState()"]');
+        
+        // 🌟 FIX: Loop through the NodeList and apply changes to each button
+        nextButtons.forEach(button => {
+            button.disabled = true;
+            button.style.opacity = '0.5';
+            button.style.cursor = 'not-allowed';
+        });
+
+        return; // Exit the function since there's nowhere to go
+    }
 
     if (window.location.href !== saved.url) {
         // 1. Store the scroll position for the *new* page to read.
