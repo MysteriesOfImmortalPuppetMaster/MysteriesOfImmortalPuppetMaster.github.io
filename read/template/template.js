@@ -135,6 +135,26 @@ function selectChapter(event) {
     window.location.href = selectedChapterUrl;
 }
 
+function prefetchAdjacentChapters(chapters, currentIndex) {
+    const baseUrl = window.location.href.replace(/\/[^\/]+\/?$/, '');
+
+    // Previous chapter
+    if (currentIndex > 0) {
+        const prev = document.createElement('link');
+        prev.rel = 'prefetch';
+        prev.href = `${baseUrl}/${chapters[currentIndex - 1].filename.replace('.txt', '')}/`;
+        document.head.appendChild(prev);
+    }
+
+    // Next chapter
+    if (currentIndex < chapters.length - 1) {
+        const next = document.createElement('link');
+        next.rel = 'prefetch';
+        next.href = `${baseUrl}/${chapters[currentIndex + 1].filename.replace('.txt', '')}/`;
+        document.head.appendChild(next);
+    }
+}
+
 // Function to load chapters.json and populate both top and bottom dropdowns
 function loadChapterDropdowns() {
     fetch('../../chapters.json')
@@ -148,6 +168,10 @@ function loadChapterDropdowns() {
             // Populate both the top and bottom dropdowns
             populateChapterDropdown(chapters, 'chapter-select-top');
             populateChapterDropdown(chapters, 'chapter-select-bottom');
+
+            const folderName = getCurrentFolder();
+            const currentIndex = getCurrentChapter(folderName, chapters);
+            prefetchAdjacentChapters(chapters, currentIndex);
         })
         .catch(error => {
             console.error('Error loading chapters.json:', error);
