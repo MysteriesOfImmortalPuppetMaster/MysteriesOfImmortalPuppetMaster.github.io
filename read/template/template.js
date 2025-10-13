@@ -42,8 +42,6 @@ function goToPreviousChapter(chapters) {
         let baseUrl = currentUrl.replace(/\/[^\/]+\/?$/, '');
         let previousChapterUrl = baseUrl + '/' + previousChapterFolder + '/';
         window.location.href = previousChapterUrl;
-    } else {
-        alert("You are already at the first chapter.");
     }
 }
 
@@ -63,8 +61,6 @@ function goToNextChapter(chapters) {
         let baseUrl = currentUrl.replace(/\/[^\/]+\/?$/, '');
         let nextChapterUrl = baseUrl + '/' + nextChapterFolder + '/';
         window.location.href = nextChapterUrl;
-    } else {
-        alert("You are already at the last chapter.");
     }
 }
 
@@ -276,4 +272,48 @@ window.addEventListener('load', () => {
     } else {
         toggleButton.textContent = '🌙';
     }
+
+
+ 
+
+    const scrollRequestJSON = localStorage.getItem('scrollRequest');
+    if (scrollRequestJSON) { 
+        const scrollRequest = JSON.parse(scrollRequestJSON);
+        const SCROLL_DELAY_MS = 300;
+        
+        setTimeout(() => {
+            const desiredY = scrollRequest.scrollPosition || 0;
+            window.scrollTo({
+                top: desiredY,
+                left: 0,
+                behavior: 'smooth' 
+            });
+
+            localStorage.removeItem('scrollRequest'); 
+        }, SCROLL_DELAY_MS);
+    }
 });
+
+document.addEventListener('keydown', function(event) {
+    switch(event.key) {
+        case 'ArrowLeft':
+            prevChapter()
+            break;
+        case 'ArrowRight':
+            nextChapter()
+            break;
+    }
+});
+
+
+setInterval(() => {
+    const data = {
+        url: window.location.href,
+        scrollPosition: window.scrollY,
+        timestamp: Date.now()
+    };
+    localStorage.setItem('pageState', JSON.stringify(data));
+}, 5000);
+
+
+

@@ -108,3 +108,28 @@ async function loadChapters() {
 document.addEventListener('DOMContentLoaded', () => {
     loadChapters();
 });
+
+
+
+function goToSavedState() {
+    const saved = JSON.parse(localStorage.getItem('pageState'))
+    if (!saved || !saved.url) return;
+
+    if (window.location.href !== saved.url) {
+        // 1. Store the scroll position for the *new* page to read.
+        const data = {
+            scrollPosition: saved.scrollPosition,
+        };
+        localStorage.setItem('scrollRequest', JSON.stringify(data));
+        
+        // 2. Navigate to the new page.
+        window.location.href = saved.url; 
+        
+        // **Note:** No need for a window.addEventListener('load', ...) here.
+        // That listener would never fire because the page navigates away.
+
+    } else {
+        // If on the same page, scroll immediately.
+        window.scrollTo(0, saved.scrollPosition || 0);
+    }
+}
