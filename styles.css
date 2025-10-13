@@ -40,10 +40,10 @@ body {
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.5);
     z-index: 0;
-    overflow: hidden; /* <-- THIS IS THE FIX */
+    overflow: hidden;
 }
 
-.book-info-container::before {
+.book-info-container::before { /* Background Image Layer */
     content: '';
     position: absolute;
     inset: 0;
@@ -52,19 +52,48 @@ body {
     z-index: -2;
     border-radius: 2px;
     animation: bgPan 20s ease-in-out infinite alternate;
+
 }
 
-@keyframes bgPan {
-    0% {
-        background-position: 50% 50%;
-    }
-    50% {
-        background-position: 50% 46%;
-    }
-    100% {
-        background-position: 50% 54%;
+@keyframes bgPan { /* Background panning animation */
+    0% { background-position: 50% 50%; }
+    50% { background-position: 50% 46%; }
+    100% { background-position: 50% 54%; }
+}
+@media (max-width: 600px) {
+    .book-info-container::before { background-size: 100%; animation: bgPan 20s ease-in-out infinite alternate;   } 
+    @keyframes bgPan {
+        0% { background-position: 50% 50%; }
+        50% { background-position: 50% 40%; }
+        100% { background-position: 50% 60%; }
     }
 }
+@media (max-width: 556px) {
+    .book-info-container::before { background-size: 100%; animation: bgPan 10s ease-in-out infinite alternate;   } 
+    @keyframes bgPan {
+        0% { background-position: 50% 50%; }
+        50% { background-position: 50% 35%; }
+        100% { background-position: 50% 65%; }
+    }
+}
+@media (max-width: 555px) {
+    .book-info-container::before { background-size: 120%; animation: bgPan 10s ease-in-out infinite alternate;   } 
+    @keyframes bgPan {
+        0% { background-position: 50% 50%; }
+        50% { background-position: 50% 35%; }
+        100% { background-position: 50% 70%; }
+    }
+}
+@media (max-width: 400px) {
+    .book-info-container::before { background-size: 150%; animation: bgPan 8s ease-in-out infinite alternate;   } 
+    @keyframes bgPan {
+        0% { background-position: 50% 50%; }
+        50% { background-position: 50% 35%; }
+        100% { background-position: 50% 70%; }
+    }
+}
+
+
 
 .book-info-container::after { /* Sheen Effect */
     content: '';
@@ -74,8 +103,6 @@ body {
     width: 170%;
     height: 50%;
     
-    /* --- 1. SMOOTHER GRADIENT --- */
-    /* We make the fade-in and fade-out much wider (e.g., over 15-20%) */
     background: linear-gradient(
         to bottom right,
         rgba(255, 255, 255, 0) 0%,
@@ -89,22 +116,22 @@ body {
     transform: rotate(30deg);
     animation: sheen-effect 6s ease-in-out infinite;
 }
-@media (max-width: 499px) {.book-info-container::after { animation: sheen-effect 15s ease-in-out infinite;;} }
-@media (max-width: 499px) {.book-info-container::after { width: 400%;} }
 
 
-/* --- 2. REVERSED ANIMATION DIRECTION --- */
 @keyframes sheen-effect {
-    /* Start at top-right */
-    0% {
-        transform: rotate(120deg) translate(-60%, -600%);
-    }
-    /* End at bottom-left */
-    100% {
-        transform: rotate(120deg) translate(70%, 200%);
-    }
+    0% { transform: rotate(120deg) translate(-60%, -600%); }
+    100% {transform: rotate(120deg) translate(70%, 200%);}
 }
 
+@media (max-width: 499px) {
+    .book-info-container::after { width: 400%;
+    } 
+    @keyframes sheen-effect {
+        0% { transform: rotate(120deg) translate(-60%, -300%); }
+    100% {transform: rotate(120deg) translate(70%, 200%);}
+    }
+
+}
 .book-info-container > * {
     position: relative;
     z-index: 1; /* ensures text and other elements appear above overlays */

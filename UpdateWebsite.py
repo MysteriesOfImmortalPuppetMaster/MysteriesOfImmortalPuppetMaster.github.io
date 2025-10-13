@@ -210,8 +210,8 @@ def super_audio_functionn():
     </div>
     <audio id="currentAudio" style="display:none;" preload="auto" crossOrigin="anonymous"></audio>
     <audio id="nextAudio" style="display:none;" preload="auto" crossOrigin="anonymous"></audio>
-    <script src="../audioDisplay.js"></script>
-    <link rel="stylesheet" href="../audioDisplay.css">
+    <script src="../template/audioDisplay.js"></script>
+    <link rel="stylesheet" href="../template/audioDisplay.css">
     """
 
     BASE_AUDIO_URL = "https://mysteriesofimmortalpuppetmaster.github.io/audioStash/"
@@ -374,23 +374,7 @@ def main():
             elif os.path.isfile(item_path):
                 os.remove(item_path)
 
-    # Just copy the template files into /read (once, not for each chapter)
-    # This part seems to copy a /template subfolder and template.html into /read
-    # Ensure this is what you intend (e.g. CSS, JS for the template.html)
-    # If template_html_path is os.path.join(read_folder, 'template.html'), this is fine.
-    # This section is for general template assets, not the chapter-specific HTML generation.
-    if os.path.exists(template_folder_path): # Check if template_folder_path exists
-        for item in os.listdir(template_folder_path):
-            src_path = os.path.join(template_folder_path, item)
-            dest_path = os.path.join(read_folder, item)
-            if os.path.isdir(src_path):
-                if os.path.exists(dest_path): # Avoid error if dest_path already exists
-                    shutil.rmtree(dest_path)
-                shutil.copytree(src_path, dest_path)
-            else:
-                shutil.copy(src_path, dest_path)
-    else:
-        print(f"Warning: Template folder {template_folder_path} not found. Skipping asset copy.")
+
 
 
     # --- OPTIMIZATION: Load and parse the template HTML ONCE ---
