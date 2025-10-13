@@ -145,6 +145,14 @@ function prefetchAdjacentChapters(chapters, currentIndex) {
         prev.href = `${baseUrl}/${chapters[currentIndex - 1].filename.replace('.txt', '')}/`;
         document.head.appendChild(prev);
     }
+    else {
+        const bottomButtons = document.querySelectorAll('.bottomButtons button[onclick="prevChapter()"]');
+        bottomButtons.forEach(btn => {
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'not-allowed';
+        });
+    }
 
     // Next chapter
     if (currentIndex < chapters.length - 1) {
@@ -152,6 +160,14 @@ function prefetchAdjacentChapters(chapters, currentIndex) {
         next.rel = 'prefetch';
         next.href = `${baseUrl}/${chapters[currentIndex + 1].filename.replace('.txt', '')}/`;
         document.head.appendChild(next);
+    }
+    else {
+        const nextButtons = document.querySelectorAll('.bottomButtons button[onclick="nextChapter()"]');
+        nextButtons.forEach(btn => {
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'not-allowed';
+        });
     }
 }
 
