@@ -116,7 +116,7 @@ function populateChapterDropdown(chapters, dropdownId) {
     chapters.forEach((chapter, index) => {
         let option = document.createElement('option');
         option.value = chapter.filename.replace('.txt', '');
-        option.text = chapter.title;
+        option.text = chapter.title.length > 45 ? chapter.title.slice(0, 45) + '…' : chapter.title;
 
         if (index === currentChapterIndex) {
             option.selected = true;

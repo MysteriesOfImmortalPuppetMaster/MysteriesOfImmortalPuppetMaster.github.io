@@ -92,6 +92,15 @@ body {
         100% { background-position: 50% 70%; }
     }
 }
+@media (max-width: 312px) {
+    .book-info-container::before { background-size: 250%; animation: bgPan 8s ease-in-out infinite alternate;   } 
+    @keyframes bgPan {
+        0% { background-position: 50% 50%; }
+        50% { background-position: 50% 35%; }
+        100% { background-position: 50% 70%; }
+    }
+}
+
 
 
 
@@ -366,30 +375,6 @@ button.read-chapterLIST {
                 color: #1e90ff; /* Hover color effect */
             }
 
-/* Footer (No longer used) */
-/* .footer {
-    margin-top: 40px;
-    text-align: center;
-} */
-
-/* Toggle button section (No longer used) */
-/* .toggle-button {
-    margin-top: 20px;
-    text-align: center;
-} */
-
-/* .toggle-button button {
-    background-color: #1e90ff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-}
-
-.toggle-button button:hover {
-    background-color: #1c7ed6;
-} */
 
 /* Book Section Styles */
 .book {
