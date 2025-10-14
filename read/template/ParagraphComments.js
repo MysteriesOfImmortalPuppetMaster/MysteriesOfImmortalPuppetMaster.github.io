@@ -1,8 +1,28 @@
-
 function handleParagraphClick(paragraphIndex) {
-    console.log(`Paragraph with index: ${paragraphIndex} was clicked!`);
-    alert("clicked");
+    const paragraph = document.querySelector(`[index="${paragraphIndex}"]`);
+    if (!paragraph) return;
 
+    // Inject HTML
+    const injectedHTML = `
+        <div class="injected-box">
+            <p>Injected content for paragraph ${paragraphIndex}</p>
+        </div>
+    `;
+    paragraph.insertAdjacentHTML('beforeend', injectedHTML);
+
+    // Inject CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        .injected-box {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #222;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 
