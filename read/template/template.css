@@ -176,23 +176,25 @@ button.read-chapter {
         max-width: 100%; 
         padding: 0 10px; 
         box-sizing: border-box;
+        padding: 0px 2px; 
     }
 
     /* Target the buttons (it's a class) and force them to shrink */
     .read-chapter { 
         width: 30%; 
         min-width: 60px; 
-        padding: 5px 2px; 
-        font-size: 12px; 
+        padding: 8px 0px !important; 
+        margin: 0px,0px !important;
+        font-size: 12px !important; 
         
-        /* This is CRUCIAL: override the flex-shrink: 0 set earlier */
+
         flex-shrink: 1 !important; 
         
-        /* --- FIX FOR TEXT OVERFLOW --- */
-        white-space: nowrap; /* Ensures text stays on one line */
-        overflow: hidden; /* Clips the text */
+
+        white-space: nowrap;
+        overflow: hidden; 
         text-overflow: ellipsis; /* Adds "..." to show clipping */
-        /* --------------------------- */
+
     }
 
     /* Target the chapter select dropdowns and allow them to shrink */
