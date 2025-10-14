@@ -175,7 +175,22 @@ async function fetchCommentsForCurrentSource() {
                 // Add reply button only if the comment is not a reply itself
                 if (comment.nested === null) {
                     const replyButton = document.createElement("button");
-                    replyButton.textContent = "↩ reply";
+                    replyButton.innerHTML = `
+                    <span class="reply-icon" aria-hidden="true"
+                          style="display:inline-flex;align-items:flex-end;line-height:0;margin-right:0px;margin-left:3px;">
+                      <svg xmlns="http://www.w3.org/2000/svg"
+                           viewBox="0 0 16 16"
+                           fill="currentColor"
+                           style="width:13px;height:13px;display:block;position:relative;top:3px;">
+                        <path d="M5 15H4L0 11L4 7H5V10H11C12.6569 10 14 8.65685 14 7C14 5.34315 12.6569 4 11 4H4V2H11C13.7614 2 16 4.23858 16 7C16 9.76142 13.7614 12 11 12H5V15Z"/>
+                      </svg>
+                    </span>
+                    <span class="reply-text"
+                          style="display:inline-block;vertical-align:middle;">reply</span>
+                  `;
+                    commentDiv.appendChild(replyButton);
+                    /*
+                    replyButton.textContent = "↩ reply";*/
                     replyButton.classList.add("reply-button");
                     commentDiv.appendChild(replyButton);
 
