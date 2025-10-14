@@ -325,3 +325,39 @@ setInterval(() => {
 
 
 
+
+/* Paragraph comments: */
+
+// The function to be executed when a paragraph is clicked
+function handleParagraphClick(paragraphIndex) {
+    console.log(`Paragraph with index: ${paragraphIndex} was clicked!`);
+
+    // --- You can put your main logic here ---
+    // For example: 
+    // showEditorFor(paragraphIndex);
+    // highlightParagraph(paragraphIndex);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Select all elements with the custom tag name 'paragraph'
+    const paragraphs = document.querySelectorAll('paragraph');
+
+    // 2. Loop through the NodeList of paragraphs
+    paragraphs.forEach(paragraphElement => {
+        // 3. Attach a click event listener to each paragraph element
+        paragraphElement.addEventListener('click', (event) => {
+            // 4. Get the value of the 'index' attribute (which is a string)
+            const indexString = paragraphElement.getAttribute('index');
+            
+            // 5. Convert the index to an integer (if you need it as a number)
+            const paragraphIndex = parseInt(indexString, 10);
+            
+            // 6. Execute your function with the index as the input
+            handleParagraphClick(paragraphIndex);
+
+            // OPTIONAL: If you want to log the full text that was clicked:
+            // console.log(`Text: "${paragraphElement.textContent.trim()}"`);
+        });
+    });
+});
+

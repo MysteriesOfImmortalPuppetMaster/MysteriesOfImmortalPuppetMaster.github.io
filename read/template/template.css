@@ -77,15 +77,22 @@ button.read-chapter {
     transition: background 0.3s ease, box-shadow 0.3s ease;
     white-space: nowrap; /* Prevent text wrapping */
 }
+
+paragraph {
+    cursor: pointer; 
+}
 paragraph:hover {
     background: linear-gradient(rgba(100, 100, 100, 0.00), rgba(100, 100, 100, 0.2));
     border-radius: 2px;
 }
-    /* Hover effect */
-    button.read-chapter:hover {
-        background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    }
+
+
+
+/* Hover effect */
+button.read-chapter:hover {
+    background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
 
 
 
