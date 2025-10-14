@@ -49,6 +49,8 @@ commentInput.addEventListener("input", () => {
     }
 });
 
+let allPageComments_GLOBAL_VARIABLE = null;
+
 async function fetchCommentsForCurrentSource() {
     const commentSection = document.querySelector(".mainCommentSection");
     const source = window.location.href;
@@ -63,9 +65,10 @@ async function fetchCommentsForCurrentSource() {
             alert(`Failed to fetch comments: ${errorText}`);
         }
 
-        const comments = await response.json();
+        allPageComments_GLOBAL_VARIABLE = await response.json();
+        const comments = allPageComments_GLOBAL_VARIABLE;
         commentSection.innerHTML = "";
-
+       
         if (comments.length === 0) {
             commentSection.innerHTML = `
             <p>No comments found for this page.</p>
@@ -119,16 +122,6 @@ async function fetchCommentsForCurrentSource() {
                 commentDiv.classList.add("comment");
                 commentDiv.style.marginLeft = `${level * 20}px`; // Indent replies
 
-
-
-
-
-
-
-
-
-
-
                 // --- START: REPLACEMENT CODE (SAFE RENDERING) ---
 
                 // Create the Author element (Strong)
@@ -162,16 +155,6 @@ async function fetchCommentsForCurrentSource() {
 
                 // --- END: REPLACEMENT CODE (SAFE RENDERING) ---
 
-
-
-
-
-
-
-
-
-
-
                 // Add reply button only if the comment is not a reply itself
                 if (comment.nested === null) {
                     const replyButton = document.createElement("button");
@@ -189,8 +172,6 @@ async function fetchCommentsForCurrentSource() {
                           style="display:inline-block;vertical-align:middle;">reply</span>
                   `;
                     commentDiv.appendChild(replyButton);
-                    /*
-                    replyButton.textContent = "↩ reply";*/
                     replyButton.classList.add("reply-button");
                     commentDiv.appendChild(replyButton);
 
