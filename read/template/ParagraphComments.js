@@ -28,9 +28,9 @@ function getCommentFormHTML(paragraphIndex) {
     // A data attribute is added to the form to identify which paragraph it belongs to,
     // which is useful for handling the submission.
     return `
-    <div class="commentInputSection"style=padding:0px 0px;>
+    <div class="commentInputSection"style=padding-left:0px 0px;>
         <form id="commentForm" data-paragraph-index="${paragraphIndex}">
-            <input id="nameInput" maxlength="25" placeholder="Name" type="text" /><br />
+            <input id="nameInput" maxlength="25" placeholder="Name" type="text"style=margin-bottom:3px 0px; /><br />
             <div style="position: relative;">
                 <textarea id="commentInput" maxlength="500" placeholder="Write your comment here" rows="4"></textarea>
                 <span id="charCounter">500</span>
