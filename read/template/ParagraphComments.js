@@ -28,17 +28,17 @@ function getCommentFormHTML(paragraphIndex) {
     // A data attribute is added to the form to identify which paragraph it belongs to,
     // which is useful for handling the submission.
     return `
+    <div class="commentInputSection"style=padding:0px 0px;>
         <form id="commentForm" data-paragraph-index="${paragraphIndex}">
-            <label for="nameInput">Name (optional):</label><br />
-            <input id="nameInput" maxlength="25" placeholder="Anonymous" type="text" /><br /><br />
-            <label for="commentInput">Comment:</label><br />
+            <input id="nameInput" maxlength="25" placeholder="Name" type="text" /><br />
             <div style="position: relative;">
                 <textarea id="commentInput" maxlength="500" placeholder="Write your comment here" rows="4"></textarea>
                 <span id="charCounter">500</span>
             </div>
-            <button type="submit">Submit Comment</button>
+            <button type="submit"style=padding:4px 10px;>Submit Comment</button>
         </form>
         <hr style="border-color: #4f545c; margin: 15px 0;">
+    </div>
     `;
 }
 
@@ -71,9 +71,7 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
         }
         else {
 
-            const response = await fetch(`${API_URL}?source=${encodeURIComponent(source)}`, {
-                method: "GET",
-            });
+            const response = await fetch(`${API_URL}?source=${encodeURIComponent(source)}`, {  method: "GET", });
             if (!response.ok) {
                 throw new Error(`Failed to fetch comments: ${await response.text()}`);
             }
