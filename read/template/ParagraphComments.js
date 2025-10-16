@@ -15,6 +15,7 @@ function injectParagraphCommentStyles() {
 }
 
 
+
 function getCommentFormHTML(paragraphIndex) {
     // A data attribute is added to the form to identify which paragraph it belongs to,
     // which is useful for handling the submission.
@@ -143,11 +144,7 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
                         charCounter.textContent = "500";
                         // Kept: Default color setting for logic
                         charCounter.style.color = "grey"; 
-                        // Removed: Static style.fontSize
-                        // Removed: Static style.marginTop
-                        // Removed: Static style.position
-                        // Removed: Static style.bottom
-                        // Removed: Static style.right
+
                         replyBoxDiv.appendChild(charCounter);
 
                         replyTextarea.addEventListener("input", () => {
