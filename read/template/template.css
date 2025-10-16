@@ -297,3 +297,68 @@ body.light-mode {
 
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+ * Styles for the submitReplyButton element.
+ * Note: The hover/mouseout effects involve dynamic style changes in the JS
+ * which cannot be directly represented in static CSS without a :hover pseudo-class.
+ */
+.commentInputSection button[type="submit"] {
+    width: 150px;
+    padding: 10px 10px;
+    background: linear-gradient(135deg, #3b8ccb, #2d85ec);
+    border: none;
+    color: whitesmoke;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Add the hover style from the JS for a complete CSS representation */
+.commentInputSection button[type="submit"]:hover {
+    background: linear-gradient(135deg, #256bbc, #1d6bb3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/*
+ * Styles for the charCounter element.
+ * The position properties here reflect the default positioning when the reply box is opened.
+ * Note: The color changing logic is situational (based on remaining characters) and is kept in the JavaScript.
+ */
+.commentInputSection span:nth-child(4) { /* This targets the dynamically created charCounter in the reply form */
+    color: grey; /* Initial color before user input */
+    font-size: 14px;
+    margin-top: 5px;
+    position: relative;
+    bottom: 8px;
+    right: 40px;
+}
+
+/* For the main form's charCounter (inside getCommentFormHTML) which is a direct child of a div with relative position */
+#commentInputSection #charCounter {
+    /* If you prefer to apply styles to the ID for the *main* comment form: */
+    position: absolute;
+    bottom: 5px; /* Adjust based on parent div and textarea layout */
+    right: 5px; /* Adjust based on parent div and textarea layout */
+    color: grey; /* Initial color before user input */
+    font-size: 14px; /* Assuming consistency with the reply counter */
+}

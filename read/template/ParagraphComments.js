@@ -1,7 +1,3 @@
-/**
- * Injects all necessary CSS for the comment section into the document's head.
- * This function ensures the styles are added only once.
- */
 function injectParagraphCommentStyles() {
     const styleId = 'paragraph-comments-styles';
     if (document.getElementById(styleId)) return;
@@ -9,7 +5,7 @@ function injectParagraphCommentStyles() {
     const style = document.createElement('style');
     style.id = styleId;
     style.textContent = `
-       
+        
         .comment {
             font-size: 80%;
         }
@@ -18,35 +14,22 @@ function injectParagraphCommentStyles() {
     document.head.appendChild(style);
 }
 
-/**
- * NEW FUNCTION
- * Returns the HTML string for the comment submission form.
- * @param {number} paragraphIndex - The index of the paragraph to associate the form with.
- * @returns {string} The HTML content of the form.
- */
+
 function getCommentFormHTML(paragraphIndex) {
     // A data attribute is added to the form to identify which paragraph it belongs to,
     // which is useful for handling the submission.
     return `
-    <div class="commentInputSection"style=padding-left:0px 0px;>
+    <div class="commentInputSection">
         <form id="commentForm" data-paragraph-index="${paragraphIndex}">
-            <input id="nameInput" maxlength="25" placeholder="Name" type="text"style=margin-bottom:3px 0px; /><br />
+            <input id="nameInput" maxlength="25" placeholder="Name" type="text" /><br />
             <div style="position: relative;">
                 <textarea id="commentInput" maxlength="500" placeholder="Write your comment here" rows="4"></textarea>
                 <span id="charCounter">500</span>
             </div>
-            <button type="submit"style=padding:4px 10px;>Submit Comment</button>
+            <button type="submit">Submit Comment</button>
         </form>
-        <hr style="border-color: #4f545c; margin: 15px 0;">
+        <hr>
     </div>
-    `;
-}
-
-
-function getNoCommentsHTML() {
-    return `
-        <p>No comments found for this paragraph.</p>
-        <p>Checkout the <a href="https://discord.com/invite/A7RwNZZ5q6" target="_blank">Discord</a> for further discussion.</p>
     `;
 }
 
@@ -66,12 +49,12 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
             await sleep(10);
             attempts++;
         }
-        if (allPageComments_GLOBAL_VARIABLE  !== null) {
+        if (allPageComments_GLOBAL_VARIABLE !== null) {
             comments = allPageComments_GLOBAL_VARIABLE;
         }
         else {
 
-            const response = await fetch(`${API_URL}?source=${encodeURIComponent(source)}`, {  method: "GET", });
+            const response = await fetch(`${API_URL}?source=${encodeURIComponent(source)}`, { method: "GET", });
             if (!response.ok) {
                 throw new Error(`Failed to fetch comments: ${await response.text()}`);
             }
@@ -80,7 +63,7 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
         commentContainer.innerHTML = "";
 
         if (comments.length === 0) {
-            commentContainer.innerHTML = getNoCommentsHTML();
+            commentContainer.innerHTML = `<p>No comments found for this paragraph.</p> `;
             return;
         }
 
@@ -98,23 +81,23 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
 
         function renderComments(comments, parentElement, level = 0) {
             comments.forEach(comment => {
-                 const commentDiv = document.createElement("div");
-                 commentDiv.className = "comment";
-                 commentDiv.style.marginLeft = `${level * 20}px`;
-                 
-                 const authorStrong = document.createElement("strong");
-                 authorStrong.textContent = comment.author || "Anonymous";
+                const commentDiv = document.createElement("div");
+                commentDiv.className = "comment";
+                commentDiv.style.marginLeft = `${level * 20}px`;
+                
+                const authorStrong = document.createElement("strong");
+                authorStrong.textContent = comment.author || "Anonymous";
 
-                 const contentSpan = document.createElement("span");
-                 contentSpan.textContent = comment.content;
-                 contentSpan.style.whiteSpace = "pre-line";
-                 
-                 const dateEm = document.createElement("em");
-                 dateEm.textContent = new Date(comment.date + 'Z').toLocaleString();
+                const contentSpan = document.createElement("span");
+                contentSpan.textContent = comment.content;
+                contentSpan.style.whiteSpace = "pre-line";
+                
+                const dateEm = document.createElement("em");
+                dateEm.textContent = new Date(comment.date + 'Z').toLocaleString();
 
-                 commentDiv.append(authorStrong, document.createElement("br"), contentSpan, document.createElement("br"), dateEm);
-                 
-                 // Add reply button only if the comment is not a reply itself
+                commentDiv.append(authorStrong, document.createElement("br"), contentSpan, document.createElement("br"), dateEm);
+                
+                // Add reply button only if the comment is not a reply itself
                 if (comment.nested === null) {
                     const replyButton = document.createElement("button");
                     replyButton.innerHTML = `
@@ -129,7 +112,7 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
                     </span>
                     <span class="reply-text"
                           style="display:inline-block;vertical-align:middle;">reply</span>
-                  `;
+                    `;
                     commentDiv.appendChild(replyButton);
                     replyButton.classList.add("reply-button");
                     commentDiv.appendChild(replyButton);
@@ -158,45 +141,27 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
 
                         const charCounter = document.createElement("span");
                         charCounter.textContent = "500";
-                        charCounter.style.color = "grey"; // Initial color
-                        charCounter.style.fontSize = "14px"; // Optional: Adjust font size
-                        charCounter.style.marginTop = "5px"; // Optional: Add spacing
-                        charCounter.style.position = "relative";
-                        charCounter.style.bottom = "8px";
-                        charCounter.style.right = "40px";
+                        // Kept: Default color setting for logic
+                        charCounter.style.color = "grey"; 
+                        // Removed: Static style.fontSize
+                        // Removed: Static style.marginTop
+                        // Removed: Static style.position
+                        // Removed: Static style.bottom
+                        // Removed: Static style.right
                         replyBoxDiv.appendChild(charCounter);
 
                         replyTextarea.addEventListener("input", () => {
                             const remaining = 500 - replyTextarea.value.length;
                             charCounter.textContent = `${remaining}`;
+                            // Kept: Situational color change logic
                             charCounter.style.color = remaining < 50 ? "red" : remaining < 100 ? "orange" : "grey";
                         });
 
                         const submitReplyButton = document.createElement("button");
                         submitReplyButton.textContent = "Submit Reply";
                         submitReplyButton.type = "submit";
-                        submitReplyButton.style.width = "150px";
-                        submitReplyButton.style.padding = "10px 10px";
-                        submitReplyButton.style.background = "linear-gradient(135deg, #3b8ccb, #2d85ec)";
-                        submitReplyButton.style.border = "none";
-                        submitReplyButton.style.color = "whitesmoke";
-                        submitReplyButton.style.fontSize = "16px";
-                        submitReplyButton.style.cursor = "pointer";
-                        submitReplyButton.style.borderRadius = "8px";
-                        submitReplyButton.style.display = "block";
-                        submitReplyButton.style.textAlign = "center";
-                        submitReplyButton.style.transition = "background 0.3s ease, box-shadow 0.3s ease";
-                        submitReplyButton.style.whiteSpace = "nowrap";
-
-                        submitReplyButton.addEventListener("mouseover", () => {
-                            submitReplyButton.style.background = "linear-gradient(135deg, #256bbc, #1d6bb3)";
-                            submitReplyButton.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.3)";
-                        });
-
-                        submitReplyButton.addEventListener("mouseout", () => {
-                            submitReplyButton.style.background = "linear-gradient(135deg, #3b8ccb, #2d85ec)";
-                            submitReplyButton.style.boxShadow = "none";
-                        });
+                        // Removed: All inline submitReplyButton styles
+                        // Removed: All submitReplyButton mouseover/mouseout listeners
 
                         replyBoxDiv.appendChild(submitReplyButton);
 
@@ -244,11 +209,10 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
                 }
 
 
-
-                 parentElement.appendChild(commentDiv);
-                 if (comment.replies && comment.replies.length > 0) {
-                     renderComments(comment.replies, parentElement, level + 1);
-                 }
+                parentElement.appendChild(commentDiv);
+                if (comment.replies && comment.replies.length > 0) {
+                    renderComments(comment.replies, parentElement, level + 1);
+                }
             });
         }
         renderComments(rootComments, commentContainer);
