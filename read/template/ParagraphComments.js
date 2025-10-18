@@ -289,3 +289,72 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(setupParagraphClickListeners, 500);
     }
 });
+
+
+
+
+
+
+
+
+
+
+function give_button_comment_posting_function(){
+    document.addEventListener("submit", async function(event) {
+        if (event.target.matches(".commentInputSection form")) {
+            event.preventDefault();
+    
+            const form = event.target;
+            const paragraphIndex = form.getAttribute("data-paragraph-index");
+            const name = form.querySelector("#nameInput").value.trim();
+            const comment_text = form.querySelector("#commentInput").value.trim();
+            const nested = false;
+    
+            await submitParagraphComment(name, comment_text, nested, paragraphIndex);
+        }
+    });
+}
+
+
+
+async function submitParagraphComment( name, comment_text, nested, paragraphIndex) {
+    event.preventDefault(); // Prevent the form from refreshing the page
+
+    const nameValue = name;
+    const commentValue = comment_text;
+    const source = window.location.href; // Use the current page URL as the source
+
+    if (!commentValue) {
+        alert("Please enter a comment before submitting.");
+        return;
+    }
+
+    const payload = {
+        author: nameValue || "Anonymous", // Default to Anonymous if no name is provided
+        content: commentValue,
+        source,
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+        
+
+        const errorText = await response.text();
+        if (!errorText.length == 0){
+            const errorText = await response.text();
+            alert(`Failed to submit comment: ${errorText}`);
+        }
+        
+
+        document.getElementById("commentForm").reset(); // Clear the form
+        fetchCommentsForCurrentSource(); // Reload comments
+    } catch (error) {
+        alert("Error submitting comment:", error);
+    }
+}
