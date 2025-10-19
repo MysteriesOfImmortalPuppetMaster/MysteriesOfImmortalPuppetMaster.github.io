@@ -189,7 +189,7 @@ def super_audio_functionn():
     <p id="folderInfo" class="timer"></p>
     <div class="bigbox">
         <div class="audio-controls">
-            <button id="playPauseBtn">▶</button>
+            <button id="playPauseBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg></button>
         </div>
         <div class="smlboxplusTime">
             <div class="smlbox">
@@ -205,13 +205,15 @@ def super_audio_functionn():
         </div>
     </div>
     <div class="volume-container">
-        <span class="audio-icon">🔊</span>
+        <span class="audio-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320ZM400-606l-86 86H200v80h114l86 86v-252ZM300-480Z"/></svg>
+        </span>
         <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
     </div>
     <audio id="currentAudio" style="display:none;" preload="auto" crossOrigin="anonymous"></audio>
     <audio id="nextAudio" style="display:none;" preload="auto" crossOrigin="anonymous"></audio>
-    <script src="../audioDisplay.js"></script>
-    <link rel="stylesheet" href="../audioDisplay.css">
+    <script src="../template/audioDisplay.js"></script>
+    <link rel="stylesheet" href="../template/audioDisplay.css">
     """
 
     BASE_AUDIO_URL = "https://mysteriesofimmortalpuppetmaster.github.io/audioStash/"
@@ -374,23 +376,7 @@ def main():
             elif os.path.isfile(item_path):
                 os.remove(item_path)
 
-    # Just copy the template files into /read (once, not for each chapter)
-    # This part seems to copy a /template subfolder and template.html into /read
-    # Ensure this is what you intend (e.g. CSS, JS for the template.html)
-    # If template_html_path is os.path.join(read_folder, 'template.html'), this is fine.
-    # This section is for general template assets, not the chapter-specific HTML generation.
-    if os.path.exists(template_folder_path): # Check if template_folder_path exists
-        for item in os.listdir(template_folder_path):
-            src_path = os.path.join(template_folder_path, item)
-            dest_path = os.path.join(read_folder, item)
-            if os.path.isdir(src_path):
-                if os.path.exists(dest_path): # Avoid error if dest_path already exists
-                    shutil.rmtree(dest_path)
-                shutil.copytree(src_path, dest_path)
-            else:
-                shutil.copy(src_path, dest_path)
-    else:
-        print(f"Warning: Template folder {template_folder_path} not found. Skipping asset copy.")
+
 
 
     # --- OPTIMIZATION: Load and parse the template HTML ONCE ---
@@ -488,7 +474,6 @@ def main():
     print("Website successfully updated.")
 
    
-
 
 
 

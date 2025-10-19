@@ -105,7 +105,7 @@ playPauseBtn.addEventListener('click', () => {
 
     if (isPlaying) {
         currentAudio.pause();
-        playPauseBtn.textContent = '▶';
+        playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>';
     } else {
         // Check if sources need to be set up (first play)
         if (!currentAudio.src) {
@@ -119,7 +119,11 @@ playPauseBtn.addEventListener('click', () => {
 
         connectAnalyser(currentAudio);
         currentAudio.play().catch(err => console.error("[playPauseBtn] Play error:", err));
-        playPauseBtn.textContent = '⏸';
+        playPauseBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    `;
     }
 
     isPlaying = !isPlaying;
@@ -289,7 +293,7 @@ function formatTime(seconds) {
 function resetPlayer() {
     console.log("[resetPlayer] Called. Stopping audio, resetting UI...");
     isPlaying = false;
-    playPauseBtn.textContent = '▶';
+    playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>';
     currentTimeSpan.textContent = '0:00';
     progressBar.style.width = '0%';
 

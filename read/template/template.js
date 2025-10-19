@@ -1,4 +1,7 @@
-﻿// STEP ONE: Extract the folder name from the URL
+﻿var GLOBAL_ALL_CHAPTERS_JSON = null;
+
+
+// STEP ONE: Extract the folder name from the URL
 function getCurrentFolder() {
     let currentUrl = window.location.href;
     let folderPattern = /\/([^\/]+)\/?$/;
@@ -10,6 +13,14 @@ function getCurrentFolder() {
         alert("Could not determine the folder from the URL.");
         return null;
     }
+}
+
+function selectChapter(event) {
+    let selectedChapterFolder = event.target.value;
+    let currentUrl = window.location.href;
+    let baseUrl = currentUrl.replace(/\/[^\/]+\/?$/, '');
+    let selectedChapterUrl = baseUrl + '/' + selectedChapterFolder + '/';
+    window.location.href = selectedChapterUrl;
 }
 
 // STEP TWO: Find the current chapter in chapters.json
@@ -42,8 +53,6 @@ function goToPreviousChapter(chapters) {
         let baseUrl = currentUrl.replace(/\/[^\/]+\/?$/, '');
         let previousChapterUrl = baseUrl + '/' + previousChapterFolder + '/';
         window.location.href = previousChapterUrl;
-    } else {
-        alert("You are already at the first chapter.");
     }
 }
 
@@ -63,8 +72,6 @@ function goToNextChapter(chapters) {
         let baseUrl = currentUrl.replace(/\/[^\/]+\/?$/, '');
         let nextChapterUrl = baseUrl + '/' + nextChapterFolder + '/';
         window.location.href = nextChapterUrl;
-    } else {
-        alert("You are already at the last chapter.");
     }
 }
 
@@ -104,66 +111,84 @@ function nextChapter() {
         });
 }
 
-// Function to populate the chapter dropdown menu (for both top and bottom)
-function populateChapterDropdown(chapters, dropdownId) {
-    let folderName = getCurrentFolder();
-    let currentChapterIndex = getCurrentChapter(folderName, chapters);
+// OPTIMIZED populate function
+function populateChapterDropdown(chapters, dropdownId, currentIndex) {
+    const dropdown = document.getElementById(dropdownId);
+    if (!dropdown) return;
 
-    let dropdown = document.getElementById(dropdownId);
+    // Use a single HTML string instead of appendChild in a loop
+    const optionsHTML = chapters.map((chapter, i) => {
+        const name = chapter.filename.replace('.txt', '');
+        const title = chapter.title.length > 45 ? chapter.title.slice(0, 45) + '…' : chapter.title;
+        const selected = i === currentIndex ? ' selected' : '';
+        return `<option value="${name}"${selected}>${title}</option>`;
+    }).join('');
 
-    dropdown.innerHTML = '';
-
-    chapters.forEach((chapter, index) => {
-        let option = document.createElement('option');
-        option.value = chapter.filename.replace('.txt', '');
-        option.text = chapter.title;
-
-        if (index === currentChapterIndex) {
-            option.selected = true;
-        }
-
-        dropdown.appendChild(option);
-    });
+    dropdown.innerHTML = optionsHTML;
 }
 
-// Function to handle chapter selection from the dropdown
-function selectChapter(event) {
-    let selectedChapterFolder = event.target.value;
-    let currentUrl = window.location.href;
-    let baseUrl = currentUrl.replace(/\/[^\/]+\/?$/, '');
-    let selectedChapterUrl = baseUrl + '/' + selectedChapterFolder + '/';
-    window.location.href = selectedChapterUrl;
-}
 
-// Function to load chapters.json and populate both top and bottom dropdowns
-function loadChapterDropdowns() {
-    fetch('../../chapters.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to load chapters.json');
-            }
-            return response.json();
-        })
-        .then(chapters => {
-            // Populate both the top and bottom dropdowns
-            populateChapterDropdown(chapters, 'chapter-select-top');
-            populateChapterDropdown(chapters, 'chapter-select-bottom');
-        })
-        .catch(error => {
-            console.error('Error loading chapters.json:', error);
-            alert('Could not load chapters.json. Please check if the file exists.');
+function prefetchAdjacentChapters(chapters, currentIndex) {
+    const baseUrl = window.location.href.replace(/\/[^\/]+\/?$/, '');
+
+    // Previous chapter
+    if (currentIndex > 0) {
+        const prev = document.createElement('link');
+        prev.rel = 'prefetch';
+        prev.href = `${baseUrl}/${chapters[currentIndex - 1].filename.replace('.txt', '')}/`;
+        document.head.appendChild(prev);
+    }
+    else {
+        const bottomButtons = document.querySelectorAll('.bottomButtons button[onclick="prevChapter()"]');
+        bottomButtons.forEach(btn => {
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'not-allowed';
         });
+    }
+
+    // Next chapter
+    if (currentIndex < chapters.length - 1) {
+        const next = document.createElement('link');
+        next.rel = 'prefetch';
+        next.href = `${baseUrl}/${chapters[currentIndex + 1].filename.replace('.txt', '')}/`;
+        document.head.appendChild(next);
+    }
+    else {
+        const nextButtons = document.querySelectorAll('.bottomButtons button[onclick="nextChapter()"]');
+        nextButtons.forEach(btn => {
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'not-allowed';
+        });
+    }
 }
 
-// Call this function when the page loads to populate both dropdowns
-window.onload = function () {
-    loadChapterDropdowns();
-};
+// Function to load chapters.json and populate both dropdowns
+function loadChapterDropdowns() {
+    const folderName = getCurrentFolder();
+    const currentIndex = getCurrentChapter(folderName, GLOBAL_ALL_CHAPTERS_JSON);
+
+    // Build once, insert twice
+    populateChapterDropdown(GLOBAL_ALL_CHAPTERS_JSON, 'chapter-select-top', currentIndex);
+    populateChapterDropdown(GLOBAL_ALL_CHAPTERS_JSON, 'chapter-select-bottom', currentIndex);
+
+    prefetchAdjacentChapters(GLOBAL_ALL_CHAPTERS_JSON, currentIndex);
+}
 
 
-
-
-
+async function loadChapterJson() {
+    try {
+      const response = await fetch('../../chapters.json');
+      if (!response.ok) throw new Error('Failed to load chapters.json');
+      const chapters = await response.json();
+      GLOBAL_ALL_CHAPTERS_JSON = chapters;
+      return chapters;
+    } catch (error) {
+      console.error('Error loading chapters.json:', error);
+      alert('Could not load chapters.json. Please check if the file exists.');
+    }
+  }
 
 
 /*light mode toggle*/
@@ -182,6 +207,12 @@ function toggleLightMode() {
     const isLightMode = document.body.classList.contains('light-mode');
     localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
 }
+
+
+
+
+
+
 
 toggleButton.addEventListener('click', toggleLightMode);
 
@@ -228,7 +259,11 @@ window.addEventListener('scroll', () => {
 });
 
 // Apply saved theme on page load
-window.addEventListener('load', () => {
+window.addEventListener('load',async  () => {
+
+    await loadChapterJson();
+    loadChapterDropdowns();
+    
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
@@ -236,4 +271,49 @@ window.addEventListener('load', () => {
     } else {
         toggleButton.textContent = '🌙';
     }
+
+/*
+    const scrollRequestJSON = localStorage.getItem('scrollRequest');
+    if (scrollRequestJSON) { 
+        const scrollRequest = JSON.parse(scrollRequestJSON);
+        const SCROLL_DELAY_MS = 300;
+        
+        setTimeout(() => {
+            const desiredY = scrollRequest.scrollPosition || 0;
+            window.scrollTo({
+                top: desiredY,
+                left: 0,
+                behavior: 'smooth' 
+            });
+
+            localStorage.removeItem('scrollRequest'); 
+        }, SCROLL_DELAY_MS);
+    }
+*/
+
 });
+
+
+document.addEventListener('keydown', function(event) {
+    switch(event.key) {
+        case 'ArrowLeft':
+            prevChapter()
+            break;
+        case 'ArrowRight':
+            nextChapter()
+            break;
+    }
+});
+
+
+setInterval(() => {
+    if (!document.hasFocus()) return;
+    const data = {
+        url: window.location.href,
+        scrollPosition: window.scrollY,
+        timestamp: Date.now()
+    };
+    localStorage.setItem('pageState', JSON.stringify(data));
+}, 5000);
+
+

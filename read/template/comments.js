@@ -1,5 +1,5 @@
 const API_URL = "https://commentator-worker.pptinsanity.workers.dev/api/data";
-
+let allPageComments_GLOBAL_VARIABLE = null;
 
 //TODO: delete before pushing to prod
 //This script creates moderator-accounts
@@ -63,9 +63,13 @@ async function fetchCommentsForCurrentSource() {
             alert(`Failed to fetch comments: ${errorText}`);
         }
 
-        const comments = await response.json();
-        commentSection.innerHTML = "";
+        allPageComments_GLOBAL_VARIABLE = await response.json();
+        let comments = allPageComments_GLOBAL_VARIABLE;
+        comments = comments.filter(c => c.comment_line == null);
+        
 
+        commentSection.innerHTML = "";
+       
         if (comments.length === 0) {
             commentSection.innerHTML = `
             <p>No comments found for this page.</p>
@@ -119,16 +123,6 @@ async function fetchCommentsForCurrentSource() {
                 commentDiv.classList.add("comment");
                 commentDiv.style.marginLeft = `${level * 20}px`; // Indent replies
 
-
-
-
-
-
-
-
-
-
-
                 // --- START: REPLACEMENT CODE (SAFE RENDERING) ---
 
                 // Create the Author element (Strong)
@@ -162,20 +156,23 @@ async function fetchCommentsForCurrentSource() {
 
                 // --- END: REPLACEMENT CODE (SAFE RENDERING) ---
 
-
-
-
-
-
-
-
-
-
-
                 // Add reply button only if the comment is not a reply itself
                 if (comment.nested === null) {
                     const replyButton = document.createElement("button");
-                    replyButton.textContent = "↩ reply";
+                    replyButton.innerHTML = `
+                    <span class="reply-icon" aria-hidden="true"
+                          style="display:inline-flex;align-items:flex-end;line-height:0;margin-right:0px;margin-left:3px;">
+                      <svg xmlns="http://www.w3.org/2000/svg"
+                           viewBox="0 0 16 16"
+                           fill="currentColor"
+                           style="width:13px;height:13px;display:block;position:relative;top:3px;">
+                        <path d="M5 15H4L0 11L4 7H5V10H11C12.6569 10 14 8.65685 14 7C14 5.34315 12.6569 4 11 4H4V2H11C13.7614 2 16 4.23858 16 7C16 9.76142 13.7614 12 11 12H5V15Z"/>
+                      </svg>
+                    </span>
+                    <span class="reply-text"
+                          style="display:inline-block;vertical-align:middle;">reply</span>
+                  `;
+                    commentDiv.appendChild(replyButton);
                     replyButton.classList.add("reply-button");
                     commentDiv.appendChild(replyButton);
 
@@ -314,7 +311,7 @@ async function submitComment(event) {
     }
 
     const payload = {
-        author: nameValue || "Anonymous", // Default to Anonymous if no name is provided
+        author: nameValue || "Anonymous",
         content: commentValue,
         source,
     };
@@ -333,7 +330,7 @@ async function submitComment(event) {
             alert(`Failed to submit comment: ${errorText}`);
         }
 
-        alert("Comment submitted successfully!");
+        window.location.reload();
         document.getElementById("commentForm").reset(); // Clear the form
         fetchCommentsForCurrentSource(); // Reload comments
     } catch (error) {
@@ -345,4 +342,29 @@ async function submitComment(event) {
 
 document.getElementById("commentForm").addEventListener("submit", submitComment);
 
-window.addEventListener("DOMContentLoaded", fetchCommentsForCurrentSource);
+//window.addEventListener("DOMContentLoaded", fetchCommentsForCurrentSource);
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+    await fetchCommentsForCurrentSource();
+    LoadCommentCountBadge();
+    setupParagraphClickListeners();
+
+
+    const scrollRequestJSON = localStorage.getItem('scrollRequest');
+    if (scrollRequestJSON) { 
+        const scrollRequest = JSON.parse(scrollRequestJSON);
+        const desiredY = scrollRequest.scrollPosition || 0;
+        window.scrollTo({
+            top: desiredY,
+            left: 0,
+            behavior: 'smooth' 
+        });
+        localStorage.removeItem('scrollRequest'); 
+    }
+
+});
+
+
+
+

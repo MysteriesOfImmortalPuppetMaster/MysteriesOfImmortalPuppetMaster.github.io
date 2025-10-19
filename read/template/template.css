@@ -77,24 +77,24 @@ button.read-chapter {
     transition: background 0.3s ease, box-shadow 0.3s ease;
     white-space: nowrap; /* Prevent text wrapping */
 }
+
+paragraph {
+    cursor: pointer; 
+}
 paragraph:hover {
     background: linear-gradient(rgba(100, 100, 100, 0.00), rgba(100, 100, 100, 0.2));
     border-radius: 2px;
 }
-    /* Hover effect */
-    button.read-chapter:hover {
-        background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    }
 
-/* Responsive Design for Smaller Screens */
-@media (max-width: 464px) {
-    button.read-chapter {
-        width: 100%; /* Full width for buttons */
-        font-size: 4vw; /* Make font size responsive to screen width */
-        padding: 8px 10px;
-    }
+
+
+/* Hover effect */
+button.read-chapter:hover {
+    background: linear-gradient(135deg, #256bbc, #1d6bb3); /* Hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+
+
 
 .chapter-headline {
     width: 93%; /* Ensure the div takes up the full width */
@@ -106,29 +106,22 @@ paragraph:hover {
     border-bottom: 1px solid #ccc;
 }
 
-/* Modified CSS for the layout with buttons left and right of the select */
-.bottomButtons {
-    display: flex;
-    justify-content: space-between; /* Force buttons to left and right of select */
-    align-items: center; /* Vertically align items */
-    max-width: 800px; /* Lock the width to match the #chapterContent */
-    margin: 0 auto; /* Center the buttons container */
-}
+
 
 button.read-chapter {
     flex-shrink: 0; /* Prevent buttons from shrinking */
 }
 
-#chapter-select-bottom, #chapter-select-top {
-    flex-grow: 1; /* Allow the select to take up remaining space */
-    max-width: 350px; /* Limit the width of the select */
-    margin: 0 10px; /* Add some margin around the select */
-}
 
-/* chapter selector */
+
+
 
 /* Style for the chapter select dropdown */
 #chapter-select-top, #chapter-select-bottom {
+    flex-grow: 1; /* Allow the select to take up remaining space */
+    max-width: 350px; /* Limit the width of the select */
+    margin: 0 10px; /* Add some margin around the select */
+
     padding: 5px;
     font-size: 16px;
     border: 2px solid #BCBCBD; /* Green border matching buttons */
@@ -166,28 +159,62 @@ button.read-chapter {
     position: relative; /* For custom arrow positioning */
 }
 
+
+
+/* Modified CSS for the layout with buttons left and right of the select */
+.bottomButtons {
+    display: flex;
+    justify-content: space-between; /* Force buttons to left and right of select */
+    align-items: center; /* Vertically align items */
+    max-width: 800px; /* Lock the width to match the #chapterContent */
+    margin: 0 auto; /* Center the buttons container */
+}
+
+
+
 /* Mobile adjustments */
 @media (max-width: 600px) {
-    #chapter-select-top, #chapter-select-bottom {
-        max-width: 100%; /* Full width on smaller screens */
-    }
 
+    body { overflow-x: hidden; }
+
+    /* Target the button container (it's a class, not an ID) */
     .bottomButtons {
-        flex-direction: column; /* Stack the buttons and select vertically on small screens */
-        align-items: center; /* Center items vertically */
+        display: flex; 
+        max-width: 100%; 
+        padding: 0 10px; 
+        box-sizing: border-box;
+        padding: 0px 2px; 
     }
 
-    button.read-chapter {
-        width: 100%; /* Full width for buttons */
-        max-width: 100%;
+    /* Target the buttons (it's a class) and force them to shrink */
+    .read-chapter { 
+        width: 30%; 
+        min-width: 60px; 
+        padding: 8px 0px !important; 
+        margin: 0px,0px !important;
+        font-size: 12px !important; 
+        
+
+        flex-shrink: 1 !important; 
+        
+
+        white-space: nowrap;
+        overflow: hidden; 
+        text-overflow: ellipsis; /* Adds "..." to show clipping */
+
     }
 
-    #chapter-select-bottom {
-        width: 100%; /* Full width for select on smaller screens */
-        max-width: 100%;
-        margin: 10px 0; /* Add margin between buttons and select */
+    /* Target the chapter select dropdowns and allow them to shrink */
+    #chapter-select-top, #chapter-select-bottom {
+        flex-grow: 1; 
+        min-width: 80px; 
+        max-width: 40%; 
+        margin: 0 5px; 
+        font-size: 12px;
+        height: 30px; 
     }
 }
+
 
 
 
@@ -266,3 +293,121 @@ body.light-mode {
         background-color: #ffffff;
         border-color: #cccccc;
     }
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+ * Styles for the submitReplyButton element.
+ * Note: The hover/mouseout effects involve dynamic style changes in the JS
+ * which cannot be directly represented in static CSS without a :hover pseudo-class.
+ */
+.commentInputSection button[type="submit"] {
+    width: 150px;
+    padding: 10px 10px;
+    background: linear-gradient(135deg, #3b8ccb, #2d85ec);
+    border: none;
+    color: whitesmoke;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Add the hover style from the JS for a complete CSS representation */
+.commentInputSection button[type="submit"]:hover {
+    background: linear-gradient(135deg, #256bbc, #1d6bb3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/*
+ * Styles for the charCounter element.
+ * The position properties here reflect the default positioning when the reply box is opened.
+ * Note: The color changing logic is situational (based on remaining characters) and is kept in the JavaScript.
+ */
+.commentInputSection span:nth-child(4) { /* This targets the dynamically created charCounter in the reply form */
+    color: grey; /* Initial color before user input */
+    font-size: 14px;
+    margin-top: 5px;
+    position: relative;
+    bottom: 8px;
+    right: 40px;
+}
+
+/* For the main form's charCounter (inside getCommentFormHTML) which is a direct child of a div with relative position */
+#commentInputSection #charCounter {
+    /* If you prefer to apply styles to the ID for the *main* comment form: */
+    position: absolute;
+    bottom: 5px; /* Adjust based on parent div and textarea layout */
+    right: 5px; /* Adjust based on parent div and textarea layout */
+    color: grey; /* Initial color before user input */
+    font-size: 14px; /* Assuming consistency with the reply counter */
+}
+
+
+
+.comment-count-badge {
+    font-size: 0.65em;
+    color: #bcbcbc;
+    background: #f1f1f13d;
+    border-radius: 10px;
+    padding: 2px 4px;
+    margin-left: 5px;
+    vertical-align: middle;
+    opacity: 0.8;
+    user-select: none;
+}
+
+
+
+/* 1. Target the 'Submit Comment' button for the main paragraph form */
+#commentForm button[type="submit"] {
+    padding: 5px 5px; 
+}
+/* 2. Submit Reply Button (highly specific selector) */
+.comment .commentInputSection button[type="submit"] {
+    padding: 5px 5px; 
+}
+
+/* Style for the ACTIVELY SELECTED paragraph */
+.comment-active-paragraph {
+
+    background-color: #0088ff20; 
+
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone; 
+    
+    padding-left: 3px; 
+    border-left-color: #007bffa1; 
+    border-left-style: solid;
+    border-left-width: 3px;
+}
+
+
+.comment-active-paragraph:hover {
+
+    background-color: #0088ff20;
+    border-left-color: #007bff;
+    padding-left: 3px; 
+    border-left-width: 3px;
+}
+
