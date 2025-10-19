@@ -66,7 +66,7 @@ async function fetchCommentsForCurrentSource() {
         allPageComments_GLOBAL_VARIABLE = await response.json();
         let comments = allPageComments_GLOBAL_VARIABLE;
         comments = comments.filter(c => c.comment_line == null);
-
+        
 
         commentSection.innerHTML = "";
        
@@ -345,13 +345,22 @@ document.getElementById("commentForm").addEventListener("submit", submitComment)
 //window.addEventListener("DOMContentLoaded", fetchCommentsForCurrentSource);
 
 document.addEventListener('DOMContentLoaded', async () => {
+    
     await fetchCommentsForCurrentSource();
     LoadCommentCountBadge();
+    setupParagraphClickListeners();
 
-    if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(setupParagraphClickListeners, { timeout: 2000 });
-    } else {
-        setTimeout(setupParagraphClickListeners, 500);
+
+    const scrollRequestJSON = localStorage.getItem('scrollRequest');
+    if (scrollRequestJSON) { 
+        const scrollRequest = JSON.parse(scrollRequestJSON);
+        const desiredY = scrollRequest.scrollPosition || 0;
+        window.scrollTo({
+            top: desiredY,
+            left: 0,
+            behavior: 'smooth' 
+        });
+        localStorage.removeItem('scrollRequest'); 
     }
 
 });

@@ -1,5 +1,17 @@
 
-
+function setupCharCounter(commentInput, charCounter){
+commentInput.addEventListener("input", () => {
+    const remaining = 500 - commentInput.value.length;
+    charCounter.textContent = `${remaining}`;
+    if (remaining > 100) {
+        charCounter.style.color = "grey";
+    } else if (remaining > 50) {
+        charCounter.style.color = "orange";
+    } else {
+        charCounter.style.color = "red";
+    }
+});
+}
 
 
 function getCommentFormHTML(paragraphIndex) {
@@ -221,7 +233,12 @@ function toggleParagraphCommentSection(paragraphIndex) {
     const form = newCommentSection.querySelector("form");
     const nameInput = form.querySelector("#nameInput");
     const textarea = form.querySelector("#commentInput");
-    
+    const charCounter = form.querySelector("#charCounter");
+
+    if (textarea && charCounter) {
+        setupCharCounter(textarea, charCounter);
+    }
+
     form.addEventListener("submit", async  (e) => {
         e.preventDefault();
         await submitParagraphComment(nameInput.value, textarea.value, null, paragraphIndex);
