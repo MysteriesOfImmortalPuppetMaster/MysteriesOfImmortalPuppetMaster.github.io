@@ -141,19 +141,14 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
 
                         replyBoxDiv.appendChild(replyTextarea);
 
+                        
                         const charCounter = document.createElement("span");
                         charCounter.textContent = "500";
-                        // Kept: Default color setting for logic
                         charCounter.style.color = "grey"; 
-
                         replyBoxDiv.appendChild(charCounter);
-
-                        replyTextarea.addEventListener("input", () => {
-                            const remaining = 500 - replyTextarea.value.length;
-                            charCounter.textContent = `${remaining}`;
-                            // Kept: Situational color change logic
-                            charCounter.style.color = remaining < 50 ? "red" : remaining < 100 ? "orange" : "grey";
-                        });
+                        if (replyTextarea && charCounter) {
+                            setupCharCounter(replyTextarea, charCounter);
+                        }
 
                         const submitReplyButton = document.createElement("button");
                         submitReplyButton.textContent = "Submit Reply";
