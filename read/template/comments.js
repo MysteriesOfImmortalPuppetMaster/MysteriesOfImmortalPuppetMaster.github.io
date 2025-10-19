@@ -1,5 +1,5 @@
 const API_URL = "https://commentator-worker.pptinsanity.workers.dev/api/data";
-
+let allPageComments_GLOBAL_VARIABLE = null;
 
 //TODO: delete before pushing to prod
 //This script creates moderator-accounts
@@ -48,8 +48,6 @@ commentInput.addEventListener("input", () => {
         nameInput.value = nameInput.value.slice(0, 25); // Trim to 25 characters
     }
 });
-
-let allPageComments_GLOBAL_VARIABLE = null;
 
 async function fetchCommentsForCurrentSource() {
     const commentSection = document.querySelector(".mainCommentSection");

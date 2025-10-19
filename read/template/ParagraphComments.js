@@ -262,6 +262,16 @@ function toggleParagraphCommentSection(paragraphIndex) {
     // Insert the entire new section (form + comments list) after the clicked paragraph.
     clickedParagraph.insertAdjacentElement('afterend', newCommentSection);
 
+    // ✅ NEW CODE: attach unique handler to THIS section’s form
+    const form = newCommentSection.querySelector("form");
+    const nameInput = form.querySelector("#nameInput");
+    const textarea = form.querySelector("#commentInput");
+    
+    form.addEventListener("submit", async  (e) => {
+        e.preventDefault();
+        await submitParagraphComment(nameInput.value, textarea.value, false, paragraphIndex);
+    });
+
     // Fetch and render the comments into the dedicated sub-container.
     fetchAndRenderParagraphComments(commentsListContainer, paragraphIndex);
 }
@@ -298,41 +308,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-function give_button_comment_posting_function(){
-    document.addEventListener("submit", async function(event) {
-        if (event.target.matches(".commentInputSection form")) {
-            event.preventDefault();
-    
-            const form = event.target;
-            const paragraphIndex = form.getAttribute("data-paragraph-index");
-            const name = form.querySelector("#nameInput").value.trim();
-            const comment_text = form.querySelector("#commentInput").value.trim();
-            const nested = false;
-    
-            await submitParagraphComment(name, comment_text, nested, paragraphIndex);
-        }
-    });
-}
-
-
-
 async function submitParagraphComment( name, comment_text, nested, paragraphIndex) {
-    event.preventDefault(); // Prevent the form from refreshing the page
 
     const nameValue = name;
     const commentValue = comment_text;
-    const source = window.location.href; // Use the current page URL as the source
+    const source = window.location.href;
 
     if (!commentValue) {
         alert("Please enter a comment before submitting.");
         return;
     }
 
+
     const payload = {
-        author: nameValue || "Anonymous", // Default to Anonymous if no name is provided
+        author: nameValue || "Anonymous",
         content: commentValue,
         source,
+        nested: null,
+        comment_line: paragraphIndex,
     };
 
     try {
@@ -346,14 +339,13 @@ async function submitParagraphComment( name, comment_text, nested, paragraphInde
         
 
         const errorText = await response.text();
-        if (!errorText.length == 0){
-            const errorText = await response.text();
+        if (((!errorText.length) == "Comment Posted")  ){
             alert(`Failed to submit comment: ${errorText}`);
         }
         
-
+       
         document.getElementById("commentForm").reset(); // Clear the form
-        fetchCommentsForCurrentSource(); // Reload comments
+        
     } catch (error) {
         alert("Error submitting comment:", error);
     }
