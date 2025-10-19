@@ -362,3 +362,17 @@ body.light-mode {
     color: grey; /* Initial color before user input */
     font-size: 14px; /* Assuming consistency with the reply counter */
 }
+
+
+
+.comment-count-badge {
+    font-size: 0.65em;
+    color: #bcbcbc;
+    background: #f1f1f13d;
+    border-radius: 10px;
+    padding: 2px 4px;
+    margin-left: 5px;
+    vertical-align: middle;
+    opacity: 0.8;
+    user-select: none;
+}

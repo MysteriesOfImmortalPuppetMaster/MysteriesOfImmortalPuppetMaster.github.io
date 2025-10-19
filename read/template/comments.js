@@ -64,7 +64,10 @@ async function fetchCommentsForCurrentSource() {
         }
 
         allPageComments_GLOBAL_VARIABLE = await response.json();
-        const comments = allPageComments_GLOBAL_VARIABLE;
+        let comments = allPageComments_GLOBAL_VARIABLE;
+        comments = comments.filter(c => c.comment_line == null);
+
+
         commentSection.innerHTML = "";
        
         if (comments.length === 0) {
@@ -308,7 +311,7 @@ async function submitComment(event) {
     }
 
     const payload = {
-        author: nameValue || "Anonymous", // Default to Anonymous if no name is provided
+        author: nameValue || "Anonymous",
         content: commentValue,
         source,
     };
@@ -339,4 +342,20 @@ async function submitComment(event) {
 
 document.getElementById("commentForm").addEventListener("submit", submitComment);
 
-window.addEventListener("DOMContentLoaded", fetchCommentsForCurrentSource);
+//window.addEventListener("DOMContentLoaded", fetchCommentsForCurrentSource);
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchCommentsForCurrentSource();
+    LoadCommentCountBadge();
+
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(setupParagraphClickListeners, { timeout: 2000 });
+    } else {
+        setTimeout(setupParagraphClickListeners, 500);
+    }
+
+});
+
+
+
+

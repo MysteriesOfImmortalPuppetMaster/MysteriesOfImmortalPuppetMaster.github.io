@@ -1,18 +1,4 @@
-function injectParagraphCommentStyles() {
-    const styleId = 'paragraph-comments-styles';
-    if (document.getElementById(styleId)) return;
 
-    const style = document.createElement('style');
-    style.id = styleId;
-    style.textContent = `
-        
-        .comment {
-            font-size: 80%;
-        }
-        
-    `;
-    document.head.appendChild(style);
-}
 
 
 
@@ -20,7 +6,7 @@ function getCommentFormHTML(paragraphIndex) {
     // A data attribute is added to the form to identify which paragraph it belongs to,
     // which is useful for handling the submission.
     return `
-    <div class="commentInputSection">
+    <div class="commentInputSection"style="font-size: 80%;">
         <form id="commentForm" data-paragraph-index="${paragraphIndex}">
             <input id="nameInput" maxlength="25" placeholder="Name" type="text" /><br />
             <div style="position: relative;">
@@ -85,6 +71,7 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
         function renderComments(comments, parentElement, level = 0) {
             comments.forEach(comment => {
                 const commentDiv = document.createElement("div");
+                commentDiv.style.fontSize = "70%";
                 commentDiv.className = "comment";
                 commentDiv.style.marginLeft = `${level * 20}px`;
                 
@@ -200,8 +187,6 @@ function toggleParagraphCommentSection(paragraphIndex) {
     const clickedParagraph = document.querySelector(`[index="${paragraphIndex}"]`);
     if (!clickedParagraph) return;
 
-    injectParagraphCommentStyles();
-
     const commentSectionId = 'paragraph-comment-section-container';
     let existingCommentSection = document.getElementById(commentSectionId);
 
@@ -261,23 +246,6 @@ function setupParagraphClickListeners() {
     console.log('Paragraph click listeners have been set up.');
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(setupParagraphClickListeners, { timeout: 2000 });
-    } else {
-        setTimeout(setupParagraphClickListeners, 500);
-    }
-});
-
-
-
-
-
-
-
-
-
 async function submitParagraphComment( name, comment_text, nested, paragraphIndex) {
 
 
@@ -319,3 +287,29 @@ async function submitParagraphComment( name, comment_text, nested, paragraphInde
 
     window.location.reload();
 }
+
+
+function LoadCommentCountBadge(){
+    console.log(document.querySelectorAll("paragraph")); // how many nodes?
+    document.querySelectorAll("paragraph").forEach(p => {
+
+        const paragraphIndex = p.getAttribute("index");
+
+        // count how many comments belong to this paragraph
+        const commentCount = allPageComments_GLOBAL_VARIABLE
+            .filter(c => c.comment_line !== null && Number(c.comment_line) === Number(paragraphIndex))
+            .length;
+
+
+        if (commentCount > 0) {
+            // create a little number badge
+            const badge = document.createElement("span");
+            badge.textContent = ` ${commentCount}`;
+            badge.className = "comment-count-badge";
+            p.appendChild(badge);
+        }
+    });
+    
+
+}
+
