@@ -379,11 +379,6 @@ body.light-mode {
 
 
 
-
-
-
-
-
 /* 1. Target the 'Submit Comment' button for the main paragraph form */
 #commentForm button[type="submit"] {
     padding: 5px 5px; 

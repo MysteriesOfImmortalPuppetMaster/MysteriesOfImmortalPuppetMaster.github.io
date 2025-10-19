@@ -20,7 +20,7 @@ function getCommentFormHTML(paragraphIndex) {
     return `
     <div class="commentInputSection"style="font-size: 80%;">
         <form id="commentForm" data-paragraph-index="${paragraphIndex}">
-            <input id="nameInput" maxlength="25" placeholder="Name" type="text" /><br />
+            <input id="nameInput" maxlength="25" placeholder="Name" type="text" style="margin-bottom: 5px;" /><br />
             <div style="position: relative;">
                 <textarea id="commentInput" maxlength="500" placeholder="Write your comment here" rows="4"></textarea>
                 <span id="charCounter">500</span>
@@ -131,6 +131,7 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
                         nameInput.type = "text";
                         nameInput.placeholder = "Anonymous";
                         nameInput.maxLength = 25;
+                        nameInput.style.marginBottom = '5px';
                         replyBoxDiv.appendChild(nameInput);
 
                         const replyTextarea = document.createElement("textarea");
