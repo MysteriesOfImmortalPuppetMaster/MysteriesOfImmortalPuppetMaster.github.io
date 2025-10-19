@@ -63,6 +63,8 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
         }
         commentContainer.innerHTML = "";
 
+        comments = comments.filter(c => c.comment_line === paragraphIndex);
+
         if (comments.length === 0) {
             commentContainer.innerHTML = `<p>No comments found for this paragraph.</p> `;
             return;
@@ -168,39 +170,7 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
                             const replyContent = replyTextarea.value.trim();
                             const replyAuthor = nameInput.value.trim() || "Anonymous";
 
-                            if (!replyContent) {
-                                alert("Please enter a reply before submitting.");
-                                return;
-                            }
-
-                            const replyPayload = {
-                                author: replyAuthor,
-                                content: replyContent,
-                                source: window.location.href,
-                                nested: comment.ID,
-                            };
-
-                            try {
-                                const response = await fetch(API_URL, {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify(replyPayload),
-                                });
-
-                                if (!response.ok) {
-                                    const errorText = await response.text();
-                                    alert(`Failed to submit reply: ${errorText}`);
-                                }
-
-                                alert("Reply submitted successfully!");
-                                replyBoxDiv.remove();
-                                fetchCommentsForCurrentSource();
-                            } catch (error) {
-                                console.error("Error submitting reply:", error);
-                                alert("Failed to submit your reply. Please try again.");
-                            }
+                            submitParagraphComment(replyAuthor, replyContent, comment.ID, paragraphIndex);
                         });
                     });
                 }
@@ -269,7 +239,7 @@ function toggleParagraphCommentSection(paragraphIndex) {
     
     form.addEventListener("submit", async  (e) => {
         e.preventDefault();
-        await submitParagraphComment(nameInput.value, textarea.value, false, paragraphIndex);
+        await submitParagraphComment(nameInput.value, textarea.value, null, paragraphIndex);
     });
 
     // Fetch and render the comments into the dedicated sub-container.
@@ -310,21 +280,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function submitParagraphComment( name, comment_text, nested, paragraphIndex) {
 
-    const nameValue = name;
-    const commentValue = comment_text;
-    const source = window.location.href;
 
-    if (!commentValue) {
+    if (!comment_text) {
         alert("Please enter a comment before submitting.");
         return;
     }
-
+ 
 
     const payload = {
-        author: nameValue || "Anonymous",
-        content: commentValue,
-        source,
-        nested: null,
+        author: name || "Anonymous",
+        content: comment_text,
+        source: window.location.href,
+        nested: nested,
         comment_line: paragraphIndex,
     };
 
@@ -349,4 +316,6 @@ async function submitParagraphComment( name, comment_text, nested, paragraphInde
     } catch (error) {
         alert("Error submitting comment:", error);
     }
+
+    window.location.reload();
 }
