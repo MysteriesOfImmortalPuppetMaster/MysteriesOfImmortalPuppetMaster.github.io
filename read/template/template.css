@@ -387,3 +387,27 @@ body.light-mode {
 .comment .commentInputSection button[type="submit"] {
     padding: 5px 5px; 
 }
+
+/* Style for the ACTIVELY SELECTED paragraph */
+.comment-active-paragraph {
+
+    background-color: #0088ff20; 
+
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone; 
+    
+    padding-left: 3px; 
+    border-left-color: #007bffa1; 
+    border-left-style: solid;
+    border-left-width: 3px;
+}
+
+
+.comment-active-paragraph:hover {
+
+    background-color: #0088ff20;
+    border-left-color: #007bff;
+    padding-left: 3px; 
+    border-left-width: 3px;
+}
+

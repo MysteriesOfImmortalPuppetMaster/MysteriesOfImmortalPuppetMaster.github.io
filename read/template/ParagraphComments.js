@@ -134,40 +134,56 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
                         nameInput.style.marginBottom = '5px';
                         replyBoxDiv.appendChild(nameInput);
 
-                        const replyTextarea = document.createElement("textarea");
-                        replyTextarea.placeholder = "Write your reply...";
-                        replyTextarea.rows = 3;
-                        replyTextarea.maxLength = 500;
+                                        // Create a wrapper div for the textarea + counter
+                    const replyContainer = document.createElement("div");
+                    replyContainer.style.position = "relative";
+                    replyContainer.style.display = "inline-block";
+                    replyContainer.style.width = "100%";
 
+                    // Create the textarea
+                    const replyTextarea = document.createElement("textarea");
+                    replyTextarea.placeholder = "Write your reply...";
+                    replyTextarea.rows = 3;
+                    replyTextarea.maxLength = 500;
+                    replyTextarea.style.width = "100%";
+                    replyTextarea.style.boxSizing = "border-box";
+                    replyTextarea.style.paddingBottom = "24px"; // space for counter
 
-                        replyBoxDiv.appendChild(replyTextarea);
+                    // Create the counter span (positioned inside the container)
+                    const charCounter = document.createElement("span");
+                    charCounter.textContent = "500";
+                    charCounter.style.position = "absolute";
+                    charCounter.style.bottom = "6px";
+                    charCounter.style.right = "18px";
+                    charCounter.style.fontSize = "13px";
+                    charCounter.style.color = "grey";
+                    charCounter.style.pointerEvents = "none";
 
-                        
-                        const charCounter = document.createElement("span");
-                        charCounter.textContent = "500";
-                        charCounter.style.color = "grey"; 
-                        replyBoxDiv.appendChild(charCounter);
-                        if (replyTextarea && charCounter) {
-                            setupCharCounter(replyTextarea, charCounter);
-                        }
+                    // Combine them
+                    replyContainer.appendChild(replyTextarea);
+                    replyContainer.appendChild(charCounter);
+                    replyBoxDiv.appendChild(replyContainer);
 
-                        const submitReplyButton = document.createElement("button");
-                        submitReplyButton.textContent = "Submit Reply";
-                        submitReplyButton.type = "submit";
-                        // Removed: All inline submitReplyButton styles
-                        // Removed: All submitReplyButton mouseover/mouseout listeners
+                    // Hook up the counter logic
+                    if (replyTextarea && charCounter) {
+                    setupCharCounter(replyTextarea, charCounter);
+                    }
 
-                        replyBoxDiv.appendChild(submitReplyButton);
+                    // Create submit button
+                    const submitReplyButton = document.createElement("button");
+                    submitReplyButton.textContent = "Submit Reply";
+                    submitReplyButton.type = "submit";
+                    replyBoxDiv.appendChild(submitReplyButton);
 
-                        commentDiv.appendChild(replyBoxDiv);
+                    commentDiv.appendChild(replyBoxDiv);
 
-                        submitReplyButton.addEventListener("click", async () => {
-                            const replyContent = replyTextarea.value.trim();
-                            const replyAuthor = nameInput.value.trim() || "Anonymous";
-
-                            submitParagraphComment(replyAuthor, replyContent, comment.ID, paragraphIndex);
-                        });
+                    // Event listener for submit
+                    submitReplyButton.addEventListener("click", async () => {
+                        const replyContent = replyTextarea.value.trim();
+                        const replyAuthor = nameInput.value.trim() || "Anonymous";
+                        submitParagraphComment(replyAuthor, replyContent, comment.ID, paragraphIndex);
                     });
+                });
                 }
 
 
@@ -178,6 +194,12 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
             });
         }
         renderComments(rootComments, commentContainer);
+
+        const fineLine = document.createElement("hr");
+        fineLine.style.border = "none";
+        fineLine.style.borderTop = "1px solid #83838377";
+        
+        commentContainer.appendChild(fineLine);
 
     } catch (error) {
         console.error("Error fetching comments:", error);
@@ -198,6 +220,8 @@ function toggleParagraphCommentSection(paragraphIndex) {
     const commentSectionId = 'paragraph-comment-section-container';
     let existingCommentSection = document.getElementById(commentSectionId);
 
+    document.querySelectorAll('.comment-active-paragraph').forEach(p => p.classList.remove('comment-active-paragraph'));
+
     // If a section is already open for this paragraph, close it and exit.
     if (existingCommentSection && existingCommentSection.previousElementSibling === clickedParagraph) {
         existingCommentSection.remove();
@@ -209,6 +233,7 @@ function toggleParagraphCommentSection(paragraphIndex) {
         existingCommentSection.remove();
     }
 
+    clickedParagraph.classList.add('comment-active-paragraph');
     // Create the main container for both the form and the comments list.
     const newCommentSection = document.createElement('div');
     newCommentSection.id = commentSectionId;
@@ -247,7 +272,6 @@ function toggleParagraphCommentSection(paragraphIndex) {
 
 function setupParagraphClickListeners() {
     const paragraphs = document.querySelectorAll('paragraph');
-    
     paragraphs.forEach(p => {
         p.addEventListener('click', () => {
             const index = parseInt(p.getAttribute('index'), 10);

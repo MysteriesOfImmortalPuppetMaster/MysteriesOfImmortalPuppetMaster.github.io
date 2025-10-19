@@ -330,7 +330,7 @@ async function submitComment(event) {
             alert(`Failed to submit comment: ${errorText}`);
         }
 
-        alert("Comment submitted successfully!");
+        window.location.reload();
         document.getElementById("commentForm").reset(); // Clear the form
         fetchCommentsForCurrentSource(); // Reload comments
     } catch (error) {
@@ -345,7 +345,7 @@ document.getElementById("commentForm").addEventListener("submit", submitComment)
 //window.addEventListener("DOMContentLoaded", fetchCommentsForCurrentSource);
 
 document.addEventListener('DOMContentLoaded', async () => {
-    
+
     await fetchCommentsForCurrentSource();
     LoadCommentCountBadge();
     setupParagraphClickListeners();
