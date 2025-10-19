@@ -1,17 +1,9 @@
 .vs/
 testFramework for text.html
 .vscode
-<<<<<<< HEAD
-node_modules
-eslint.config.mjs
-jsconfig.json
-package-lock.json
-package.json
-=======
 
 eslint.config.mjs
 package-lock.json
 package.json
 node_modules
 jsconfig.json
->>>>>>> visual_overhaul
