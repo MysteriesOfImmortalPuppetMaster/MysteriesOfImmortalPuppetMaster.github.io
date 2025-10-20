@@ -90,6 +90,12 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
                 const authorStrong = document.createElement("strong");
                 authorStrong.textContent = comment.author || "Anonymous";
 
+                const authorColor = comment.authorRank === "admin" ? "#bc0000" :
+                    comment.authorRank === "moderator" ? "#2e7fff" : "";
+                if (authorColor) {
+                    authorStrong.style.color = authorColor;
+                }
+
                 const contentSpan = document.createElement("span");
                 contentSpan.textContent = comment.content;
                 contentSpan.style.whiteSpace = "pre-line";
