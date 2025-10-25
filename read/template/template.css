@@ -10,7 +10,8 @@ body {
 /* Apply padding only for screens larger than 600px */
 @media (min-width: 941px) {
     body {
-        padding: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
 }
 
@@ -24,13 +25,6 @@ body {
     padding: 0px;
     padding-bottom: 50px; /* Add bottom padding */
     border-radius: 4px;
-}
-
-/* Apply padding only for screens larger than 600px */
-@media (min-width: 928px) {
-    body {
-        padding: 20px;
-    }
 }
 
 /* Book Info and Chapter Title Styling */
@@ -104,6 +98,26 @@ button.read-chapter:hover {
     margin-left: 30px;
     padding: 0px 0;
     border-bottom: 1px solid #ccc;
+}
+
+/* Apply padding only for screens larger than 600px */
+@media (max-width: 649px) {
+
+    .chapter-headline {
+        min-width: 95%; /* Ensure the div takes up the full width */
+        font-size: 19px;
+        margin-left: 20px;
+
+    }
+}
+
+@media (max-width: 394px) {
+
+    .chapter-headline {
+        min-width: 60%;
+        font-size: 16px;
+        margin-left: 20px;
+    }
 }
 
 
