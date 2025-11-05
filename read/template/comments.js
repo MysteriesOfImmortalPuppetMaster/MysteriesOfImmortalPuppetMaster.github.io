@@ -77,7 +77,7 @@ async function fetchCommentsForCurrentSource() {
                 target="_blank" 
                 style="text-decoration: none; color: #5865F2; font-weight: bold; 
                        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); transition: all 0.3s ease;">
-                Discord
+                       ${DISCORD_SVG} Discord
             </a> for further discussion.</p>
             <style>
                 a:hover {

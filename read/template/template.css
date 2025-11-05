@@ -379,6 +379,27 @@ body.light-mode {
 
 
 
+
+
+/* 💡 Light Mode Styles for Comment Input Section */
+body.light-mode .commentInputSection {
+    background-color: #f8f8f8; /* Light background */
+    color: #000; /* Dark text */
+    border-radius: 8px;
+}
+
+body.light-mode .commentInputSection textarea {
+    color: #0c003d;
+    background: linear-gradient(to bottom, #d3d3d3, #cecfde);
+}
+
+body.light-mode .commentInputSection input {
+    color: #0c003d;
+    background: linear-gradient(to bottom, #d3d3d3, #cecfde);
+}
+
+
+
 .comment-count-badge {
     font-size: 0.65em;
     color: #bcbcbc;
