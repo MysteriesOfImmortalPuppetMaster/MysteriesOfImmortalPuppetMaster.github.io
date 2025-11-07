@@ -1,10 +1,9 @@
 ﻿
 html {
-    /* font-family: "Arimo", "Noto Sans", sans-serif; */
     font-family: "Arimo", "Noto Sans", sans-serif;
     font-optical-sizing: auto;
 } 
-/* Global Styles for Dark Mode and Centered Layout */
+
 body {
     background-color: #2d2d2d; /* Dark background color */
     color: #fff; /* Light text color */
