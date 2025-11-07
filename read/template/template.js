@@ -201,7 +201,7 @@ function toggleLightMode() {
     document.body.classList.toggle('light-mode');
 
     // Update button icon based on the mode
-    toggleButton.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+    toggleButton.innerHTML = document.body.classList.contains('light-mode') ? SUN_SVG : MOON_SVG;
 
     // Save theme preference in localStorage
     const isLightMode = document.body.classList.contains('light-mode');
@@ -229,7 +229,7 @@ window.addEventListener('scroll', () => {
         toggleButton = document.createElement('button');
         toggleButton.id = 'light-mode-toggle';
         toggleButton.ariaLabel = 'Toggle light mode';
-        toggleButton.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+        toggleButton.innerHTML = document.body.classList.contains('light-mode') ? SUN_SVG : MOON_SVG;
         toggleButton.addEventListener('click', toggleLightMode);
         document.body.appendChild(toggleButton);
         isButtonPresent = true;
@@ -267,29 +267,11 @@ window.addEventListener('load',async  () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
-        toggleButton.textContent = '☀️';
+        toggleButton.innerHTML = SUN_SVG;
     } else {
-        toggleButton.textContent = '🌙';
+        toggleButton.innerHTML = MOON_SVG;
     }
 
-/*
-    const scrollRequestJSON = localStorage.getItem('scrollRequest');
-    if (scrollRequestJSON) { 
-        const scrollRequest = JSON.parse(scrollRequestJSON);
-        const SCROLL_DELAY_MS = 300;
-        
-        setTimeout(() => {
-            const desiredY = scrollRequest.scrollPosition || 0;
-            window.scrollTo({
-                top: desiredY,
-                left: 0,
-                behavior: 'smooth' 
-            });
-
-            localStorage.removeItem('scrollRequest'); 
-        }, SCROLL_DELAY_MS);
-    }
-*/
 
 });
 
@@ -306,7 +288,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 
-setInterval(() => {
+function savePageState() {
     if (!document.hasFocus()) return;
     const data = {
         url: window.location.href,
@@ -314,7 +296,10 @@ setInterval(() => {
         timestamp: Date.now()
     };
     localStorage.setItem('pageState', JSON.stringify(data));
-}, 5000);
+}
+
+savePageState();
+setInterval(savePageState, 5000);
 
 
 
@@ -331,3 +316,11 @@ let DISCORD_SVG =
 </path>
     </g>
 </svg>`; 
+
+
+
+let MOON_SVG = 
+`<svg fill="#000000" viewBox="0 0 24 24" id="moon-alt" xmlns="http://www.w3.org/2000/svg" class="icon multi-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title style="stroke-width: 2;">moon alt</title><path id="secondary-fill" d="M21,12a9,9,0,0,1-9,9,8.91,8.91,0,0,1-6.38-2.67A8.64,8.64,0,0,0,9,19,9,9,0,0,0,15.38,3.66,9,9,0,0,1,21,12Z" style="fill: #3b8ccb; stroke-width: 2;"></path><path id="primary-stroke" d="M21,12A9,9,0,0,1,3.25,14.13,6.9,6.9,0,0,0,8,16,7,7,0,0,0,11.61,3H12A9,9,0,0,1,21,12Z" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>`;
+
+let SUN_SVG = 
+`<svg fill="#000000" viewBox="0 0 24 24" id="sun" xmlns="http://www.w3.org/2000/svg" class="icon multi-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title style="stroke-width: 2;">sun</title><circle id="primary-fill" cx="12" cy="12" r="4" style="fill: #000000; stroke-width: 2;"></circle><path id="secondary-stroke" d="M12,3V4M5.64,5.64l.7.7M3,12H4m1.64,6.36.7-.7M12,21V20m6.36-1.64-.7-.7M21,12H20M18.36,5.64l-.7.7" style="fill: none; stroke: #3b8ccb; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>`;
