@@ -15,6 +15,10 @@
   
 }
 
+
+body.light-mode div.audio-source.player-container {
+    background: #ffffff !important;
+}
 #folderSelect {
     width: 100%;
     padding: 8px 12px;
