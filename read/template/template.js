@@ -33,7 +33,7 @@ function getCurrentChapter(folderName, chapters) {
         }
     }
 
-    if (window.location) { window.location.reload(true); } // reload site if there is a cache-missmatch
+    alert("Could not find the current chapter in chapters.json."); // reload site if there is a cache-missmatch
     return null;
 }
 
