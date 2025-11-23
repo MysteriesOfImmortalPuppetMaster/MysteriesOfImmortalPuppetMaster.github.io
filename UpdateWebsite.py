@@ -442,7 +442,7 @@ def main():
             headline_div.clear()
             # More efficient way to add the new headline
             new_h2 = soup.new_tag('h2')
-            new_h2.string = headline
+            new_h2.append(BeautifulSoup(headline, 'html.parser'))
             headline_div.append(new_h2)
         else:
             print(f"Warning: 'chapterHeadline' div not found in template for chapter '{title}'.")
