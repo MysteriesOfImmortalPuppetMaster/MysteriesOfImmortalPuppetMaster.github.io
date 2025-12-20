@@ -426,10 +426,20 @@ def main():
 
         #chapter_html = chapter_content.replace('\n', '<br>\n')
         lines = chapter_content.split('\n')
-        wrapped_lines = [
-            f'<paragraph index="{i}">{line}</paragraph><br><br>' if line.strip() else ''
-            for i, line in enumerate(lines)
-        ]
+
+        wrapped_lines = []
+        for i, line in enumerate(lines):
+            stripped_line = line.strip()
+            if stripped_line == "-----":
+                # Replace separator with custom HR but keep the index attribute
+                wrapped_lines.append(f'<hr class="subtle-line" index="{i}">')
+            elif stripped_line:
+                # Standard paragraph
+                wrapped_lines.append(f'<paragraph index="{i}">{line}</paragraph><br><br>')
+            else:
+                # Empty lines
+                wrapped_lines.append('')
+
         chapter_html = '\n'.join(wrapped_lines)
         # "Parse" step: Use a deep copy of the pre-parsed template soup.
         # This is MUCH faster than reading from disk and parsing each time.

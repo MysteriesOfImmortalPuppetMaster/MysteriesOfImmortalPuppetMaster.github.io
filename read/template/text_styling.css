@@ -89,3 +89,11 @@ paragraph p.glitch-text { /* unreadable glitched text*/
         opacity: 0;
         transition: opacity 2s ease;
     }
+
+
+.subtle-line {
+    border: 0;
+    height: 1px;
+    background-color: #989898;
+    margin: 5px 0;
+}
