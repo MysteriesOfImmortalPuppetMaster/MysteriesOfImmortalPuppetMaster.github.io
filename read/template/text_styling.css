@@ -1,5 +1,5 @@
 
-
+@import url('https://fonts.googleapis.com/css2?family=Sirivennela&display=swap" rel="stylesheet'); /* for letters */
 
 
 
@@ -20,8 +20,6 @@ paragraph p.glitch-text { /* unreadable glitched text*/
     filter: blur(0.5px) contrast(1.5);
     animation: flicker 3s infinite;
 }
-
-
 @keyframes flicker {
     0%, 95%, 100% {
         opacity: 1;
@@ -66,8 +64,7 @@ paragraph p.glitch-text { /* unreadable glitched text*/
     vertical-align: bottom;
     cursor: help;
 }
-
-    .spoiler::after {
+.spoiler::after {
         content: "SPOILER";
         display: flex;
         align-items: center;
@@ -82,13 +79,10 @@ paragraph p.glitch-text { /* unreadable glitched text*/
         opacity: 1;
         transition: opacity 10000s step-end;
         pointer-events: auto;
-    }
+}
+.spoiler:hover::after,
+.spoiler:active::after { opacity: 0;  transition: opacity 2s ease; }
 
-    .spoiler:hover::after,
-    .spoiler:active::after {
-        opacity: 0;
-        transition: opacity 2s ease;
-    }
 
 
 .subtle-line {
@@ -96,4 +90,14 @@ paragraph p.glitch-text { /* unreadable glitched text*/
     height: 1px;
     background-color: #989898;
     margin: 5px 0;
+}
+
+
+.letter {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-style: italic;
+    color: #ffe5bb;
+}
+body.light-mode .letter {
+    color: #482c00;
 }
