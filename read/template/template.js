@@ -111,16 +111,18 @@ function nextChapter() {
         });
 }
 
-// OPTIMIZED populate function
+
 function populateChapterDropdown(chapters, dropdownId, currentIndex) {
     const dropdown = document.getElementById(dropdownId);
     if (!dropdown) return;
 
     // Use a single HTML string instead of appendChild in a loop
     const optionsHTML = chapters.map((chapter, i) => {
+
         const name = chapter.filename.replace('.txt', '');
         const title = chapter.title.length > 45 ? chapter.title.slice(0, 45) + '…' : chapter.title;
         const selected = i === currentIndex ? ' selected' : '';
+
         return `<option value="${name}"${selected}>${title}</option>`;
     }).join('');
 
