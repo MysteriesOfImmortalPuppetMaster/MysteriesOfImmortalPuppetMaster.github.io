@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta content="noindex, nofollow" name="robots" />
+    <meta content='A fan-translation of the book "Mysteries Of Immortal Puppet Master."' name="description" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="https://i.imgur.com/5QU6ZWZ.png" property="og:image" />
+    <title>Mysteries Of Immortal Puppet Master TL</title>
+    <link href="../styles.css" rel="stylesheet" /> <!-- Link to the external CSS file -->
+    <link href="../ppt1.webp" rel="icon" type="image/webp" />
+    <script defer="" src="settings.js"></script>
+    <!-- ScrollBooster Library -->
+    <script src="https://cdn.jsdelivr.net/npm/scrollbooster@3.0.0/dist/scrollbooster.min.js"></script>
+    <!-- Google Analytics tag (gtag.js) -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2XEFBZ7YNS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-2XEFBZ7YNS');
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Book Cover and Info -->
+        <div class="book-info-container">
+            <div class="book-cover">
+                <img alt="Book Cover" src="settings-cover.webp" />
+            </div>
+            <div class="book-info">
+                <h1>Mechanical Settings</h1>
+
+
+            </div>
+        </div>
+        <h3>This page is still under construction!</h3>
+        <div class="settings-page">
+            <h2>Settings</h2>
+
+            <!-- Updated Button: First Chapter -->
+            <button class="read-chapter" onclick="window.location.href='read/1/'">Something</button>
+            <!-- New Button: Latest Chapter -->
+            <button class="read-chapter" onclick="scrollToBottom()">Something else</button>
+            <button class="read-chapter" onclick="goToSavedState()">Idk yet</button>
+        </div>
+
+
+        <h3>Background Image</h3>
+
+        <select id="bgSelector" onchange="handleBGChange()">
+            <option value="">Default</option>
+            <option value="https://i.imgur.com/5QU6ZWZ.png">Classic</option>
+            <option value="https://i.imgur.com/abcd123.png">Alt 1</option>
+            <option value="https://i.imgur.com/xyz456.png">Alt 2</option>
+            <option value="custom">Custom URL</option>
+        </select>
+
+        <input type="text"
+               id="customBGInput"
+               placeholder="Paste image URL here..."
+               style="display:none; margin-top:8px;" />
+
+        <button onclick="saveBG()">Save Background</button>
+
+
+    </div>
+    <link href="settings.css" rel="stylesheet" />
+</body>
+</html>
