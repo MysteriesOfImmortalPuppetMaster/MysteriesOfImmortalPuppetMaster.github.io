@@ -33,8 +33,7 @@ function getCurrentChapter(folderName, chapters) {
         }
     }
 
-    alert("Could not find the current chapter in chapters.json."); // reload site if there is a cache-missmatch
-    return null;
+    throw new Error("CHAPTER_NOT_FOUND");
 }
 
 function goToPreviousChapter(chapters) {
@@ -176,15 +175,15 @@ async function loadChapterJson(forceReload = false) {
             url += '?t=' + new Date().getTime();
         }
         const response = await fetch(url, options);
-      if (!response.ok) throw new Error('Failed to load chapters.json');
-      const chapters = await response.json();
-      GLOBAL_ALL_CHAPTERS_JSON = chapters;
+        if (!response.ok) throw new Error('Failed to load chapters.json');
+        const chapters = await response.json();
+        GLOBAL_ALL_CHAPTERS_JSON = chapters;
 
     } catch (error) {
-      console.error('Error loading chapters.json:', error);
-      alert('Could not load chapters.json. Please check if the file exists.');
+        console.error('Error loading chapters.json:', error);
+        alert('Could not load chapters.json. Please check if the file exists.');
     }
-  }
+}
 
 function toggleLightMode() {
     document.body.classList.toggle('light-mode');
@@ -317,7 +316,12 @@ function main() {
 
     window.addEventListener('load', () => {
         loadChapterJson().then(() => {
-            loadChapterDropdowns();
+            try { loadChapterDropdowns(); }
+            catch (err) {
+                loadChapterJson(true).then(() => {
+                    loadChapterDropdowns();
+                });
+            }
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
                 document.body.classList.add('light-mode');
@@ -327,7 +331,7 @@ function main() {
             }
         });
     });
-    
+
     document.addEventListener('keydown', function (event) {
         switch (event.key) {
             case 'ArrowLeft':
@@ -351,8 +355,8 @@ main();
 
 
 
-let DISCORD_SVG = 
-`<?xml version="1.0" encoding="UTF-8"?>
+let DISCORD_SVG =
+    `<?xml version="1.0" encoding="UTF-8"?>
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
 <svg width="1em" height="1em" style="vertical-align:-0.15em" viewBox="0 -28.5 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
     <g>
@@ -360,12 +364,12 @@ let DISCORD_SVG =
 
 </path>
     </g>
-</svg>`; 
+</svg>`;
 
 
 
-let MOON_SVG = 
-`<svg fill="#000000" viewBox="0 0 24 24" id="moon-alt" xmlns="http://www.w3.org/2000/svg" class="icon multi-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title style="stroke-width: 2;">moon alt</title><path id="secondary-fill" d="M21,12a9,9,0,0,1-9,9,8.91,8.91,0,0,1-6.38-2.67A8.64,8.64,0,0,0,9,19,9,9,0,0,0,15.38,3.66,9,9,0,0,1,21,12Z" style="fill: #3b8ccb; stroke-width: 2;"></path><path id="primary-stroke" d="M21,12A9,9,0,0,1,3.25,14.13,6.9,6.9,0,0,0,8,16,7,7,0,0,0,11.61,3H12A9,9,0,0,1,21,12Z" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>`;
+let MOON_SVG =
+    `<svg fill="#000000" viewBox="0 0 24 24" id="moon-alt" xmlns="http://www.w3.org/2000/svg" class="icon multi-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title style="stroke-width: 2;">moon alt</title><path id="secondary-fill" d="M21,12a9,9,0,0,1-9,9,8.91,8.91,0,0,1-6.38-2.67A8.64,8.64,0,0,0,9,19,9,9,0,0,0,15.38,3.66,9,9,0,0,1,21,12Z" style="fill: #3b8ccb; stroke-width: 2;"></path><path id="primary-stroke" d="M21,12A9,9,0,0,1,3.25,14.13,6.9,6.9,0,0,0,8,16,7,7,0,0,0,11.61,3H12A9,9,0,0,1,21,12Z" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>`;
 
-let SUN_SVG = 
-`<svg fill="#000000" viewBox="0 0 24 24" id="sun" xmlns="http://www.w3.org/2000/svg" class="icon multi-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title style="stroke-width: 2;">sun</title><circle id="primary-fill" cx="12" cy="12" r="4" style="fill: #000000; stroke-width: 2;"></circle><path id="secondary-stroke" d="M12,3V4M5.64,5.64l.7.7M3,12H4m1.64,6.36.7-.7M12,21V20m6.36-1.64-.7-.7M21,12H20M18.36,5.64l-.7.7" style="fill: none; stroke: #3b8ccb; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>`;
+let SUN_SVG =
+    `<svg fill="#000000" viewBox="0 0 24 24" id="sun" xmlns="http://www.w3.org/2000/svg" class="icon multi-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title style="stroke-width: 2;">sun</title><circle id="primary-fill" cx="12" cy="12" r="4" style="fill: #000000; stroke-width: 2;"></circle><path id="secondary-stroke" d="M12,3V4M5.64,5.64l.7.7M3,12H4m1.64,6.36.7-.7M12,21V20m6.36-1.64-.7-.7M21,12H20M18.36,5.64l-.7.7" style="fill: none; stroke: #3b8ccb; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>`;
