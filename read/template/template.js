@@ -122,7 +122,6 @@ function populateChapterDropdown(chapters, dropdownId, currentIndex) {
 
     dropdown.innerHTML = optionsHTML;
 }
-
 function prefetchAdjacentChapters(chapters, currentIndex) {
     const baseUrl = window.location.href.replace(/\/[^\/]+\/?$/, '');
 
@@ -242,15 +241,39 @@ function savePageState() {
     localStorage.setItem('pageState', JSON.stringify(data));
 }
 
+// prevents flashing.
+function renderInstantDropdown() {
+    const headlineEl = document.querySelector('#chapterHeadline h2');
+    if (!headlineEl) return;
+
+    const fullTitle = headlineEl.textContent.trim();
+    const displayTitle = fullTitle.length > 45 ? fullTitle.slice(0, 45) + '…' : fullTitle.padEnd(45, '\u00A0');
+
+    const filename = window.location.pathname.split('/').pop().replace('.html', '');
+
+    const initialOption = `<option value="${filename}" selected>${displayTitle}</option>`;
+
+    const dropdownIds = ['chapter-select-top', 'chapter-select-bottom'];
+
+    dropdownIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = initialOption;
+    });
+}
 
 /// Entrypoint
 function main() {
+    renderInstantDropdown();
+
     toggleButton.addEventListener('click', toggleLightMode);
 
     window.addEventListener('scroll', () => {
         scrollEventListener();
     });
-    // Apply saved theme on page load
+
+
+
+
     window.addEventListener('load', () => {
         loadChapterJson().then(() => {
             loadChapterDropdowns();

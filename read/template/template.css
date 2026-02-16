@@ -138,6 +138,7 @@ button.read-chapter {
 #chapter-select-top, #chapter-select-bottom {
     flex-grow: 1; /* Allow the select to take up remaining space */
     max-width: 350px; /* Limit the width of the select */
+
     margin: 0 10px; /* Add some margin around the select */
 
     padding: 5px;
