@@ -2,13 +2,19 @@
 html {
     font-family: "Arimo", "Noto Sans", sans-serif;
     font-optical-sizing: auto;
-} 
+}
 
 body {
     background-color: #2d2d2d;
     color: #fff;
     margin: 0;
     padding: 0;
+    /* added for background image*/
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* Apply padding only for screens larger than 600px */

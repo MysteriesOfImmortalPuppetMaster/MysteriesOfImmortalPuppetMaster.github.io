@@ -261,10 +261,40 @@ function renderInstantDropdown() {
     });
 }
 
+function applySavedBG() {
+    const savedBG = localStorage.getItem("customBG");
+    const selector = document.getElementById("bgSelector");
+    const input = document.getElementById("customBGInput");
+
+    if (!savedBG) {
+        document.body.style.backgroundImage = "none";
+
+        if (selector) selector.value = "";
+        if (input) {
+            input.value = "";
+            input.style.display = "none";
+        }
+
+        return;
+    }
+
+    document.body.style.backgroundImage = `url("${savedBG}")`;
+
+    if (selector) {
+        if (bgOptions.includes(savedBG)) {
+            selector.value = savedBG;
+            input.style.display = "none";
+        } else {
+            selector.value = "custom";
+            input.value = savedBG;
+            input.style.display = "block";
+        }
+    }
+}
 /// Entrypoint
 function main() {
     renderInstantDropdown();
-
+    applySavedBG()
     toggleButton.addEventListener('click', toggleLightMode);
 
     window.addEventListener('scroll', () => {

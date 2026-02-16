@@ -56,9 +56,9 @@ function handleBGChange() {
 
 
 const bgOptions = [
-    "https://i.imgur.com/5QU6ZWZ.png",
-    "https://i.imgur.com/abcd123.png",
-    "https://i.imgur.com/xyz456.png"
+    "https://raw.githubusercontent.com/MysteriesOfImmortalPuppetMaster/MysteriesOfImmortalPuppetMaster.github.io/28df10fde9edf26b126494f2dec5085c78361ab9/settings/night-sky.jpg",
+    "https://raw.githubusercontent.com/MysteriesOfImmortalPuppetMaster/MysteriesOfImmortalPuppetMaster.github.io/28df10fde9edf26b126494f2dec5085c78361ab9/settings/tree.jpg",
+    "https://raw.githubusercontent.com/MysteriesOfImmortalPuppetMaster/MysteriesOfImmortalPuppetMaster.github.io/28df10fde9edf26b126494f2dec5085c78361ab9/settings/hong-Kong-skyline.jpg"
 ];
 
 function preloadBGImages() {
