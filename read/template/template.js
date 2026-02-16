@@ -167,9 +167,15 @@ async function loadChapterDropdowns() {
 
     prefetchAdjacentChapters(GLOBAL_ALL_CHAPTERS_JSON, currentIndex);
 }
-async function loadChapterJson() {
+async function loadChapterJson(forceReload = false) {
     try {
-      const response = await fetch('../../chapters.json');
+        let url = '../../chapters.json';
+        let options = {};
+        if (forceReload) {
+            options.cache = 'reload';
+            url += '?t=' + new Date().getTime();
+        }
+        const response = await fetch(url, options);
       if (!response.ok) throw new Error('Failed to load chapters.json');
       const chapters = await response.json();
       GLOBAL_ALL_CHAPTERS_JSON = chapters;
