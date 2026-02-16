@@ -1,7 +1,8 @@
 ﻿var GLOBAL_ALL_CHAPTERS_JSON = null;
+let toggleButton = document.getElementById('light-mode-toggle');
+let isButtonPresent = true;
 
 
-// STEP ONE: Extract the folder name from the URL
 function getCurrentFolder() {
     let currentUrl = window.location.href;
     let folderPattern = /\/([^\/]+)\/?$/;
@@ -23,13 +24,12 @@ function selectChapter(event) {
     window.location.href = selectedChapterUrl;
 }
 
-// STEP TWO: Find the current chapter in chapters.json
 function getCurrentChapter(folderName, chapters) {
     for (let i = 0; i < chapters.length; i++) {
         let chapterFolder = chapters[i].filename.replace('.txt', '');
 
         if (chapterFolder === folderName) {
-            return i; // Return the index of the current chapter
+            return i;
         }
     }
 
@@ -37,7 +37,6 @@ function getCurrentChapter(folderName, chapters) {
     return null;
 }
 
-// STEP THREE: Navigate to the previous chapter
 function goToPreviousChapter(chapters) {
     let folderName = getCurrentFolder();
 
@@ -56,7 +55,6 @@ function goToPreviousChapter(chapters) {
     }
 }
 
-// STEP FOUR: Navigate to the next chapter
 function goToNextChapter(chapters) {
     let folderName = getCurrentFolder();
 
@@ -75,7 +73,6 @@ function goToNextChapter(chapters) {
     }
 }
 
-// Function to load chapters.json dynamically for previous chapter navigation
 function prevChapter() {
     fetch('../../chapters.json')
         .then(response => {
@@ -93,7 +90,6 @@ function prevChapter() {
         });
 }
 
-// Function to load chapters.json dynamically for next chapter navigation
 function nextChapter() {
     fetch('../../chapters.json')
         .then(response => {
@@ -111,11 +107,9 @@ function nextChapter() {
         });
 }
 
-
 function populateChapterDropdown(chapters, dropdownId, currentIndex) {
     const dropdown = document.getElementById(dropdownId);
     if (!dropdown) return;
-
     // Use a single HTML string instead of appendChild in a loop
     const optionsHTML = chapters.map((chapter, i) => {
 
@@ -128,7 +122,6 @@ function populateChapterDropdown(chapters, dropdownId, currentIndex) {
 
     dropdown.innerHTML = optionsHTML;
 }
-
 
 function prefetchAdjacentChapters(chapters, currentIndex) {
     const baseUrl = window.location.href.replace(/\/[^\/]+\/?$/, '');
@@ -165,9 +158,7 @@ function prefetchAdjacentChapters(chapters, currentIndex) {
         });
     }
 }
-
-// Function to load chapters.json and populate both dropdowns
-function loadChapterDropdowns() {
+async function loadChapterDropdowns() {
     const folderName = getCurrentFolder();
     const currentIndex = getCurrentChapter(folderName, GLOBAL_ALL_CHAPTERS_JSON);
 
@@ -177,28 +168,19 @@ function loadChapterDropdowns() {
 
     prefetchAdjacentChapters(GLOBAL_ALL_CHAPTERS_JSON, currentIndex);
 }
-
-
 async function loadChapterJson() {
     try {
       const response = await fetch('../../chapters.json');
       if (!response.ok) throw new Error('Failed to load chapters.json');
       const chapters = await response.json();
       GLOBAL_ALL_CHAPTERS_JSON = chapters;
-      return chapters;
+
     } catch (error) {
       console.error('Error loading chapters.json:', error);
       alert('Could not load chapters.json. Please check if the file exists.');
     }
   }
 
-
-/*light mode toggle*/
-
-let toggleButton = document.getElementById('light-mode-toggle');
-let isButtonPresent = true;
-
-// Add click event listener for light mode toggle
 function toggleLightMode() {
     document.body.classList.toggle('light-mode');
 
@@ -209,17 +191,8 @@ function toggleLightMode() {
     const isLightMode = document.body.classList.contains('light-mode');
     localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
 }
-
-
-
-
-
-
-
-toggleButton.addEventListener('click', toggleLightMode);
-
 // Handle scroll to remove/recreate button
-window.addEventListener('scroll', () => {
+function scrollEventListener() {
     const scrollPosition = window.scrollY;
 
     if (scrollPosition > 20 && isButtonPresent) {
@@ -258,38 +231,7 @@ window.addEventListener('scroll', () => {
         toggleButton.style.justifyContent = 'center';
         toggleButton.style.transition = 'background-color 0.3s, color 0.3s, box-shadow 0.3s';
     }
-});
-
-// Apply saved theme on page load
-window.addEventListener('load',async  () => {
-
-    await loadChapterJson();
-    loadChapterDropdowns();
-    
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-mode');
-        toggleButton.innerHTML = SUN_SVG;
-    } else {
-        toggleButton.innerHTML = MOON_SVG;
-    }
-
-
-});
-
-
-document.addEventListener('keydown', function(event) {
-    switch(event.key) {
-        case 'ArrowLeft':
-            prevChapter()
-            break;
-        case 'ArrowRight':
-            nextChapter()
-            break;
-    }
-});
-
-
+}
 function savePageState() {
     if (!document.hasFocus()) return;
     const data = {
@@ -300,8 +242,45 @@ function savePageState() {
     localStorage.setItem('pageState', JSON.stringify(data));
 }
 
-savePageState();
-setInterval(savePageState, 5000);
+
+/// Entrypoint
+function main() {
+    toggleButton.addEventListener('click', toggleLightMode);
+
+    window.addEventListener('scroll', () => {
+        scrollEventListener();
+    });
+    // Apply saved theme on page load
+    window.addEventListener('load', () => {
+        loadChapterJson().then(() => {
+            loadChapterDropdowns();
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                toggleButton.innerHTML = SUN_SVG;
+            } else {
+                toggleButton.innerHTML = MOON_SVG;
+            }
+        });
+    });
+    
+    document.addEventListener('keydown', function (event) {
+        switch (event.key) {
+            case 'ArrowLeft':
+                prevChapter()
+                break;
+            case 'ArrowRight':
+                nextChapter()
+                break;
+        }
+    });
+
+    savePageState();
+    setInterval(savePageState, 5000);
+}
+
+main();
+
 
 
 

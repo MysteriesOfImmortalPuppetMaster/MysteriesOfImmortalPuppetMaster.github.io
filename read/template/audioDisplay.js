@@ -303,13 +303,7 @@ function resetPlayer() {
     nextAudio.pause();
     nextAudio.currentTime = 0;
 
-    // We don't clear chunkFiles here because we might want to reuse them
-    // if the user wants to press play again. If you want to fully flush state:
-    // chunkFiles = [];
-    // chunkDurations = [];
-    // chunkBaseTimes = [];
-    // currentChunkIndex = 0;
-    // totalTrackLength = 0;
+
 }
 
 function visualize() {
