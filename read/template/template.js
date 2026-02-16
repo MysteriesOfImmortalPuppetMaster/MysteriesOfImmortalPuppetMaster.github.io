@@ -291,10 +291,15 @@ function applySavedBG() {
         }
     }
 }
+
+
 /// Entrypoint
 function main() {
+
     renderInstantDropdown();
-    applySavedBG()
+
+    applySavedBG();
+
     toggleButton.addEventListener('click', toggleLightMode);
 
     window.addEventListener('scroll', () => {
