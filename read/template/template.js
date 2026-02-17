@@ -24,6 +24,7 @@ function selectChapter(event) {
     window.location.href = selectedChapterUrl;
 }
 
+
 function getCurrentChapter(folderName, chapters) {
     for (let i = 0; i < chapters.length; i++) {
         let chapterFolder = chapters[i].filename.replace('.txt', '');
@@ -167,7 +168,7 @@ function prefetchAdjacentChapters(chapters, currentIndex) {
         });
     }
 }
-async function loadChapterDropdowns() {
+function loadChapterDropdowns() {
     const folderName = getCurrentFolder();
     const currentIndex = getCurrentChapter(folderName, GLOBAL_ALL_CHAPTERS_JSON);
 
@@ -327,12 +328,7 @@ function main() {
 
     window.addEventListener('load', () => {
         loadChapterJson().then(() => {
-            try { loadChapterDropdowns(); }
-            catch (err) {
-                loadChapterJson(true).then(() => {
-                    loadChapterDropdowns();
-                });
-            }
+            
 
             document.addEventListener('keydown', function (event) {
                 switch (event.key) {
@@ -345,14 +341,24 @@ function main() {
                 }
             });
 
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-                toggleButton.innerHTML = SUN_SVG;
-            } else {
-                toggleButton.innerHTML = MOON_SVG;
+            try { loadChapterDropdowns(); }
+            catch (err) {
+                loadChapterJson(true).then(() => {
+                    loadChapterDropdowns();
+                });
             }
+
+
+            
         });
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            toggleButton.innerHTML = SUN_SVG;
+        } else {
+            toggleButton.innerHTML = MOON_SVG;
+        }
     });
 
 
