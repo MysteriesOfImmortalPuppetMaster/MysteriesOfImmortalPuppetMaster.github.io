@@ -84,7 +84,39 @@ async function goToNextChapter() {
     }
 }
 
+function prevChapter() {
+    fetch('../../chapters.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load chapters.json');
+            }
+            return response.json();
+        })
+        .then(chapters => {
+            goToPreviousChapter(chapters);
+        })
+        .catch(error => {
+            console.error('Error loading chapters.json:', error);
+            alert('Could not load chapters.json. Please check if the file exists.');
+        });
+}
 
+function nextChapter() {
+    fetch('../../chapters.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load chapters.json');
+            }
+            return response.json();
+        })
+        .then(chapters => {
+            goToNextChapter(chapters);
+        })
+        .catch(error => {
+            console.error('Error loading chapters.json:', error);
+            alert('Could not load chapters.json. Please check if the file exists.');
+        });
+}
 function populateChapterDropdown(chapters, dropdownId, currentIndex) {
     const dropdown = document.getElementById(dropdownId);
     if (!dropdown) return;
