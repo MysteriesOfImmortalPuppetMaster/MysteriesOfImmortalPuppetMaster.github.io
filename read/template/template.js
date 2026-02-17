@@ -36,17 +36,23 @@ function getCurrentChapter(folderName, chapters) {
     throw new Error("CHAPTER_NOT_FOUND");
 }
 
-function goToPreviousChapter(chapters) {
+async function goToPreviousChapter() {
     let folderName = getCurrentFolder();
 
     if (!folderName) return;
-
-    let currentChapterIndex = getCurrentChapter(folderName, chapters);
-
-    if (currentChapterIndex === null) return;
+    var currentChapterIndex;
+    while (true) {
+        try {
+            currentChapterIndex = getCurrentChapter(folderName, GLOBAL_ALL_CHAPTERS_JSON);
+            break;
+        } catch (e) {
+            console.log(`Chapter not found yet. Attempt. Waiting 100ms...`);
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+    }
 
     if (currentChapterIndex > 0) {
-        let previousChapterFolder = chapters[currentChapterIndex - 1].filename.replace('.txt', '');
+        let previousChapterFolder = GLOBAL_ALL_CHAPTERS_JSON[currentChapterIndex - 1].filename.replace('.txt', '');
         let currentUrl = window.location.href;
         let baseUrl = currentUrl.replace(/\/[^\/]+\/?$/, '');
         let previousChapterUrl = baseUrl + '/' + previousChapterFolder + '/';
@@ -54,17 +60,23 @@ function goToPreviousChapter(chapters) {
     }
 }
 
-function goToNextChapter(chapters) {
+async function goToNextChapter() {
     let folderName = getCurrentFolder();
 
     if (!folderName) return;
+    var currentChapterIndex;
+    while (true) {
+        try {
+            currentChapterIndex = getCurrentChapter(folderName, GLOBAL_ALL_CHAPTERS_JSON);
+            break;
+        } catch (e) {
+            console.log(`Chapter not found yet. Attempt. Waiting 100ms...`);
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+    }
 
-    let currentChapterIndex = getCurrentChapter(folderName, chapters);
-
-    if (currentChapterIndex === null) return;
-
-    if (currentChapterIndex < chapters.length - 1) {
-        let nextChapterFolder = chapters[currentChapterIndex + 1].filename.replace('.txt', '');
+    if (currentChapterIndex < GLOBAL_ALL_CHAPTERS_JSON.length - 1) {
+        let nextChapterFolder = GLOBAL_ALL_CHAPTERS_JSON[currentChapterIndex + 1].filename.replace('.txt', '');
         let currentUrl = window.location.href;
         let baseUrl = currentUrl.replace(/\/[^\/]+\/?$/, '');
         let nextChapterUrl = baseUrl + '/' + nextChapterFolder + '/';
@@ -72,39 +84,6 @@ function goToNextChapter(chapters) {
     }
 }
 
-function prevChapter() {
-    fetch('../../chapters.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to load chapters.json');
-            }
-            return response.json();
-        })
-        .then(chapters => {
-            goToPreviousChapter(chapters);
-        })
-        .catch(error => {
-            console.error('Error loading chapters.json:', error);
-            alert('Could not load chapters.json. Please check if the file exists.');
-        });
-}
-
-function nextChapter() {
-    fetch('../../chapters.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to load chapters.json');
-            }
-            return response.json();
-        })
-        .then(chapters => {
-            goToNextChapter(chapters);
-        })
-        .catch(error => {
-            console.error('Error loading chapters.json:', error);
-            alert('Could not load chapters.json. Please check if the file exists.');
-        });
-}
 
 function populateChapterDropdown(chapters, dropdownId, currentIndex) {
     const dropdown = document.getElementById(dropdownId);
@@ -181,7 +160,7 @@ async function loadChapterJson(forceReload = false) {
 
     } catch (error) {
         console.error('Error loading chapters.json:', error);
-        alert('Could not load chapters.json. Please check if the file exists.');
+        if (forceReload == true) { alert('Could not load chapters.json. Please check if the file exists.'); }
     }
 }
 
@@ -322,6 +301,18 @@ function main() {
                     loadChapterDropdowns();
                 });
             }
+
+            document.addEventListener('keydown', function (event) {
+                switch (event.key) {
+                    case 'ArrowLeft':
+                        goToPreviousChapter();
+                        break;
+                    case 'ArrowRight':
+                        goToNextChapter();
+                        break;
+                }
+            });
+
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
                 document.body.classList.add('light-mode');
@@ -332,16 +323,6 @@ function main() {
         });
     });
 
-    document.addEventListener('keydown', function (event) {
-        switch (event.key) {
-            case 'ArrowLeft':
-                prevChapter()
-                break;
-            case 'ArrowRight':
-                nextChapter()
-                break;
-        }
-    });
 
     savePageState();
     setInterval(savePageState, 5000);
