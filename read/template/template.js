@@ -183,7 +183,7 @@ async function loadChapterJson(forceReload = false) {
         let url = '../../chapters.json';
         let options = {};
         if (forceReload) {
-            options.cache = 'reload';
+            options.cache = 'no-store';
             url += '?t=' + new Date().getTime();
         }
         const response = await fetch(url, options);
@@ -328,7 +328,7 @@ function main() {
 
     window.addEventListener('load', () => {
         loadChapterJson().then(() => {
-            
+
 
             document.addEventListener('keydown', function (event) {
                 switch (event.key) {
@@ -344,12 +344,29 @@ function main() {
             try { loadChapterDropdowns(); }
             catch (err) {
                 loadChapterJson(true).then(() => {
-                    loadChapterDropdowns();
+                    try {
+                        loadChapterDropdowns();
+                    } catch (err) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        if (urlParams.has('refresh')) {
+                            console.error("We already tried a nuclear reload and it still failed. Stopping to prevent loop.");
+                            alert("Technical Error: We updated the site but your browser is struggling to see the new files. Please try clearing your browser cache manually.");
+                        } else {
+                            //the browser is being stubbon.
+                            // last attempt at busting the cache.
+                            let currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('refresh', Date.now());
+
+                            window.location.href = currentUrl.href;
+                        }
+                        console.error("trying to force-reload site.");
+
+                    }
                 });
             }
 
 
-            
+
         });
 
         const savedTheme = localStorage.getItem('theme');
