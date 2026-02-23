@@ -331,6 +331,9 @@ function main() {
 
 
             document.addEventListener('keydown', function (event) {
+                const isTyping = document.activeElement.tagName === 'TEXTAREA' ||
+                    document.activeElement.tagName === 'INPUT';
+                if (isTyping) { return; }
                 switch (event.key) {
                     case 'ArrowLeft':
                         goToPreviousChapter();
