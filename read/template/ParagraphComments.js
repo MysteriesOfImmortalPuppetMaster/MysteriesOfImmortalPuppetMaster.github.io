@@ -182,13 +182,17 @@ async function fetchAndRenderParagraphComments(commentContainer, paragraphIndex)
                     replyBoxDiv.appendChild(submitReplyButton);
 
                     commentDiv.appendChild(replyBoxDiv);
+                        submitReplyButton.addEventListener("click", async () => {
+                            const replyContent = replyTextarea.value.trim();
+                            const replyAuthor = nameInput.value.trim() || "Anonymous";
+                            const elements = {
+                                nameInput: nameInput,
+                                textarea: replyTextarea,
+                                submitBtn: submitReplyButton
+                            };
 
-                    // Event listener for submit
-                    submitReplyButton.addEventListener("click", async () => {
-                        const replyContent = replyTextarea.value.trim();
-                        const replyAuthor = nameInput.value.trim() || "Anonymous";
-                        submitParagraphComment(replyAuthor, replyContent, comment.ID, paragraphIndex);
-                    });
+                            await submitParagraphComment(replyAuthor, replyContent, comment.ID, paragraphIndex, elements);
+                        });
                 });
                 }
 
@@ -266,9 +270,15 @@ function toggleParagraphCommentSection(paragraphIndex) {
         setupCharCounter(textarea, charCounter);
     }
 
-    form.addEventListener("submit", async  (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        await submitParagraphComment(nameInput.value, textarea.value, null, paragraphIndex);
+        const elements = {
+            nameInput: nameInput,
+            textarea: textarea,
+            submitBtn: form.querySelector('button[type="submit"]')
+        };
+
+        await submitParagraphComment(nameInput.value, textarea.value, null, paragraphIndex, elements);
     });
 
     // Fetch and render the comments into the dedicated sub-container.
@@ -289,14 +299,23 @@ function setupParagraphClickListeners() {
     console.log('Paragraph click listeners have been set up.');
 }
 
-async function submitParagraphComment( name, comment_text, nested, paragraphIndex) {
-
-
+async function submitParagraphComment(name, comment_text, nested, paragraphIndex, formElements = {}) {
     if (!comment_text) {
         alert("Please enter a comment before submitting.");
         return;
     }
- 
+
+    // --- LOCK UI ---
+    const { nameInput, textarea, submitBtn } = formElements;
+    if (nameInput) nameInput.disabled = true;
+    if (textarea) {
+        textarea.disabled = true;
+        textarea.style.opacity = "0.5";
+    }
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Posting...";
+    }
 
     const payload = {
         author: name || "Anonymous",
@@ -309,26 +328,31 @@ async function submitParagraphComment( name, comment_text, nested, paragraphInde
     try {
         const response = await fetch(API_URL, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         });
-        
 
-        const errorText = await response.text();
-        if (((!errorText.length) == "Comment Posted")  ){
+        if (!response.ok) {
+            const errorText = await response.text();
             alert(`Failed to submit comment: ${errorText}`);
+            throw new Error(errorText);
         }
-        
-       
-        document.getElementById("commentForm").reset(); // Clear the form
-        
-    } catch (error) {
-        alert("Error submitting comment:", error);
-    }
 
-    window.location.reload();
+        window.location.reload();
+
+    } catch (error) {
+        console.error("Error submitting comment:", error);
+
+        if (nameInput) nameInput.disabled = false;
+        if (textarea) {
+            textarea.disabled = false;
+            textarea.style.opacity = "1";
+        }
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit Comment";
+        }
+    }
 }
 
 

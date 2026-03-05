@@ -253,6 +253,12 @@ async function fetchCommentsForCurrentSource() {
                                 return;
                             }
 
+                            replyTextarea.disabled = true;
+                            nameInput.disabled = true;
+                            submitReplyButton.disabled = true;
+                            replyTextarea.style.opacity = "0.5";
+                            submitReplyButton.textContent = "Sending...";
+
                             const replyPayload = {
                                 author: replyAuthor,
                                 content: replyContent,
@@ -274,13 +280,18 @@ async function fetchCommentsForCurrentSource() {
                                     alert(`Failed to submit reply: ${errorText}`);
                                 }
 
-                                alert("Reply submitted successfully!");
                                 replyBoxDiv.remove();
                                 fetchCommentsForCurrentSource();
                             } catch (error) {
                                 console.error("Error submitting reply:", error);
                                 alert("Failed to submit your reply. Please try again.");
                             }
+                            replyTextarea.disabled = false;
+
+                            nameInput.disabled = false;
+                            submitReplyButton.disabled = false;
+                            replyTextarea.style.opacity = "1.0";
+                            submitReplyButton.textContent = "Submit Reply";
                         });
                     });
                 }
@@ -309,6 +320,14 @@ async function submitComment(event) {
         alert("Please enter a comment before submitting.");
         return;
     }
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    commentInput.disabled = true;
+    commentInput.style.opacity = "0.5";
+    nameInput.disabled = true;
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Posting...";
+    }
 
     const payload = {
         author: nameValue || "Anonymous",
@@ -336,6 +355,14 @@ async function submitComment(event) {
     } catch (error) {
         console.error("Error submitting comment:", error);
         alert("Failed to submit your comment. Please try again.");
+    }
+
+    commentInput.disabled = false;
+    commentInput.style.opacity = "1.0";
+    nameInput.disabled = false;
+    if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Comment";
     }
 }
 
