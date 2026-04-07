@@ -59,7 +59,7 @@ Chaotic, disorganized runes began to flood Ban Ji's vision.
 <p class="glitch-text">機械術ノ理ヲ悟リ続ケル者</p>
 <p class="glitch-text">乱レタ符号ガ視界ヲ覆ウ</p>
 
-...
+-----
 
 Ban Ji couldn't comprehend these symbols. He closed his eyes tightly, screaming in agony.
 
@@ -95,7 +95,7 @@ The light pierced his mind, instantly clearing Ban Ji's gradually clouding consc
 
 <p class="glitch-text">幻乱符号夜響光波霊夢刻</p>
 
-<p class="glitch-text">魂響幻滅界風.......</p>
+<p class="glitch-text">魂響幻滅界風...</p>
 
 He forced his eyes open, his vision nearly consumed by countless runes. Through the gaps between them, he saw his right leg, and gel was spreading upward from the knee, creeping along his thigh.
 
