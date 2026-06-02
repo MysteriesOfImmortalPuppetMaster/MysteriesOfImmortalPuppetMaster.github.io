@@ -133,7 +133,7 @@ function populateChapterDropdown(chapters, dropdownId, currentIndex) {
 
     dropdown.innerHTML = optionsHTML;
 }
-function prefetchAdjacentChapters(chapters, currentIndex) {
+function ActivateNexAndPrevChapterButtons(chapters, currentIndex) {
     const baseUrl = window.location.href.replace(/\/[^\/]+\/?$/, '');
 
     // Previous chapter
@@ -158,6 +158,13 @@ function prefetchAdjacentChapters(chapters, currentIndex) {
         next.rel = 'prefetch';
         next.href = `${baseUrl}/${chapters[currentIndex + 1].filename.replace('.txt', '')}/`;
         document.head.appendChild(next);
+
+        const nextButtons = document.querySelectorAll('.bottomButtons button[onclick="nextChapter()"]');
+        nextButtons.forEach(btn => {
+            btn.disabled = false;
+            btn.style.opacity = '1.0';
+            btn.style.cursor = 'pointer';
+        });
     }
     else {
         const nextButtons = document.querySelectorAll('.bottomButtons button[onclick="nextChapter()"]');
@@ -172,11 +179,12 @@ function loadChapterDropdowns() {
     const folderName = getCurrentFolder();
     const currentIndex = getCurrentChapter(folderName, GLOBAL_ALL_CHAPTERS_JSON);
 
+    
+    ActivateNexAndPrevChapterButtons(GLOBAL_ALL_CHAPTERS_JSON, currentIndex);
     // Build once, insert twice
     populateChapterDropdown(GLOBAL_ALL_CHAPTERS_JSON, 'chapter-select-top', currentIndex);
     populateChapterDropdown(GLOBAL_ALL_CHAPTERS_JSON, 'chapter-select-bottom', currentIndex);
 
-    prefetchAdjacentChapters(GLOBAL_ALL_CHAPTERS_JSON, currentIndex);
 }
 async function loadChapterJson(forceReload = false) {
     try {
