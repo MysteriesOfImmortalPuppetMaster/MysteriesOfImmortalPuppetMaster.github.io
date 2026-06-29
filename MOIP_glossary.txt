@@ -26,17 +26,15 @@ raw,translation,description
 画像分身,painted avatar,
 扶摇峰,Soaring Peak,
 南明火炉,Naming Fire Furnace,
+流金客,Liu Jinke,#masculine
 班机,Ban Ji,#masculine
 班婕,Ban Jie,#feminine
 雪枢御喝欠,Snow Pivot Guard Xie,#feminine
 雪彩女·慧,Snow-Colored Maiden Hui,#feminine
 三光道天洞府,Three Lights Dao Heaven Cave Manor,
-《升龙变》,Ascending Dragon Transformation,
-《素问剖心卷》,*Heart-Piercing Scroll*,
 《高胜遗书》,*Gao Sheng's Lost Writings*,
 七情烬玉,Seven Emotions Ember Jade,
 七情魔功,Seven Emotions Demonic Art,
-万万,Absolutely not,
 万川,Ten Thousand Streams,
 万川河,Ten Thousand Rivers River,
 万年玄冰,Ten-Thousand-Year Profound Ice,
