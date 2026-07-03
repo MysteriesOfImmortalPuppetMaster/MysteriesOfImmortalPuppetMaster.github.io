@@ -35,6 +35,8 @@ raw,translation,description
 《高胜遗书》,*Gao Sheng's Lost Writings*,
 七情烬玉,Seven Emotions Ember Jade,
 七情魔功,Seven Emotions Demonic Art,
+扶日锁阳升云坛,Sun-Supporting Yang-Locking Cloud Ascending Altar,
+流云峰,Flowing Cloud Peak,
 万川,Ten Thousand Streams,
 万川河,Ten Thousand Rivers River,
 万年玄冰,Ten-Thousand-Year Profound Ice,
