@@ -26,6 +26,7 @@ raw,translation,description
 画像分身,painted avatar,
 扶摇峰,Soaring Peak,
 南明火炉,Naming Fire Furnace,
+向门三骁,Three Valiants of the Death-Facing Sect,
 流金客,Liu Jinke,#masculine
 班机,Ban Ji,#masculine
 班婕,Ban Jie,#feminine
