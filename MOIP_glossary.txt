@@ -32,6 +32,8 @@ raw,translation,description
 班婕,Ban Jie,#feminine
 雪枢御喝欠,Snow Pivot Guard Xie,#feminine
 雪彩女·慧,Snow-Colored Maiden Hui,#feminine
+真言钟,Truth Bell,
+白虹正气节,White Rainbow Righteous Integrity Bone,
 三光道天洞府,Three Lights Dao Heaven Cave Manor,
 《高胜遗书》,*Gao Sheng's Lost Writings*,
 七情烬玉,Seven Emotions Ember Jade,
