@@ -1,10 +1,7 @@
 ﻿name: Update Website HTML
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'chapters/**'
+  workflow_dispatch:
 
 jobs:
   update-html:
