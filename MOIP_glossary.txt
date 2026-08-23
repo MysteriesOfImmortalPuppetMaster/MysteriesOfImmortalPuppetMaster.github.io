@@ -40,6 +40,8 @@ raw,translation,description
 扩土盟,Earth Expansion Alliance,
 五战演武,five-win martial contest,
 《高胜遗书》,*Gao Sheng's Lost Writings*,
+熬膏婆,Ointment-Boiling Granny,#feminine
+烹石叟,Stone-Boiling Elder,#masculine
 七情烬玉,Seven Emotions Ember Jade,
 七情魔功,Seven Emotions Demonic Art,
 兴云小试,Rising Cloud Minor Trial,
