@@ -30,6 +30,7 @@ raw,translation,description
 流金客,Liu Jinke,#masculine
 班机,Ban Ji,#masculine
 班婕,Ban Jie,#feminine
+祝焚香,Zhu Fenxiang,#feminine
 纯阳子,Chunyangzi,#masculine
 雪枢御喝欠,Snow Pivot Guard Xie,#feminine
 雪彩女·慧,Snow-Colored Maiden Hui,#feminine
