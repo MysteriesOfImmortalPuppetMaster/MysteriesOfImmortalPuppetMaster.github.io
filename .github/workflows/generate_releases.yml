@@ -1,0 +1,38 @@
+name: Build and Release Books
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ebooklib reportlab lxml
+
+      - name: Run Build Script
+        run: |
+          python build_epub.py
+
+      - name: Create or Overwrite Rolling Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create latest *.epub *.pdf --title "Latest Book Build" --notes "Automated release built on commit ${{ github.sha }}" --clobber
