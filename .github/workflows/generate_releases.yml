@@ -37,4 +37,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create latest *.epub *.pdf --title "Latest Book Build" --notes "Automated release built on commit ${{ github.sha }}" --clobber
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest *.epub *.pdf --title "Latest Book Build" --notes "Automated release built on commit ${{ github.sha }}"
