@@ -28,6 +28,8 @@ jobs:
           pip install ebooklib reportlab lxml
 
       - name: Run Build Script
+        env:
+            PYTHONUTF8: "1"
         run: |
           python build_epub.py
 
