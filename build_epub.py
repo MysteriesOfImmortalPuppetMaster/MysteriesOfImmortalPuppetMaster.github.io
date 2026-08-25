@@ -21,6 +21,11 @@ from reportlab.lib.units import cm
 from reportlab.lib.colors import HexColor
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.cidfonts import UnicodeCIDFont
+from reportlab.platypus import (
+    BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, PageBreak, 
+    NextPageTemplate, Table, TableStyle
+)
+from reportlab.lib.colors import HexColor, white
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # CONSTANTS
@@ -33,7 +38,7 @@ BOOK_ID       = str(uuid.uuid4())
 
 CHAPTERS_DIR  = Path("chapters")
 OUTPUT_DIR    = Path(".")
-
+COVER_IMAGE   = "cover50.webp"
 # ═══════════════════════════════════════════════════════════════════════════════
 # STYLESHEET — modern EPUB3 CSS
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -148,9 +153,75 @@ def _format_chapter_num(stem: str) -> str:
 class PdfBuilder(BaseDocTemplate):
     def afterFlowable(self, flowable):
         if flowable.__class__.__name__ == 'Paragraph' and flowable.style.name == 'ChHeading':
-            self.notify('TOCEntry', (0, flowable.getPlainText(), self.page))
+            text = flowable.getPlainText()
+            # Create a unique, deterministic key for each chapter
+            key = f"chap_{abs(hash(text))}"
+            
+            self.canv.bookmarkPage(key)
+            self.canv.addOutlineEntry(text, key, level=0, closed=True)
+            
+            self.notify('TOCEntry', (0, text, self.page, key))
 
 
+def title_background(canvas, doc):
+    canvas.saveState()
+    # 1. Full 100% cover image
+    canvas.setFillAlpha(1.0)
+    canvas.drawImage(
+        COVER_IMAGE, 
+        0, 
+        0, 
+        width=doc.pagesize[0], 
+        height=doc.pagesize[1]
+    )
+    box_x = doc.leftMargin - 0.5*cm
+    box_w = doc.width + 1.0*cm
+    box_y = doc.pagesize[1] - doc.topMargin - 4*cm - 230
+    box_h = 260
+    
+    draw_faded_white_box(canvas, box_x, box_y, box_w, box_h, max_alpha=0.7, fade_margin=30, steps=25)
+    canvas.restoreState()
+def draw_faded_white_box(canvas, x, y, width, height, max_alpha=0.7, fade_margin=25, steps=25):
+    """Draws a box with a 70% opaque white center that smoothly fades out to 0% at the edges."""
+    canvas.saveState()
+    canvas.setFillColor(white)
+    
+    # Calculate per-layer alpha so stacking N layers reaches exact max_alpha (0.7)
+    step_alpha = 1.0 - (1.0 - max_alpha) ** (1.0 / steps)
+    canvas.setFillAlpha(step_alpha)
+
+    for i in range(steps):
+        inset = fade_margin * (i / (steps - 1))
+        rx = x + inset
+        ry = y + inset
+        rw = width - 2 * inset
+        rh = height - 2 * inset
+        if rw > 0 and rh > 0:
+            canvas.rect(rx, ry, rw, rh, fill=1, stroke=0)
+            
+    canvas.restoreState()
+def draw_subtle_gradient(canvas, doc):
+    """Draws a barely-perceptible off-white gradient from pure white (top) to warm ivory (bottom)."""
+    canvas.saveState()
+    width, height = doc.pagesize
+    steps = 50
+    step_h = height / steps
+
+    # RGB values: Pure white top (255, 255, 255) to warm cream bottom (250, 247, 240)
+    r1, g1, b1 = 255, 255, 255
+    r2, g2, b2 = 232, 226, 219
+
+    for i in range(steps):
+        t = i / (steps - 1)
+        r = (r1 * (1 - t) + r2 * t) / 255.0
+        g = (g1 * (1 - t) + g2 * t) / 255.0
+        b = (b1 * (1 - t) + b2 * t) / 255.0
+
+        canvas.setFillColorRGB(r, g, b)
+        # Draw a thin horizontal strip for each step
+        canvas.rect(0, height - (i + 1) * step_h, width, step_h + 0.5, fill=1, stroke=0)
+
+    canvas.restoreState()
 def _build_pdf(results: list[tuple[float, str, str, str]], output_dir: Path) -> None:
     t0 = time.perf_counter()
     pdf_name = f"{BOOK_TITLE}.pdf"
@@ -167,6 +238,7 @@ def _build_pdf(results: list[tuple[float, str, str, str]], output_dir: Path) -> 
     )
 
     def header_footer(canvas, doc):
+        draw_subtle_gradient(canvas, doc)
         canvas.saveState()
         canvas.setFont('Times-Roman', 8)
         canvas.setFillColor(HexColor('#888888'))
@@ -177,7 +249,7 @@ def _build_pdf(results: list[tuple[float, str, str, str]], output_dir: Path) -> 
         canvas.restoreState()
 
     frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
-    template_title = PageTemplate(id='Title', frames=frame)
+    template_title = PageTemplate(id='Title', frames=frame, onPage=title_background)
     template_chap = PageTemplate(id='Chapter', frames=frame, onPage=header_footer)
     doc.addPageTemplates([template_title, template_chap])
 
@@ -187,18 +259,34 @@ def _build_pdf(results: list[tuple[float, str, str, str]], output_dir: Path) -> 
     ornament_style = ParagraphStyle('Ornament', parent=styles['Normal'], fontName='Times-Roman', fontSize=18, leading=22, alignment=1, spaceAfter=4, textColor=HexColor('#8b6914'))
     toc_h2_style = ParagraphStyle('TocHeading', parent=styles['Heading2'], fontName='Times-Bold', fontSize=16, leading=20, alignment=1, spaceAfter=20, textColor=HexColor('#2c2c2c'))
     ch_heading_style = ParagraphStyle('ChHeading', parent=styles['Heading1'], fontName='Times-Bold', fontSize=14, leading=18, spaceAfter=15, textColor=HexColor('#2c2c2c'))
-    body_style = ParagraphStyle('BodyStyle', parent=styles['Normal'], fontName='Times-Roman', fontSize=10.5, leading=16, alignment=4, firstLineIndent=0.5*cm)
-    body_first_style = ParagraphStyle('BodyFirstStyle', parent=body_style, firstLineIndent=0, leading=24, spaceAfter=15)
+
+    body_style = ParagraphStyle('BodyStyle', parent=styles['Normal'], fontName='Times-Roman', fontSize=10.5, leading=16, alignment=4, firstLineIndent=0.0, spaceAfter=4)
+
+    body_first_style = ParagraphStyle('BodyFirstStyle', parent=body_style, firstLineIndent=0, leading=24, spaceAfter=6)
+
     scene_break_style = ParagraphStyle('SceneBreak', parent=styles['Normal'], fontName='Times-Roman', fontSize=14, leading=18, alignment=1, spaceBefore=15, spaceAfter=15, textColor=HexColor('#8b6914'))
+
     footnote_style = ParagraphStyle('Footnote', parent=body_style, fontName='Times-Italic', fontSize=8.5, leading=12)
+
+    title_box = Table(
+        [
+            [Paragraph(BOOK_TITLE, title_style)],
+            [Paragraph("❧  ❧  ❧", ornament_style)],
+            [Paragraph(BOOK_AUTHOR, author_style)]
+        ],
+        colWidths=[doc.width],
+        style=TableStyle([
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('TOPPADDING', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+        ])
+    )
 
     story = [
         Spacer(1, 4*cm),
-        Paragraph(BOOK_TITLE, title_style),
-        Paragraph("❧  ❧  ❧", ornament_style),
-        Paragraph(BOOK_AUTHOR, author_style),
-        PageBreak(),
+        title_box,
         NextPageTemplate('Chapter'),
+        PageBreak(),
         Paragraph("Table of Contents", toc_h2_style)
     ]
 
