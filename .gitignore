@@ -2,6 +2,7 @@
 testFramework for text.html
 .vscode
 .venv
+__pycache__
 eslint.config.mjs
 package-lock.json
 package.json
