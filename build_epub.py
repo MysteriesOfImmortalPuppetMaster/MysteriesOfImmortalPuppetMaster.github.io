@@ -48,28 +48,27 @@ STYLESHEET = """\
 body {
     font-family: "Palatino Linotype", Palatino, Georgia, serif;
     font-size: 1.05em; line-height: 1.85; letter-spacing: 0.012em;
-    color: #1a1a1a; background-color: #faf8f4; padding: 1.8em 1.5em;
+    padding: 1.8em 1.5em;
     hyphens: auto; text-rendering: optimizeLegibility;
 }
-@media (prefers-color-scheme: dark) {
-    body { color: #d4d0c8; background-color: #1b1b1f; }
-    h1 { color: #e8e4dc !important; border-bottom-color: rgba(232, 228, 220, 0.15) !important; }
-    .chapter-body p:first-of-type::first-letter { color: #c9a84c !important; }
-    aside.footnote { border-top-color: rgba(212, 208, 200, 0.2) !important; color: #a09c94 !important; }
-    hr { border-color: rgba(212, 208, 200, 0.12) !important; }
-}
 h1 {
-    font-size: 1.65em; font-weight: 600; color: #2c2c2c; margin: 0.6em 0 0.5em 0;
-    padding-bottom: 0.45em; border-bottom: 2px solid rgba(44, 44, 44, 0.12);
+    font-size: 1.65em; font-weight: 600; margin: 0.6em 0 0.5em 0;
+    padding-bottom: 0.45em; border-bottom: 2px solid rgba(127, 127, 127, 0.25);
 }
-.chapter-body p { margin: 0.85em 0; text-align: justify; text-indent: 1.5em; }
+.chapter-body p { margin: 0.85em 0; text-align: justify; text-indent: 0; }
 .chapter-body p:first-of-type { text-indent: 0; }
+
 .chapter-body p:first-of-type::first-letter {
-    font-size: 3.2em; float: left; line-height: 0.8; padding: 0.05em 0.1em 0 0;
-    font-weight: 700; color: #8b6914;
+    font-size: 2.2em;
+    font-weight: 700;
+    color: #c9a84c;
+    line-height: 0;
+    vertical-align: -0.08em;
+    margin-right: 0.04em;
 }
-hr { border: none; border-top: 1px solid rgba(44, 44, 44, 0.18); margin: 2em auto; width: 40%; }
-aside.footnote { margin-top: 2.5em; padding-top: 1em; border-top: 1px solid rgba(44, 44, 44, 0.15); font-size: 0.82em; font-style: italic; color: #5a5a5a; }
+
+hr { border: none; border-top: 1px solid rgba(127, 127, 127, 0.25); margin: 2em auto; width: 40%; }
+aside.footnote { margin-top: 2.5em; padding-top: 1em; border-top: 1px solid rgba(127, 127, 127, 0.25); font-size: 0.82em; font-style: italic; opacity: 0.8; }
 aside.footnote p { margin: 0.35em 0; text-indent: 0; }
 """
 
@@ -350,6 +349,11 @@ def main() -> None:
     book.set_title(BOOK_TITLE)
     book.set_language(BOOK_LANGUAGE)
     book.add_author(BOOK_AUTHOR)
+
+    cover_path = Path(COVER_IMAGE)
+    if cover_path.exists():
+        book.set_cover(f"cover{cover_path.suffix}", cover_path.read_bytes())
+
 
     css = epub.EpubItem(uid="style", file_name="style/main.css", media_type="text/css", content=STYLESHEET.encode("utf-8"))
     book.add_item(css)
