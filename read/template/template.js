@@ -317,10 +317,53 @@ function applySavedBG() {
     }
 }
 
+function track_reading_time() {
+
+    if (!localStorage.getItem('global_reading_time')) {
+        localStorage.setItem('global_reading_time', JSON.stringify({
+            totalMinutes: 0,
+            hours: 0,
+            minutes: 0,
+            formatted: '0m'
+        }));
+    }
+
+    function track_reading_time_on_dom() {
+        const displayElem = document.getElementById('reading-time-display');
+
+        const updateUI = (formattedTime) => {
+            if (displayElem) {
+                displayElem.textContent = formattedTime;
+            }
+        };
+
+        let data = JSON.parse(localStorage.getItem('global_reading_time'));
+        updateUI(data.formatted);
+
+        setInterval(() => {
+            if (document.hasFocus() && document.visibilityState === 'visible') {
+                data = JSON.parse(localStorage.getItem('global_reading_time'));
+
+                data.totalMinutes += 1;
+                data.hours = Math.floor(data.totalMinutes / 60);
+                data.minutes = data.totalMinutes % 60;
+                data.formatted = data.hours > 0 ? `${data.hours}h ${data.minutes}m` : `${data.minutes}m`;
+
+                localStorage.setItem('global_reading_time', JSON.stringify(data));
+                updateUI(data.formatted);
+
+            }
+        }, 60000);
+    }
+
+    document.addEventListener('DOMContentLoaded', track_reading_time_on_dom);
+}
+
+
 
 /// Entrypoint
 function main() {
-
+    track_reading_time();
     renderInstantDropdown();
 
     applySavedBG();
@@ -392,6 +435,8 @@ function main() {
 
     savePageState();
     setInterval(savePageState, 5000);
+
+
 }
 
 main();

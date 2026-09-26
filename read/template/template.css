@@ -455,3 +455,36 @@ body.light-mode .commentInputSection input {
     border-left-width: 3px;
 }
 
+
+
+
+
+
+
+.reading-time-badge {
+    position: relative;
+    top: 14px;
+    left: 14px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+
+
+    color: #e2e8f0;
+    font-family: 'Arimo', 'Noto Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.3px;
+    user-select: none;
+}
+
+.reading-time-badge .badge-icon {
+    width: 14px;
+    height: 14px;
+    max-width: 14px;
+    stroke: #3182ce;
+    flex-shrink: 0;
+}

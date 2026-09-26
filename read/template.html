@@ -25,6 +25,19 @@
 
 <body>
     <div class="container">
+
+        <div class="reading-time-badge">
+            <span id="reading-time-display"></span>
+            <script>
+                (function () {
+                    const rawData = localStorage.getItem('global_reading_time');
+                    const formattedTime = rawData ? JSON.parse(rawData).formatted : '0m';
+                    document.getElementById('reading-time-display').textContent = formattedTime || '0m';
+                })();
+            </script>
+        </div>
+
+
         <header class="book-info-container">
             <div class="book-info">
                 <h1><a href="../../" style="text-decoration: none; color: inherit;">Mysteries Of Immortal Puppet Master</a></h1>
@@ -37,7 +50,7 @@
             <select id="chapter-select-top" onchange="selectChapter(event)">
                 <!-- Options will be dynamically populated by JavaScript -->
             </select>
-            <button class="read-chapter" onclick="nextChapter()"disabled style="opacity: 0.5; cursor: not-allowed;">Next Chapter</button>
+            <button class="read-chapter" onclick="nextChapter()" disabled style="opacity: 0.5; cursor: not-allowed;">Next Chapter</button>
 
         </div>
 
