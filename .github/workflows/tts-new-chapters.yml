@@ -17,8 +17,9 @@
 #   4. audioStash must contain tts_manifest.json (ci_tts.py --bootstrap), otherwise every
 #      chapter counts as changed and the whole book gets re-rendered over many runs.
 #
-# Manual run: Actions tab > "TTS new chapters" > Run workflow. Optionally list chapters to
-# redo even if unchanged, e.g. "1045,1046" or "1040-1050".
+# Runs on every push that touches chapters/*.txt, tts/ or this file, every 6 h, or by hand
+# (Actions tab > "TTS new chapters" > Run workflow; optionally list chapters to redo even
+# if unchanged, e.g. "1045,1046" or "1040-1050").
 # Speed on the runner: roughly 4x realtime, i.e. ~4 min per chapter, ~75 chapters per run.
 
 name: TTS new chapters
@@ -26,7 +27,8 @@ name: TTS new chapters
 on:
   push:
     branches: [main]
-    paths: ["chapters/*.txt"]
+    # Chapter texts, plus the TTS setup itself (a run with nothing due ends in ~1 min).
+    paths: ["chapters/*.txt", "tts/**", ".github/workflows/tts-new-chapters.yml"]
   schedule:
     - cron: "23 */6 * * *"   # drain any backlog; exits within ~1 min when nothing is due
   workflow_dispatch:
@@ -63,7 +65,7 @@ jobs:
         env:
           FORCE: ${{ github.event.inputs.chapters }}
         run: |
-          if ! printf '%s' "$FORCE" | grep -Eq '^[0-9.,-]*$'; then
+          if [[ ! "$FORCE" =~ ^[0-9.,-]*$ ]]; then   # empty = nothing forced, which is fine
             echo "invalid chapter list: $FORCE"; exit 1
           fi
           python3 tts/ci_tts.py --chapters-dir chapters --stash audioStash --force "$FORCE" --plan
