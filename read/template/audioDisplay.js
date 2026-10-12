@@ -43,6 +43,17 @@ window.addEventListener('load', () => {
 
 
 
+// Every chapter page ships with the player, but a chapter's audio only exists once the
+// TTS GitHub Action has run (or never, if it failed). Without metadata there is nothing
+// to play, so take the player off the page instead of showing a dead one.
+function removePlayer(reason) {
+    console.warn(`[removePlayer] No audio for this chapter (${reason}); removing the player.`);
+    const playerContainer = document.querySelector('.player-container');
+    if (playerContainer) {
+        playerContainer.remove();
+    }
+}
+
 async function loadURLMetadata(URL) {
     resetPlayer(); // always reset before loading new metadata
     currentFolder = URL; // store globally for consistent access
@@ -56,10 +67,15 @@ async function loadURLMetadata(URL) {
         const resp = await fetch(metadataUrl);
         if (!resp.ok) {
             console.error(`[loadURLMetadata] Could not fetch audio_metadata.json: status=${resp.status}`);
+            removePlayer(`HTTP ${resp.status}`);
             return;
         }
         const metadata = await resp.json();
         console.log("[loadURLMetadata] Received metadata:", metadata);
+        if (!metadata || !Array.isArray(metadata.audio_files) || metadata.audio_files.length === 0) {
+            removePlayer("metadata lists no audio files");
+            return;
+        }
 
         // Reset arrays and variables
         chunkFiles = [];
@@ -89,7 +105,9 @@ async function loadURLMetadata(URL) {
         console.log("[loadURLMetadata] Cleared audio sources to prevent pre-fetching.");
 
     } catch (error) {
+        // Network failure, CORS problem or invalid JSON.
         console.error("[loadURLMetadata] Error:", error);
+        removePlayer(error.message || "request failed");
     }
 }
 
