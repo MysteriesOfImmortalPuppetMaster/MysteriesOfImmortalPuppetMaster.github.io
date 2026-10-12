@@ -1,18 +1,25 @@
-# GitHub Actions: TTS added/changed chapters with Kokoro on a free CPU runner and push the
-# audio (Opus 24 kbps .webm, same as the live site) into the audioStash repo.
+# GitHub Actions: keep the audioStash repo in sync with the chapter texts.
+#
+# audioStash/tts_manifest.json records which version of each chapter's text its audio was
+# made from. Every run renders the chapters that are new or changed (newest first) with
+# Kokoro on a free CPU runner, as Opus 24 kbps .webm like the live site, committing each
+# chapter as it finishes. The first chapter is pushed immediately (a new chapter is live
+# ~15-25 min after its commit), then every 3 chapters. It stops starting new chapters
+# before the 6 h job limit; whatever is left is picked up by the next run (the next push
+# to chapters/, or the 6-hourly schedule). A new push cancels a running backlog run.
 #
 # Install (in MysteriesOfImmortalPuppetMaster.github.io):
 #   1. Copy this file to   .github/workflows/tts-new-chapters.yml
-#   2. Copy tts_book.py, text_prep.py, pinyin.py into   tts/
-#   3. Create a fine-grained token (github.com > Settings > Developer settings > Fine-grained
-#      tokens) owned by MysteriesOfImmortalPuppetMaster, repository access: only audioStash,
-#      permission "Contents: Read and write". Save it in the site repo as the Actions secret
-#      AUDIOSTASH_TOKEN (Settings > Secrets and variables > Actions).
+#   2. Copy tts_book.py, text_prep.py, pinyin.py, ci_tts.py into   tts/
+#   3. Secret AUDIOSTASH_TOKEN (site repo > Settings > Secrets and variables > Actions):
+#      a token of MysteriesOfImmortalPuppetMaster with write access to audioStash
+#      (fine-grained: only audioStash, Contents = Read and write; or classic: public_repo).
+#   4. audioStash must contain tts_manifest.json (ci_tts.py --bootstrap), otherwise every
+#      chapter counts as changed and the whole book gets re-rendered over many runs.
 #
-# Runs when chapters/*.txt are added or changed on main. To redo chapters by hand:
-# Actions tab > "TTS new chapters" > Run workflow > e.g. "1045,1046" or "1040-1050".
-# One chapter (~15 min of audio) takes ~6 min on the runner, plus ~2 min of setup.
-# A job may run 6 h at most, so batches of more than ~50 chapters belong on the GPU.
+# Manual run: Actions tab > "TTS new chapters" > Run workflow. Optionally list chapters to
+# redo even if unchanged, e.g. "1045,1046" or "1040-1050".
+# Speed on the runner: roughly 4x realtime, i.e. ~4 min per chapter, ~75 chapters per run.
 
 name: TTS new chapters
 
@@ -20,97 +27,74 @@ on:
   push:
     branches: [main]
     paths: ["chapters/*.txt"]
+  schedule:
+    - cron: "23 */6 * * *"   # drain any backlog; exits within ~1 min when nothing is due
   workflow_dispatch:
     inputs:
       chapters:
-        description: 'Chapters to (re)generate, e.g. "1045,1046" or "1040-1050"'
-        required: true
+        description: 'Also redo these chapters even if unchanged, e.g. "1045,1046" or "1040-1050"'
+        required: false
 
 concurrency:
-  group: tts-audiostash   # one run at a time, so pushes to audioStash never race
-  cancel-in-progress: false
+  # One run at a time, so pushes to audioStash never race. A newer run cancels the running
+  # one: finished chapters are already pushed, and the new run renders the newest chapter
+  # first, so a freshly pushed chapter never waits behind a long backlog run.
+  group: tts-audiostash
+  cancel-in-progress: true
 
 jobs:
   tts:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    timeout-minutes: 355
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Find chapters to generate
-        id: changed
+      - uses: actions/checkout@v4
+        with:
+          repository: MysteriesOfImmortalPuppetMaster/audioStash
+          token: ${{ secrets.AUDIOSTASH_TOKEN }}   # needs write access to audioStash
+          path: audioStash
+          filter: blob:none            # don't download the existing ~3 GB of audio
+          sparse-checkout: tts_manifest.json
+          sparse-checkout-cone-mode: false
+
+      - name: Check which chapters need audio
+        id: plan
         env:
-          MANUAL: ${{ github.event.inputs.chapters }}
-          BEFORE: ${{ github.event.before }}
+          FORCE: ${{ github.event.inputs.chapters }}
         run: |
-          if [ -n "$MANUAL" ]; then
-            list="$MANUAL"
-          else
-            base="$BEFORE"
-            if [ -z "$base" ] || ! git cat-file -e "$base" 2>/dev/null; then base="HEAD~1"; fi
-            list=$(git diff --name-only --diff-filter=AM "$base" HEAD -- 'chapters/*.txt' \
-                   | sed -E 's#^chapters/(.*)\.txt$#\1#' | paste -sd, -)
+          if ! printf '%s' "$FORCE" | grep -Eq '^[0-9.,-]*$'; then
+            echo "invalid chapter list: $FORCE"; exit 1
           fi
-          if ! printf '%s' "$list" | grep -Eq '^[0-9.,-]*$'; then
-            echo "invalid chapter list: $list"; exit 1
-          fi
-          echo "chapters: ${list:-none}"
-          echo "list=$list" >> "$GITHUB_OUTPUT"
+          python3 tts/ci_tts.py --chapters-dir chapters --stash audioStash --force "$FORCE" --plan
 
       - uses: actions/setup-python@v5
-        if: steps.changed.outputs.list != ''
+        if: steps.plan.outputs.due != '0'
         with:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: tts/tts_book.py
 
       - uses: actions/cache@v4
-        if: steps.changed.outputs.list != ''
+        if: steps.plan.outputs.due != '0'
         with:
           path: ~/.cache/huggingface
           key: kokoro-82m-v1
 
       - name: Install Kokoro (CPU) and ffmpeg
-        if: steps.changed.outputs.list != ''
+        if: steps.plan.outputs.due != '0'
         run: |
           sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
           pip install torch --index-url https://download.pytorch.org/whl/cpu
           pip install kokoro soundfile
 
-      - name: Generate audio
-        if: steps.changed.outputs.list != ''
+      - name: Generate audio and push to audioStash
+        if: steps.plan.outputs.due != '0'
         env:
-          LIST: ${{ steps.changed.outputs.list }}
+          FORCE: ${{ github.event.inputs.chapters }}
         run: |
-          python tts/tts_book.py full --engine kokoro --voice af_heart --format webm \
-            --chapters "$LIST" --chapters-dir chapters --out out
-
-      - uses: actions/checkout@v4
-        if: steps.changed.outputs.list != ''
-        with:
-          repository: MysteriesOfImmortalPuppetMaster/audioStash
-          token: ${{ secrets.AUDIOSTASH_TOKEN }}
-          path: audioStash
-          filter: blob:none            # don't download the existing ~3 GB of audio
-          sparse-checkout: README.md
-          sparse-checkout-cone-mode: false
-
-      - name: Push to audioStash
-        if: steps.changed.outputs.list != ''
-        env:
-          LIST: ${{ steps.changed.outputs.list }}
-        run: |
-          cd audioStash
-          git config user.name "MysteriesOfImmortalPuppetMaster"
-          git config user.email "puppetinsanity.gov@gmail.com"
-          for dir in ../out/*/; do
-            ch=$(basename "$dir")
-            git sparse-checkout add "/$ch/"
-            rm -rf "$ch"
-            cp -r "$dir" "$ch"
-          done
-          git add -A
-          git commit -m "TTS chapters $LIST" || { echo "nothing to commit"; exit 0; }
-          git push
+          git -C audioStash config user.name "MysteriesOfImmortalPuppetMaster"
+          git -C audioStash config user.email "puppetinsanity.gov@gmail.com"
+          # ~10 min of setup + 320 min budget + a last push stays under the 355 min timeout.
+          python tts/ci_tts.py --chapters-dir chapters --stash audioStash --force "$FORCE" \
+            --budget-minutes 320
