@@ -461,30 +461,60 @@ body.light-mode .commentInputSection input {
 
 
 
+/* Total reading time pill, sits in the header under the title */
+.book-info-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
 .reading-time-badge {
-    position: relative;
-    top: 14px;
-    left: 14px;
-    z-index: 1000;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-
-
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
     color: #e2e8f0;
-    font-family: 'Arimo', 'Noto Sans', sans-serif;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1;
     letter-spacing: 0.3px;
+    white-space: nowrap;
     user-select: none;
+    cursor: default;
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-.reading-time-badge .badge-icon {
-    width: 14px;
-    height: 14px;
-    max-width: 14px;
-    stroke: #3182ce;
-    flex-shrink: 0;
+    .reading-time-badge:hover {
+        background: rgba(59, 140, 203, 0.15);
+        border-color: rgba(59, 140, 203, 0.5);
+    }
+
+    .reading-time-badge .badge-icon {
+        width: 14px;
+        height: 14px;
+        stroke: #3b8ccb;
+        flex-shrink: 0;
+    }
+
+    .reading-time-badge .badge-label {
+        color: #9aa3ad;
+        font-weight: 400;
+    }
+
+body.light-mode .reading-time-badge {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #2d2d2d;
 }
+
+    body.light-mode .reading-time-badge:hover {
+        background: rgba(59, 140, 203, 0.1);
+        border-color: rgba(59, 140, 203, 0.5);
+    }
+
+    body.light-mode .reading-time-badge .badge-label {
+        color: #6b7280;
+    }
