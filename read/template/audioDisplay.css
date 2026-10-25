@@ -91,6 +91,87 @@ body.light-mode .player-container.is-floating {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
+/* Hide strip of the floating bar: full width along its bottom edge, with an up arrow */
+.float-close {
+    display: none;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    margin: 2px -18px -12px;
+    padding: 0;
+    border: none;
+    border-top: 1px solid var(--mp-border);
+    border-radius: 0 0 14px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--mp-muted);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+    .float-close:hover {
+        background: var(--mp-track);
+        color: var(--mp-text);
+    }
+
+    .float-close:focus-visible {
+        outline: 2px solid var(--mp-accent);
+        outline-offset: -2px;
+    }
+
+    .float-close svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Brightest on top, fading downwards */
+    .float-close .chev-1 {
+        opacity: 1;
+    }
+
+    .float-close .chev-2 {
+        opacity: 0.6;
+    }
+
+    .float-close .chev-3 {
+        opacity: 0.3;
+    }
+
+    /* On hover the chevrons light up one after another, bottom to top */
+    .float-close:hover .chev {
+        animation: chev-cascade 1.1s ease-in-out infinite;
+    }
+
+    .float-close:hover .chev-3 {
+        animation-delay: 0s;
+    }
+
+    .float-close:hover .chev-2 {
+        animation-delay: 0.15s;
+    }
+
+    .float-close:hover .chev-1 {
+        animation-delay: 0.3s;
+    }
+
+@keyframes chev-cascade {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    35% {
+        opacity: 1;
+    }
+}
+
+.player-container.is-floating .float-close {
+    display: flex;
+}
+
+body.light-mode .float-close {
+    background: rgba(0, 0, 0, 0.025);
+}
+
 @keyframes mp-float-in {
     from {
         opacity: 0;
@@ -466,6 +547,11 @@ body.light-mode .player-container.is-floating {
         padding: 8px 12px 6px;
     }
 
+        .player-container.is-floating .float-close {
+            margin: 2px -12px -6px;
+            height: 26px;
+        }
+
         .player-container.is-floating .player-extras {
             display: none;
         }
@@ -489,7 +575,8 @@ body.light-mode .player-container.is-floating {
     }
 
     .player-container.is-floating,
-    .player-container.needs-tap #playPauseBtn {
+    .player-container.needs-tap #playPauseBtn,
+    .float-close:hover .chev {
         animation: none;
     }
 }

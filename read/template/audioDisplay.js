@@ -158,9 +158,9 @@ function setPlayingState(playing) {
     playerContainer.classList.toggle('is-playing', playing);
     if (playing) {
         setNeedsTap(false);
+        floatDismissed = false; // starting to listen brings a closed floating bar back
     } else {
         playerContainer.classList.remove('is-loading');
-        pausedAtScrollY = window.scrollY;
     }
     if ('mediaSession' in navigator) {
         navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
@@ -435,13 +435,30 @@ if ('mediaSession' in navigator) {
 }
 
 // --- Floating player: pinned to the top of the screen once scrolled past while playing ---
+// After it first appears it stays whenever the player's spot is scrolled away, playing
+// or not, until the reader closes it; starting playback again brings it back.
 
 const floatPlaceholder = document.createElement('div');
 floatPlaceholder.className = 'player-placeholder';
 playerContainer.before(floatPlaceholder);
 
+// Three stacked chevrons; audioDisplay.css fades them and runs a cascade on hover
+const FLOAT_CLOSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path class="chev chev-1" d="M7 8.5l5-4 5 4"/><path class="chev chev-2" d="M7 14l5-4 5 4"/><path class="chev chev-3" d="M7 19.5l5-4 5 4"/></svg>';
+const floatCloseBtn = document.createElement('button');
+floatCloseBtn.type = 'button';
+floatCloseBtn.className = 'float-close';
+floatCloseBtn.innerHTML = FLOAT_CLOSE_ICON;
+floatCloseBtn.setAttribute('aria-label', 'Hide floating player');
+floatCloseBtn.title = 'Hide';
+floatCloseBtn.addEventListener('click', () => {
+    floatDismissed = true;
+    setFloating(false);
+});
+playerContainer.append(floatCloseBtn);
+
 let isFloating = false;
-let pausedAtScrollY = 0;
+let hasFloated = false;      // the floating bar has shown up on this page
+let floatDismissed = false;  // closed with its button
 let floatCheckQueued = false;
 
 function setFloating(floating) {
@@ -462,13 +479,11 @@ function updateFloating() {
     const anchor = isFloating ? floatPlaceholder : playerContainer;
     const scrolledPast = anchor.getBoundingClientRect().bottom < 0;
 
-    if (!scrolledPast) {
+    if (!scrolledPast || floatDismissed) {
         setFloating(false);
-    } else if (isPlaying) {
+    } else if (isPlaying || hasFloated) {
+        hasFloated = true;
         setFloating(true);
-    } else if (isFloating && Math.abs(window.scrollY - pausedAtScrollY) > 150) {
-        // Paused while floating: stay for a resume, leave once the reader scrolls on
-        setFloating(false);
     }
 }
 
@@ -951,7 +966,10 @@ function setHighlightedParagraph(el) {
     }
     if (el) el.classList.add('read-along-active');
     highlightedParagraph = el;
-    followParagraph(previous, el);
+    // Following is for the narration moving on by itself. While scrubbing (or paused,
+    // when only scrubbing moves it) the page stays put; otherwise a paused player
+    // would be scrolled off the screen.
+    if (isPlaying && !isSeeking) followParagraph(previous, el);
 }
 
 // While the narration moves on by itself, scroll along only if the reader was looking at
