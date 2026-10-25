@@ -261,9 +261,14 @@ button.read-chapter {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, opacity 0.2s;
     z-index: 1000;
 }
+
+    #light-mode-toggle.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
 
 /* Light Mode Appearance */
 body.light-mode #light-mode-toggle {
@@ -484,13 +489,7 @@ body.light-mode .commentInputSection input {
     white-space: nowrap;
     user-select: none;
     cursor: default;
-    transition: background 0.3s ease, border-color 0.3s ease;
 }
-
-    .reading-time-badge:hover {
-        background: rgba(59, 140, 203, 0.15);
-        border-color: rgba(59, 140, 203, 0.5);
-    }
 
     .reading-time-badge .badge-icon {
         width: 14px;
@@ -509,11 +508,6 @@ body.light-mode .reading-time-badge {
     border-color: rgba(0, 0, 0, 0.12);
     color: #2d2d2d;
 }
-
-    body.light-mode .reading-time-badge:hover {
-        background: rgba(59, 140, 203, 0.1);
-        border-color: rgba(59, 140, 203, 0.5);
-    }
 
     body.light-mode .reading-time-badge .badge-label {
         color: #6b7280;

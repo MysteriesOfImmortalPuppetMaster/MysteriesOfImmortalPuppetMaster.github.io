@@ -1,141 +1,538 @@
-
+/* Chapter narration player.
+   The markup is injected into every chapter by UpdateWebsite.py, so the layout is done
+   here with a grid (.bigbox is flattened with display: contents) instead of new markup. */
 
 .player-container {
-    background: #1e1e1e;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 10px;
-    border-radius: 3px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    flex-direction: column;
+    --mp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    --mp-border: rgba(255, 255, 255, 0.1);
+    --mp-accent: #3b8ccb;
+    --mp-accent-2: #2d85ec;
+    --mp-track: rgba(255, 255, 255, 0.12);
+    --mp-wave-dim: 0.3;
+    --mp-text: #e2e8f0;
+    --mp-muted: #9aa3ad;
+    --mp-btn-shadow: rgba(45, 133, 236, 0.35);
+
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "play main extras";
     align-items: center;
-    align-self: center;
-    width: 90%;
-    margin-top: 20px;
-  
+    column-gap: 16px;
+    row-gap: 8px;
+    width: calc(100% - 40px);
+    max-width: 840px;
+    margin: 20px auto 0;
+    padding: 14px 18px 12px;
+    background: var(--mp-bg);
+    border: 1px solid var(--mp-border);
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    color: var(--mp-text);
 }
 
-
-body.light-mode div.audio-source.player-container {
-    background: #ffffff !important;
-}
-#folderSelect {
-    width: 100%;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid #555;
-    background-color: #333;
-    color: #f5f5f5;
-    margin-bottom: 15px;
-    cursor: pointer;
+body.light-mode .player-container {
+    --mp-bg: linear-gradient(135deg, #ffffff, #f3f5ff);
+    --mp-border: rgba(0, 0, 0, 0.1);
+    --mp-track: rgba(0, 0, 0, 0.1);
+    --mp-wave-dim: 0.35;
+    --mp-text: #2d2d2d;
+    --mp-muted: #6b7280;
+    --mp-btn-shadow: rgba(45, 133, 236, 0.25);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
-#visualizer {
-    top: 9px;
-    width: 100%;
-    height: 86%;
-    border-radius: 5px;
-    background-color: transparent;
-    position: relative; /* Allows positioning of child elements */
-    clip-path: inset(0 0 50% 0); /* Clip the bottom half of the visualizer */
-    overflow: hidden; /* Ensure no content spills out */
+/* Only used for the "press play to keep listening" hint after a page change */
+#folderInfo {
+    display: none;
+    grid-column: 1 / -1;
+    margin: 0;
+    text-align: center;
 }
 
-
-#progressBarContainer {
-    position: relative;
-    bottom: 20px;
-    height: 20px;
-    width: 100%;
-    background-color: #444;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-bottom: 20px;
+.player-container.needs-tap #folderInfo {
+    display: block;
 }
 
-#progressBar {
-    position: absolute; /* Place the bar within the visualizer */
-    bottom: 0; /* Align the progress bar to the bottom of the visualizer */
-    left: 0;
-    height: 12px; /* Bar height */
-    width: 0%; /* Dynamic width will represent progress */
-    border-radius: 4px;
-    background-color: #00bfff;
-    transition: width 0.1s linear;
+.player-container.needs-tap #playPauseBtn {
+    animation: mp-pulse 1.6s ease-out infinite;
 }
 
-.audio-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 20%;
-    min-width: 95px; /* Minimum width to prevent squeezing */
-}
-
-#playPauseBtn {
-    background-color: #007bff;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    cursor: pointer;
-    font-size: 20px;
-    transition: background-color 0.3s ease;
-}
-
-    #playPauseBtn:hover {
-        background-color: #0056b3;
+@keyframes mp-pulse {
+    0% {
+        box-shadow: 0 0 0 0 var(--mp-btn-shadow), 0 4px 14px var(--mp-btn-shadow);
     }
-
-.timer {
-    color: #b3b3b3;
-    font-size: 14px;
-}
-
-.volume-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    gap: 10px;
-    margin-top: 5px;
-}
-
-    .volume-container input[type="range"] {
-        flex-grow: 1;
-        accent-color: #1e90ff;
+    70% {
+        box-shadow: 0 0 0 14px transparent, 0 4px 14px var(--mp-btn-shadow);
     }
+    100% {
+        box-shadow: 0 0 0 0 transparent, 0 4px 14px var(--mp-btn-shadow);
+    }
+}
 
-.audio-icon {
-    font-size: 24px;
-    color: #00bfff;
+/* Floating: pinned to the top of the screen while playing below the player's spot */
+.player-container.is-floating {
+    position: fixed;
+    top: 8px;
+    left: 50%;
+    z-index: 999;
+    width: min(840px, calc(100% - 16px));
+    margin: 0;
+    transform: translateX(-50%);
+    background: rgba(45, 45, 45, 0.92);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    animation: mp-float-in 0.25s ease-out;
+}
+
+body.light-mode .player-container.is-floating {
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes mp-float-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -12px);
+    }
 }
 
 .bigbox {
-    display: flex; /* Lay out play button and content side by side */
-    align-items: center; /* Vertically align items */
-    
-    width: 100%;
-    height: 70px;
+    display: contents;
 }
 
-.smlbox {
-    width: 100%;
-    height: 85%;
+/* Play / pause */
+
+.audio-controls {
+    grid-area: play;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
+
+.skip-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--mp-muted);
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+    .skip-btn:hover {
+        color: var(--mp-text);
+        background: var(--mp-track);
+    }
+
+    .skip-btn:active {
+        transform: scale(0.92);
+    }
+
+    .skip-btn:focus-visible {
+        outline: 2px solid var(--mp-accent);
+        outline-offset: 1px;
+    }
+
+    .skip-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+
+#playPauseBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--mp-accent), var(--mp-accent-2));
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 14px var(--mp-btn-shadow);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+    #playPauseBtn:hover {
+        filter: brightness(1.08);
+        box-shadow: 0 6px 18px var(--mp-btn-shadow);
+    }
+
+    #playPauseBtn:active {
+        transform: scale(0.94);
+    }
+
+    #playPauseBtn:focus-visible {
+        outline: 2px solid var(--mp-accent);
+        outline-offset: 3px;
+    }
+
+    #playPauseBtn svg {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+    }
+
+    /* Spinner ring while a chunk is buffering */
+    #playPauseBtn::after {
+        content: "";
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        border-top-color: var(--mp-accent);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+.player-container.is-loading #playPauseBtn::after {
+    opacity: 1;
+    animation: mp-spin 0.8s linear infinite;
+}
+
+@keyframes mp-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Visualizer + seek bar */
 
 .smlboxplusTime {
+    grid-area: main;
+    min-width: 0;
+}
+
+/* The waveform and the bar are one seek target; pan-y keeps vertical page scrolling on phones */
+.smlbox {
+    position: relative;
+    cursor: pointer;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#visualizer {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: 34px;
+}
+
+#progressBarContainer {
+    position: relative;
+    height: 16px;
+}
+
+    /* The visible track is thinner than the hit area */
+    #progressBarContainer::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 4px;
+        transform: translateY(-50%);
+        border-radius: 999px;
+        background: var(--mp-track);
+        transition: height 0.15s ease;
+    }
+
+    #progressBarContainer:focus-visible {
+        outline: 2px solid var(--mp-accent);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+#progressBar {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 4px;
+    width: 0%;
+    transform: translateY(-50%);
+    border-radius: 999px;
+    /* Same gradient as the waveform, stretched over the whole track (width set from JS) */
+    background: linear-gradient(90deg, #00bfff, #1e90ff 50%, red);
+    background-size: var(--mp-track-width, 100%) 100%;
+    transition: height 0.15s ease;
+}
+
+    #progressBar::after {
+        content: "";
+        position: absolute;
+        right: -6px;
+        top: 50%;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 0 3px var(--mp-accent), 0 2px 6px rgba(0, 0, 0, 0.3);
+        transform: translateY(-50%) scale(0);
+        transition: transform 0.15s ease;
+    }
+
+#progressBarContainer:hover::before,
+#progressBarContainer:hover #progressBar,
+.player-container.is-seeking #progressBarContainer::before,
+.player-container.is-seeking #progressBar {
+    height: 6px;
+}
+
+#progressBarContainer:hover #progressBar::after,
+#progressBarContainer:focus-visible #progressBar::after,
+.player-container.is-playing #progressBar::after,
+.player-container.is-seeking #progressBar::after {
+    transform: translateY(-50%) scale(1);
 }
 
 .timer-container {
-    position: relative;
-    height: 15%;
-    display: flex; /* Use flexbox for alignment */
-    justify-content: space-between; /* Push first and second text to opposite ends */
-    width: 100%; /* Ensure it spans the container width */
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2px;
+}
+
+.timer {
+    color: var(--mp-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.3px;
+}
+
+/* Volume + speed, grouped in .player-extras (built by audioDisplay.js with the speed row) */
+
+.player-extras {
+    grid-area: extras;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.volume-container,
+.speed-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.audio-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    color: var(--mp-muted);
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+    .audio-icon:hover {
+        color: var(--mp-text);
+        background: var(--mp-track);
+    }
+
+    .audio-icon:focus-visible {
+        outline: 2px solid var(--mp-accent);
+        outline-offset: 1px;
+    }
+
+    .audio-icon svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
+
+.speed-value {
+    min-width: 40px;
+    color: var(--mp-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.player-container input[type="range"] {
+    --fill: 50%;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 96px;
+    height: 16px;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+    .player-container input[type="range"]::-webkit-slider-runnable-track {
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--mp-accent) var(--fill), var(--mp-track) var(--fill));
+    }
+
+    .player-container input[type="range"]::-moz-range-track {
+        height: 4px;
+        border-radius: 999px;
+        background: var(--mp-track);
+    }
+
+    .player-container input[type="range"]::-moz-range-progress {
+        height: 4px;
+        border-radius: 999px;
+        background: var(--mp-accent);
+    }
+
+    .player-container input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        margin-top: -4px;
+        border: none;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 0 2px var(--mp-accent), 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .player-container input[type="range"]::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        border: none;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 0 2px var(--mp-accent), 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .player-container input[type="range"]:focus-visible {
+        outline: 2px solid var(--mp-accent);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+/* Phones: volume and speed become one full-width row under the rest */
+@media (max-width: 600px) {
+    .player-container {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "play main"
+            "extras extras";
+        column-gap: 10px;
+        row-gap: 4px;
+        width: calc(100% - 32px);
+        padding: 12px 14px 10px;
+    }
+
+    .audio-controls {
+        gap: 0;
+    }
+
+    .skip-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    #playPauseBtn {
+        width: 44px;
+        height: 44px;
+    }
+
+    #visualizer {
+        height: 28px;
+    }
+
+    .player-extras {
+        flex-direction: row;
+        gap: 12px;
+    }
+
+    .volume-container,
+    .speed-container {
+        flex: 1;
+        min-width: 0;
+        gap: 4px;
+    }
+
+    /* Keep the floating bar slim on phones */
+    .player-container.is-floating {
+        top: 6px;
+        padding: 8px 12px 6px;
+    }
+
+        .player-container.is-floating .player-extras {
+            display: none;
+        }
+
+    .player-container input[type="range"] {
+        flex: 1;
+        min-width: 0;
+        width: auto;
+    }
+
+    .speed-value {
+        min-width: 34px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #playPauseBtn,
+    #progressBar,
+    #progressBar::after {
+        transition: none;
+    }
+
+    .player-container.is-floating,
+    .player-container.needs-tap #playPauseBtn {
+        animation: none;
+    }
+}
+
+/* Read-along: the paragraph being narrated (estimated, see audioDisplay.js).
+   A highlighter-pen band behind the middle 60% of the letters on every line, plus a
+   faint, wide glow on top that audioDisplay.js moves to the estimated spot. The
+   paragraph is an inline element and its background is "sliced", so its lines form one
+   strip and the glow travels along one line after the other.
+   No CSS variables here: old phone browsers would drop the whole background. */
+paragraph.read-along-active {
+    color: #fff;
+    background-color: transparent;
+    background-image:
+        linear-gradient(90deg, rgba(150, 220, 255, 0), rgba(150, 220, 255, 0.24) 30%, rgba(150, 220, 255, 0.24) 70%, rgba(150, 220, 255, 0)),
+        linear-gradient(90deg, rgba(0, 191, 255, 0.3), rgba(30, 144, 255, 0.34));
+    background-repeat: no-repeat;
+    background-position: -220px 60%, 0 60%;
+    background-size: 220px 0.6em, 100% 0.6em;
+    border-radius: 0.3em;
+    padding: 0 0.15em;
+    margin: 0 -0.15em;
+    transition: background-position 0.3s linear;
+    animation: read-along-in 0.45s ease-out;
+}
+
+body.light-mode paragraph.read-along-active {
+    color: #000;
+    background-image:
+        linear-gradient(90deg, rgba(0, 110, 230, 0), rgba(0, 110, 230, 0.18) 30%, rgba(0, 110, 230, 0.18) 70%, rgba(0, 110, 230, 0)),
+        linear-gradient(90deg, rgba(0, 191, 255, 0.24), rgba(30, 144, 255, 0.26));
+}
+
+/* The band sweeps in when a paragraph starts (the glow is not shown during it) */
+@keyframes read-along-in {
+    from {
+        background-size: 0 0.6em, 0% 0.6em;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    paragraph.read-along-active {
+        animation: none;
+        transition: none;
+    }
 }

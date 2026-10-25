@@ -215,45 +215,17 @@ function toggleLightMode() {
     const isLightMode = document.body.classList.contains('light-mode');
     localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
 }
-// Handle scroll to remove/recreate button
+// Hide the toggle once the reader scrolls down, show it again at the top.
+// The same button is reused so the stylesheet keeps controlling its colours.
 function scrollEventListener() {
     const scrollPosition = window.scrollY;
 
     if (scrollPosition > 20 && isButtonPresent) {
-        // Remove the button if scrolled past 20px
-        toggleButton.remove();
+        toggleButton.classList.add('is-hidden');
         isButtonPresent = false;
     } else if (scrollPosition <= 20 && !isButtonPresent) {
-        // Recreate the button if back at the top
-        toggleButton = document.createElement('button');
-        toggleButton.id = 'light-mode-toggle';
-        toggleButton.ariaLabel = 'Toggle light mode';
-        toggleButton.innerHTML = document.body.classList.contains('light-mode') ? SUN_SVG : MOON_SVG;
-        toggleButton.addEventListener('click', toggleLightMode);
-        document.body.appendChild(toggleButton);
+        toggleButton.classList.remove('is-hidden');
         isButtonPresent = true;
-
-        // Apply styles immediately to match the original button
-        toggleButton.style.position = 'fixed';
-        toggleButton.style.top = '20px';
-        toggleButton.style.right = '20px';
-        toggleButton.style.width = '40px'; // Smaller width
-        toggleButton.style.height = '40px'; // Smaller height
-        toggleButton.style.backgroundColor = document.body.classList.contains('light-mode')
-            ? '#ffffff'
-            : '#2d2d2d';
-        toggleButton.style.color = document.body.classList.contains('light-mode')
-            ? '#2d2d2d'
-            : '#ffffff';
-        toggleButton.style.borderRadius = '5px'; // Square corners with slight rounding
-        toggleButton.style.cursor = 'pointer';
-        toggleButton.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.2)'; // Subtler shadow
-        toggleButton.style.fontSize = '16px'; // Slightly smaller font
-        toggleButton.style.zIndex = '1000';
-        toggleButton.style.display = 'flex';
-        toggleButton.style.alignItems = 'center';
-        toggleButton.style.justifyContent = 'center';
-        toggleButton.style.transition = 'background-color 0.3s, color 0.3s, box-shadow 0.3s';
     }
 }
 function savePageState() {
