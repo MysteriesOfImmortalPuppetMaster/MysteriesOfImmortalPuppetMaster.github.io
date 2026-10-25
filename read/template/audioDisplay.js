@@ -269,19 +269,24 @@ function handleChunkEnded() {
         if (isPlaying) {
             currentAudio.play().catch((err) => console.error("[handleChunkEnded] Play error after chunk switch:", err));
         }
-    } else if (isPlaying && readerIsAway()) {
-        // Nobody is looking at the page: carry on with the next chapter
-        console.log("[handleChunkEnded] Chapter finished while the page is in the background, moving on.");
-        changeChapter(1, true);
+    } else if (isPlaying) {
+        // Audiobook style: carry on with the next chapter
+        console.log("[handleChunkEnded] Chapter finished, moving on to the next one.");
+        changeChapter(1, true).then((moved) => {
+            if (!moved) finishChapter(); // last chapter, or the next one has no audio yet
+        });
     } else {
-        console.log("[handleChunkEnded] No more chunks in chunkFiles. Resetting player...");
-        resetPlayer();
-        // Start from the top again on the next play
-        currentChunkIndex = 0;
-        currentAudio.removeAttribute('src');
-        nextAudio.removeAttribute('src');
-        setHighlightedParagraph(null);
+        finishChapter();
     }
+}
+
+// End of the audio with nowhere to go: back to the start, stopped
+function finishChapter() {
+    resetPlayer();
+    currentChunkIndex = 0;
+    currentAudio.removeAttribute('src');
+    nextAudio.removeAttribute('src');
+    setHighlightedParagraph(null);
 }
 
 currentAudio.addEventListener('timeupdate', () => {
@@ -289,10 +294,6 @@ currentAudio.addEventListener('timeupdate', () => {
 });
 
 // --- Changing chapters while listening ---
-
-function readerIsAway() {
-    return document.visibilityState === 'hidden' || !document.hasFocus();
-}
 
 async function getChapterList() {
     if (typeof GLOBAL_ALL_CHAPTERS_JSON !== 'undefined' && Array.isArray(GLOBAL_ALL_CHAPTERS_JSON)) {
@@ -338,24 +339,23 @@ function takeResumeState() {
 // A visible page simply navigates (the next page picks the audio up again). A hidden
 // page (locked phone, background tab) keeps playing the next chapter right here, because
 // a freshly loaded page in the background is usually not allowed to start audio.
+// Returns false if there is no chapter to go to.
 async function changeChapter(offset, keepPlaying) {
     const target = await getNeighbourChapter(offset);
-    if (!target) {
-        resetPlayer();
-        return;
-    }
+    if (!target) return false;
 
     if (document.visibilityState === 'visible') {
         writeResumeState({ folder: target.folder, time: 0, playing: keepPlaying });
         window.location.href = chapterPageUrl(target.folder);
-        return;
+        return true;
     }
 
     const ok = await loadChapterAudio(target.folder);
-    if (!ok) return;
+    if (!ok) return false;
     audioChapterTitle = target.title;
     updateMediaMetadata();
     if (keepPlaying) startPlayback(false);
+    return true;
 }
 
 // Back on the page after it moved on to another chapter: open that chapter's page
