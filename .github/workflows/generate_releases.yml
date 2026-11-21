@@ -64,26 +64,9 @@ jobs:
           if [[ "$body" =~ download-totals\ epub=([0-9]+)\ pdf=([0-9]+) ]]; then
             prev_epub=${BASH_REMATCH[1]}; prev_pdf=${BASH_REMATCH[2]}
           fi
-          total_epub=$((prev_epub + cur_epub))
-          total_pdf=$((prev_pdf + cur_pdf))
-
-          echo "EPUB: $prev_epub earlier + $cur_epub on the outgoing build = $total_epub"
-          echo "PDF:  $prev_pdf earlier + $cur_pdf on the outgoing build = $total_pdf"
-          {
-            echo "### Total downloads"
-            echo "| | Earlier builds | Outgoing build | Total |"
-            echo "|---|---:|---:|---:|"
-            echo "| EPUB | $prev_epub | $cur_epub | **$total_epub** |"
-            echo "| PDF | $prev_pdf | $cur_pdf | **$total_pdf** |"
-          } >> "$GITHUB_STEP_SUMMARY"
-
-          {
-            echo "Automated release built on commit ${{ github.sha }}"
-            echo
-            echo "Downloads of all earlier builds: EPUB $total_epub, PDF $total_pdf"
-            echo
-            echo "<!-- download-totals epub=$total_epub pdf=$total_pdf -->"
-          } > notes.md
+          export PREV_EPUB=$prev_epub PREV_PDF=$prev_pdf CUR_EPUB=$cur_epub CUR_PDF=$cur_pdf
+          python .github/release_notes.py   # writes notes.md and the run summary
+          cat notes.md
 
           gh release delete latest --yes --cleanup-tag || true
           gh release create latest *.epub *.pdf --title "Latest Book Build" --notes-file notes.md
