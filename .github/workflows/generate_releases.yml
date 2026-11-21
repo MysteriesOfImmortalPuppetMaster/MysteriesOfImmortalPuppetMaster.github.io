@@ -9,6 +9,12 @@ on:
 permissions:
   contents: write
 
+# Runs one at a time, so two quick pushes can't both read the old download counts
+# before either rewrites the release (that would count them twice or lose them).
+concurrency:
+  group: rolling-release
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: windows-latest
@@ -33,9 +39,51 @@ jobs:
         run: |
           python build_epub.py
 
+      # The rolling release is deleted and recreated on every build, which resets GitHub's
+      # per-asset download counters. So before deleting it, add its current counts to the
+      # running total carried in its notes (hidden "download-totals" comment), and write the
+      # new total into the next release's notes.
       - name: Create or Overwrite Rolling Release
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+          body=""; cur_epub=0; cur_pdf=0
+          if body=$(gh release view latest --json body --jq '.body' 2>err.txt); then
+            cur_epub=$(gh release view latest --json assets --jq '[.assets[] | select(.name | endswith(".epub")) | .downloadCount] | add // 0')
+            cur_pdf=$(gh release view latest --json assets --jq '[.assets[] | select(.name | endswith(".pdf")) | .downloadCount] | add // 0')
+          elif grep -qi "not found" err.txt; then
+            echo "No existing 'latest' release, starting totals from 0."
+          else
+            # Don't delete the release (and its counts) if we couldn't read it.
+            cat err.txt; exit 1
+          fi
+
+          prev_epub=0; prev_pdf=0
+          if [[ "$body" =~ download-totals\ epub=([0-9]+)\ pdf=([0-9]+) ]]; then
+            prev_epub=${BASH_REMATCH[1]}; prev_pdf=${BASH_REMATCH[2]}
+          fi
+          total_epub=$((prev_epub + cur_epub))
+          total_pdf=$((prev_pdf + cur_pdf))
+
+          echo "EPUB: $prev_epub earlier + $cur_epub on the outgoing build = $total_epub"
+          echo "PDF:  $prev_pdf earlier + $cur_pdf on the outgoing build = $total_pdf"
+          {
+            echo "### Total downloads"
+            echo "| | Earlier builds | Outgoing build | Total |"
+            echo "|---|---:|---:|---:|"
+            echo "| EPUB | $prev_epub | $cur_epub | **$total_epub** |"
+            echo "| PDF | $prev_pdf | $cur_pdf | **$total_pdf** |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          {
+            echo "Automated release built on commit ${{ github.sha }}"
+            echo
+            echo "Downloads of all earlier builds: EPUB $total_epub, PDF $total_pdf"
+            echo
+            echo "<!-- download-totals epub=$total_epub pdf=$total_pdf -->"
+          } > notes.md
+
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest *.epub *.pdf --title "Latest Book Build" --notes "Automated release built on commit ${{ github.sha }}"
+          gh release create latest *.epub *.pdf --title "Latest Book Build" --notes-file notes.md
