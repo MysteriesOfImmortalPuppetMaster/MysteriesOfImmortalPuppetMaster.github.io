@@ -71,7 +71,9 @@ def badge(label, message, color, label_color, icon):
 
 epub, epub_size = book("epub")
 pdf, pdf_size = book("pdf")
-dl = lambda f: f"https://github.com/{REPO}/releases/download/latest/{f}"
+# The build writes "Mysteries of Immortal Puppet Master.epub"; GitHub stores uploaded assets with
+# spaces turned into dots, and a raw space would also break the Markdown link.
+dl = lambda f: f"https://github.com/{REPO}/releases/download/latest/{quote(re.sub(r' +', '.', f))}"
 chapter = latest_chapter()
 built = datetime.now(timezone.utc).strftime("%d %b %Y").lstrip("0")
 commit = f"[`{SHA[:7]}`](https://github.com/{REPO}/commit/{SHA})"
